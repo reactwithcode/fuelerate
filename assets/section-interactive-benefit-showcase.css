@@ -41,7 +41,8 @@
 .ibs {
   background-color: #f4f3ee;
   display: grid;
-  grid-template-columns: 1fr var(--ibs-image-col-width, 23%) minmax(340px, 580px);
+  /* 4th column (4.2rem ≈ 67px) = panel's right margin, keeps left col at ~462px matching Figma */
+  grid-template-columns: 1fr var(--ibs-image-col-width, 23%) minmax(340px, 580px) 4.2rem;
   min-height: 640px;
   position: relative;
 }
@@ -183,19 +184,20 @@
   background: #31331e;
   color: #ffffff;
   position: relative;
-  border-radius: 5px 0 0 5px;
+  border-radius: 5px;
+  margin-top: 5.1rem;
 }
 
 /* All panel-content items stacked — only active fades in */
 .ibs__panel-content {
   position: absolute;
-  /* Figma: content offset 109px from panel left, 108px from panel right */
-  inset: 4.25rem 6.8rem 6rem 6.8rem;
+  /* Figma: 109px from panel sides, 76px from panel top (157px from section top - 81px panel offset), 96px from panel bottom */
+  inset: 4.75rem 6.8rem 6rem 6.8rem;
   opacity: 0;
   transition: opacity 0.25s ease;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.1875rem;
   overflow-y: auto;
   pointer-events: none;
 }
@@ -331,10 +333,12 @@
     align-items: center;
   }
 
-  /* Figma mobile heading: Recoleta 24px, text-center */
+  /* Figma mobile heading: Recoleta 24px, text-center, line-height normal, max-width 248px */
   .ibs__heading {
     font-size: 1.5rem;
     text-align: center;
+    line-height: normal;
+    max-width: 248px;
   }
 
   /* Figma mobile subtext: Figtree 400, text-center */
@@ -349,21 +353,23 @@
     gap: 10px;
   }
 
-  /* Mobile pills: full-width (both active and inactive), border-radius 50px */
-  .ibs__pill,
-  .ibs__pill--active {
+  /* Mobile: inactive pills full-width, active pill stays fit-content (inherits desktop rule) */
+  .ibs__pill {
     width: 100%;
     white-space: normal;
   }
+  .ibs__pill--active {
+    white-space: normal;
+  }
 
-  /* Mobile detail card — Figma: bg #31331e, p-18px, border-radius 5px */
+  /* Mobile detail card — Figma: bg #31331e, p-18px, gap-35px, border-radius 5px */
   .ibs__mobile-card {
     display: none;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2.1875rem;
     background: #31331e;
     color: #ffffff;
-    padding: 24px 18px 18px;
+    padding: 18px;
     border-radius: 5px;
     margin-top: 8px;
     width: 100%;

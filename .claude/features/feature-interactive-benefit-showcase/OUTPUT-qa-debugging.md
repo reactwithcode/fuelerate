@@ -12,7 +12,7 @@ Implementation plan: `.claude/features/feature-interactive-benefit-showcase/OUTP
 
 ---
 
-## Current Round (Round 5)
+## Current Round (Round 6)
 
 Status: Testing
 
@@ -46,10 +46,13 @@ Status: Testing
 - [ ] Tapping a collapsed pill — it expands, showing its detail card below
 - [ ] Tapping a collapsed pill — the previously open card collapses
 - [ ] Only one category can be open at a time on mobile
-- [ ] Detail card: title and description have adequate top padding (24px from card top edge)
-- [ ] Detail card: gap between title, description, bullets, and CTA is readable
+- [ ] Active pill on mobile is auto-width (fit-content), not full-width
+- [ ] Inactive pills on mobile are full-width
+- [ ] Detail card: title, description, bullets, and CTA have 35px gap between sections
+- [ ] Detail card: 18px padding on all sides
 - [ ] Detail card content matches the block's schema settings
-- [ ] Mobile detail card uses Recoleta for the title
+- [ ] Mobile detail card uses Recoleta for the title (24px)
+- [ ] Heading: centred, max-width ~248px, line-height normal
 - [ ] Centre image column is not visible on mobile
 - [ ] Arrows are not visible on mobile
 
@@ -57,12 +60,17 @@ Status: Testing
 
 - [ ] Three columns visible: pill list left, image centre, dark panel right
 - [ ] Section background is cream (`#f4f3ee`)
-- [ ] Cream background shows in the IMAGE column above the image (heading/subtext area height in left column corresponds to the cream space above the image)
+- [ ] Cream background shows above AND to the right of the panel (~67px right gap)
+- [ ] Cream background shows above the panel (~81px top gap)
+- [ ] Panel has 5px rounded corners on ALL four sides (not just left)
 - [ ] Active pill: auto-width (fit-content), dark olive, icon + text left-aligned
 - [ ] Inactive pills: full-width, border, icon + text left-aligned
 - [ ] Panel: dark olive, white text, title + description + bullets + CTA visible
+- [ ] Panel content: 35px gap between title, description, bullets, and CTA sections
 - [ ] Both arrow buttons visible — white circle, dark olive icon
-- [ ] Section heading uses Recoleta font
+- [ ] Prev arrow sits at left edge of image column
+- [ ] Next arrow sits at right edge of panel (in the cream gap area)
+- [make Section heading and section subtext above category image, looks current result at Section-heading-subtext-and-category-image-now.png and looks expected-result.png on reference folder] Section heading uses Recoleta font
 - [ ] Image has 5px rounded corners
 - [ ] "Image height" slider (20–90%) controls how tall the image is — higher value = taller image, lower = shorter
 - [ ] "Image column width" slider (15–40%) adjusts image column width
@@ -170,3 +178,16 @@ Status: Testing
 #### [FAIL] "Image start position" setting — change to control height, not top offset
 **User feedback:** "change this to edit height not Image start position, looks expected-result.png and current-results.png"
 **Fix:** Changed approach from controlling where the image starts (top offset) to controlling the image height. Image is now anchored to the section bottom (`bottom: 0; height: var(--ibs-image-height, 56%)`). Higher % = taller image (fills more of the section from the bottom up). Default 56% = image fills bottom 56% of section, leaving cream background visible in the top 44%. Renamed schema setting from `image_top_offset` → `image_height`, label "Image height", default 56%, range 20–90%.
+
+---
+
+### Round 5
+
+#### [SKIPPED] All items — user proceeded to Figma design accuracy pass instead of testing
+**Design update applied (Figma nodes 1:1744 desktop, 1:3543 mobile):**
+- Grid: added 4th column (`4.2rem` ≈ 67px) as panel right gap — left column now ~462px matching Figma
+- Panel: added `margin-top: 5.1rem` (81px top offset); changed `border-radius: 5px 0 0 5px` → `5px` (all corners)
+- Panel content: top inset `4.25rem` → `4.75rem` (accounts for panel's top margin); gap `2rem` → `2.1875rem` (35px)
+- Mobile heading: added `line-height: normal; max-width: 248px`
+- Mobile pills: inactive stays `width: 100%`; active no longer overridden to full-width (keeps `fit-content` from desktop rule)
+- Mobile card: `padding: 18px` (was `24px 18px 18px`); `gap: 2.1875rem` (was `1rem`)
