@@ -2,11 +2,54 @@
    Interactive Benefit Showcase — ibs__
    ============================================ */
 
-/* Section container — 3-column grid on desktop */
+/* ——— Recoleta font (matches CPI section) ——— */
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Thin.otf?v=1787898052') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Light.otf?v=1787898052') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Regular.otf?v=1787898052') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Bold.otf?v=1787898052') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Black.otf?v=1787898052') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ——— Section container — 3-column grid on desktop ——— */
+
 .ibs {
   background-color: #f4f3ee;
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) minmax(280px, 1.5fr) minmax(340px, 420px);
+  grid-template-columns: minmax(260px, 1fr) var(--ibs-image-col-width, 35%) minmax(340px, 420px);
   min-height: 560px;
 }
 
@@ -20,6 +63,7 @@
 }
 
 /* ——— Left column ——— */
+
 .ibs__left {
   display: flex;
   flex-direction: column;
@@ -28,15 +72,16 @@
 }
 
 .ibs__heading {
-  font-size: 2rem;
-  font-weight: 700;
+  font-family: 'Recoleta', Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 400;
   color: #31331e;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .ibs__subtext {
-  font-family: 'Figtree', sans-serif;
+  font-family: 'Figtree', system-ui, sans-serif;
   font-size: 1rem;
   color: #31331e;
   opacity: 0.75;
@@ -45,6 +90,7 @@
 }
 
 /* ——— Pill list ——— */
+
 .ibs__list {
   list-style: none;
   margin: 0;
@@ -52,24 +98,25 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: flex-start;
 }
 
 .ibs__pill {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  width: 100%;
+  width: auto;
   padding: 0.75rem 1.25rem;
   border-radius: 999px;
   border: 1px solid #31331e;
   background: transparent;
   color: #31331e;
-  font-family: 'Figtree', sans-serif;
-  font-size: 0.9rem;
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   text-align: left;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .ibs__pill:hover:not(.ibs__pill--active) {
@@ -89,17 +136,18 @@
   flex-shrink: 0;
 }
 
-/* Invert dark icons to white when pill is active */
 .ibs__pill--active .ibs__pill-icon {
   filter: brightness(0) invert(1);
 }
 
 /* ——— Mobile card (hidden on desktop, shown on mobile) ——— */
+
 .ibs__mobile-card {
   display: none;
 }
 
 /* ——— Centre: image column ——— */
+
 .ibs__image-col {
   position: relative;
   overflow: hidden;
@@ -123,6 +171,7 @@
 }
 
 /* ——— Right: dark detail panel ——— */
+
 .ibs__panel {
   background: #31331e;
   color: #ffffff;
@@ -132,7 +181,7 @@
 /* All panel-content items stacked — only the active one fades in */
 .ibs__panel-content {
   position: absolute;
-  inset: 3rem 2.5rem 5.5rem;
+  inset: 3rem 2.5rem 6rem;
   opacity: 0;
   transition: opacity 0.25s ease;
   display: flex;
@@ -147,22 +196,24 @@
   pointer-events: auto;
 }
 
-/* Shared panel typography (desktop panel + mobile card) */
+/* ——— Shared panel typography (desktop + mobile card) ——— */
+
 .ibs__panel-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: 'Recoleta', Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 400;
   color: #ffffff;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .ibs__panel-description {
-  font-family: 'Figtree', sans-serif;
+  font-family: 'Figtree', system-ui, sans-serif;
   font-size: 1rem;
+  font-weight: 700;
   line-height: 1.6;
   color: #ffffff;
   margin: 0;
-  opacity: 0.9;
 }
 
 .ibs__bullets {
@@ -172,8 +223,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  font-family: 'Figtree', sans-serif;
+  font-family: 'Figtree', system-ui, sans-serif;
   font-size: 0.9rem;
+  font-weight: 400;
   line-height: 1.5;
   color: #ffffff;
   opacity: 0.85;
@@ -184,8 +236,9 @@
   align-items: center;
   gap: 0.5rem;
   color: #ffffff;
-  font-family: 'Figtree', sans-serif;
+  font-family: 'Figtree', system-ui, sans-serif;
   font-size: 0.9rem;
+  font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -194,33 +247,39 @@
   opacity: 0.75;
 }
 
-/* ——— Arrow button ——— */
-.ibs__arrow {
+/* ——— Arrow buttons ——— */
+
+.ibs__arrows {
   position: absolute;
   bottom: 2rem;
   right: 2rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.ibs__arrow {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: transparent;
-  color: #ffffff;
+  border: none;
+  background: #ffffff;
+  color: #31331e;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s ease, background 0.2s ease;
   flex-shrink: 0;
+  transition: opacity 0.2s ease;
 }
 
 .ibs__arrow:hover {
-  border-color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.1);
+  opacity: 0.85;
 }
 
 /* ============================================
    Mobile — single-column accordion (≤989px)
    ============================================ */
+
 @media screen and (max-width: 989px) {
   .ibs {
     display: block;
@@ -237,15 +296,20 @@
   }
 
   .ibs__heading {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
   .ibs__subtext {
     font-size: 0.9rem;
   }
 
-  /* Square-ish pill shape on mobile */
+  .ibs__list {
+    align-items: stretch;
+  }
+
+  /* Full-width pill on mobile for accordion toggle */
   .ibs__pill {
+    width: 100%;
     border-radius: 12px;
     font-size: 0.95rem;
     padding: 0.875rem 1.25rem;
@@ -258,7 +322,7 @@
     gap: 0.75rem;
     background: #31331e;
     color: #ffffff;
-    padding: 1.5rem;
+    padding: 1.75rem;
     border-radius: 12px;
     margin-top: 0.5rem;
   }
@@ -268,7 +332,7 @@
   }
 
   .ibs__mobile-card .ibs__panel-title {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
   }
 
   .ibs__mobile-card .ibs__panel-description {

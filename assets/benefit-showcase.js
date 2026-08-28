@@ -5,7 +5,8 @@ if (!customElements.get('benefit-showcase')) {
       this.pills = Array.from(this.querySelectorAll('.ibs__pill'))
       this.panels = Array.from(this.querySelectorAll('.ibs__panel-content'))
       this.mobileCards = Array.from(this.querySelectorAll('.ibs__mobile-card'))
-      this.arrow = this.querySelector('.ibs__arrow')
+      this.prevArrow = this.querySelector('.ibs__arrow--prev')
+      this.nextArrow = this.querySelector('.ibs__arrow--next')
       this.currentIndex = 0
 
       this.pills.forEach((pill, i) => {
@@ -14,10 +15,16 @@ if (!customElements.get('benefit-showcase')) {
         this._handlers.push({ el: pill, type: 'click', fn: handler })
       })
 
-      if (this.arrow) {
+      if (this.prevArrow) {
+        const handler = () => this.activate((this.currentIndex - 1 + this.pills.length) % this.pills.length)
+        this.prevArrow.addEventListener('click', handler)
+        this._handlers.push({ el: this.prevArrow, type: 'click', fn: handler })
+      }
+
+      if (this.nextArrow) {
         const handler = () => this.activate((this.currentIndex + 1) % this.pills.length)
-        this.arrow.addEventListener('click', handler)
-        this._handlers.push({ el: this.arrow, type: 'click', fn: handler })
+        this.nextArrow.addEventListener('click', handler)
+        this._handlers.push({ el: this.nextArrow, type: 'click', fn: handler })
       }
     }
 

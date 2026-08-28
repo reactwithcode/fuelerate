@@ -9,6 +9,7 @@
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    --ibs-image-col-width: {{ section.settings.image_width }}%;
   }
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
@@ -147,9 +148,14 @@
       {%- endfor -%}
 
       {%- if section.blocks.size > 1 -%}
-        <button class="ibs__arrow" aria-label="Next benefit" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </button>
+        <div class="ibs__arrows">
+          <button class="ibs__arrow ibs__arrow--prev" aria-label="Previous benefit" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+          <button class="ibs__arrow ibs__arrow--next" aria-label="Next benefit" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </div>
       {%- endif -%}
     </div>
 
@@ -173,6 +179,20 @@
       "id": "subtext",
       "label": "Section subtext",
       "default": "Tap a category to explore the evidence."
+    },
+    {
+      "type": "header",
+      "content": "Image column"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Image column width",
+      "min": 20,
+      "max": 55,
+      "step": 5,
+      "unit": "%",
+      "default": 35
     },
     {
       "type": "header",
