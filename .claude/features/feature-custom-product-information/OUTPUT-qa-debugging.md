@@ -32,7 +32,7 @@ Status: Not started — awaiting implementation
 
 ### Gallery
 
-- [ ] Main image shows the schema image picker image when set
+- [other product images don't show up, show them. looks reference folder] Main image shows the schema image picker image when set
 - [ ] When no schema image is set, main image falls back to `product.featured_image`
 - [ ] When neither is set, the placeholder SVG shows
 - [ ] Thumbnail grid renders when gallery image blocks are added
@@ -76,7 +76,7 @@ Status: Not started — awaiting implementation
 
 ### Tabs / Accordions — mobile (<990px)
 
-- [ ] Tabs render as accordions (no horizontal tab nav visible)
+- [tabs doesn't look like on the reference folder] Tabs render as accordions (no horizontal tab nav visible)
 - [ ] First accordion is open on load
 - [ ] Clicking a summary opens that accordion
 - [ ] Multiple accordions can be open simultaneously
