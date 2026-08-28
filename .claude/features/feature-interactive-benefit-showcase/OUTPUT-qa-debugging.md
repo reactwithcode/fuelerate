@@ -18,9 +18,9 @@ Status: Testing
 
 ### Core behavior
 
-- [ ] Page loads — first category pill is highlighted (dark olive background, white text, auto-width / fits content)
-- [ ] Page loads — first category's image is visible in the centre column
-- [ ] Page loads — first category's title, description, bullets, and CTA appear in the dark right panel
+- [icon and text inside category pill shouldn't in the middle, looks expected-result.png and newest-current-result-desktop.png] Page loads — first category pill is highlighted (dark olive background, white text, auto-width / fits content)
+- [Section subtext and Section heading should above "Category image", looks expected-result.png and newest-current-result-desktop.png] Page loads — first category's image is visible in the centre column
+- [current result for category's title, description, bullets, and CTA (newest-current-result-desktop.png) doesn't match with expected-result.png] Page loads — first category's title, description, bullets, and CTA appear in the dark right panel
 - [ ] Clicking the second pill — second pill becomes active, first loses active style
 - [ ] Clicking the second pill — centre image changes to the second block's image
 - [ ] Clicking the second pill — right panel content updates to the second block's content
@@ -42,7 +42,7 @@ Status: Testing
 
 ### Mobile (test at 375px viewport width)
 
-- [ ] First category is expanded on page load — detail card visible below first pill
+- [category title and description should have margin/padding looks mobile.png on reference folder] First category is expanded on page load — detail card visible below first pill
 - [ ] Other categories are collapsed on page load
 - [ ] Tapping a collapsed pill — it expands, showing its detail card inline below the pill
 - [ ] Tapping a collapsed pill — the previously open card collapses
@@ -66,7 +66,7 @@ Status: Testing
 - [ ] Section heading uses Recoleta font
 - [ ] Panel title uses Recoleta font
 - [ ] Image column images have 5px rounded corners
-- [ ] Image column width setting (15–40%) adjusts the centre column width in the customizer — reset slider to 23% to match Figma proportions if it was saved at a higher value previously
+- [add Image column height setting. looks the expected-result.png and newest-current-result-desktop.png and newest-current-result-mobile.png] Image column width setting (15–40%) adjusts the centre column width in the customizer — reset slider to 23% to match Figma proportions if it was saved at a higher value previously
 
 ### Accessibility
 
