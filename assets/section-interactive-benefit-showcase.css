@@ -103,7 +103,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
+  width: fit-content;
   padding: 10px 20px;
   border-radius: 50px;
   border: 1px solid #31331e;
