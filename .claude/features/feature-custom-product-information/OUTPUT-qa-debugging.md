@@ -12,9 +12,9 @@ Implementation plan: `.claude/features/feature-custom-product-information/OUTPUT
 
 ---
 
-## Current Round (Round 1)
+## Current Round (Round 2)
 
-Status: Not started — awaiting implementation
+Status: Testing
 
 ### Fonts
 
@@ -32,10 +32,11 @@ Status: Not started — awaiting implementation
 
 ### Gallery
 
-- [other product images don't show up, show them. looks reference folder] Main image shows the schema image picker image when set
+- [ ] Main image shows the schema image picker image when set
 - [ ] When no schema image is set, main image falls back to `product.featured_image`
 - [ ] When neither is set, the placeholder SVG shows
-- [ ] Thumbnail grid renders when gallery image blocks are added
+- [ ] When no gallery image blocks are added, thumbnail grid shows the remaining product images automatically (from `product.images` offset 1)
+- [ ] When gallery image blocks are added, those take priority over product images in the thumbnail grid
 
 ### Variant selector
 
@@ -76,11 +77,11 @@ Status: Not started — awaiting implementation
 
 ### Tabs / Accordions — mobile (<990px)
 
-- [tabs doesn't look like on the reference folder] Tabs render as accordions (no horizontal tab nav visible)
+- [ ] Tabs render as accordions (no horizontal tab nav visible)
 - [ ] First accordion is open on load
 - [ ] Clicking a summary opens that accordion
 - [ ] Multiple accordions can be open simultaneously
-- [ ] Chevron icon rotates to indicate open/closed state
+- [ ] Icon shows as "+" when closed, "−" (horizontal bar only) when open — matches reference design
 - [ ] Tab section hides completely when no tab blocks exist
 
 ### Tabs — desktop (≥990px)
@@ -132,4 +133,37 @@ Status: Not started — awaiting implementation
 
 ## Previous Rounds
 
-_Empty — added after each QA round._
+### Round 1
+
+#### [PASS] Recoleta loads from Shopify CDN
+#### [PASS] Section heading renders in Recoleta
+#### [PASS] Prices render in Recoleta
+#### [PASS] Figtree still loads
+#### [PASS] Section title shows product's actual name
+#### [PASS] Compare-at price: strikethrough + sale price + discount badge show
+#### [PASS] No compare-at: only sale price shows
+#### [PASS] Discount percentage calculated correctly
+
+#### [FAIL] Gallery thumbnail grid shows other product images
+**User feedback:** "other product images don't show up, show them. looks reference folder"
+**Fix:** Added `elsif product.images.size > 1` fallback to the gallery grid — when no `gallery_image` blocks are configured, the thumbnail grid now automatically renders `product.images` starting from index 1 (skipping the featured image already shown as main).
+
+#### [PASS] When no schema image set, falls back to product.featured_image
+#### [PASS] Placeholder SVG shows when no image exists
+
+#### [PASS] Variant selector hidden on single-variant product
+#### [PASS] Variant selector shows pill buttons for multi-variant
+#### [PASS] Selected variant highlighted on load
+#### [PASS] Variant change updates price live
+#### [PASS] Sold-out variant disables button
+#### [PASS] Add to Cart works and opens cart drawer
+#### [PASS] Benefits grid shows/hides correctly
+#### [PASS] Social proof shows/hides correctly
+
+#### [FAIL] Tabs/accordions mobile styling matches reference
+**User feedback:** "tabs doesn't look like on the reference folder"
+**Fix:** Replaced the chevron (rotated corner) icon with a `+`/`−` style using CSS pseudo-elements — vertical bar disappears when the accordion is open, leaving only the horizontal bar. Matches the reference design's accordion icon style.
+
+#### [PASS] Desktop tab nav appears and functions correctly
+#### [PASS] Section appears in product template
+#### [PASS] Schema cleaned (pricing fields removed)

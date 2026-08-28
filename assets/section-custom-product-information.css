@@ -489,18 +489,40 @@
 }
 
 .cpi__tab-icon {
-  width: 0.8rem;
-  height: 0.8rem;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg);
-  transition: transform 0.2s ease;
+  position: relative;
+  width: 1.4rem;
+  height: 1.4rem;
   flex-shrink: 0;
-  margin-left: 1rem;
+  margin-left: 1.2rem;
 }
 
-.cpi__tab-item[open] .cpi__tab-icon {
-  transform: rotate(-135deg);
+.cpi__tab-icon::before,
+.cpi__tab-icon::after {
+  content: '';
+  position: absolute;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+.cpi__tab-icon::before {
+  width: 100%;
+  height: 1.5px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cpi__tab-icon::after {
+  width: 1.5px;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.15s ease;
+}
+
+.cpi__tab-item[open] .cpi__tab-icon::after {
+  opacity: 0;
 }
 
 .cpi__tab-item[open] > .cpi__tab-summary {

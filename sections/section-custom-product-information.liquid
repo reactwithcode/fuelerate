@@ -80,6 +80,22 @@
             </div>
           {%- endfor -%}
         </div>
+      {%- elsif product.images.size > 1 -%}
+        <div class="cpi__gallery-grid">
+          {%- for image in product.images offset: 1 -%}
+            <div class="cpi__gallery-thumb">
+              {{
+                image
+                | image_url: width: 500
+                | image_tag:
+                  widths: '250, 500',
+                  class: 'cpi__gallery-img',
+                  alt: product.title,
+                  loading: 'lazy'
+              }}
+            </div>
+          {%- endfor -%}
+        </div>
       {%- endif -%}
     </div>
 
