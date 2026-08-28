@@ -3,7 +3,7 @@
 ## Brief
 
 Build a custom product page section, matching this Figma design:
-https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-1404&t=sZveig8W1QUFWueR-0
+https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-1404&t=sZveig8W1QUFWueR-0 and https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-3207&t=hkRG3yppfvd372zY-0
 
 **1. Hero image + product info split layout**
 The section opens with a two-column layout splitting the screen between a large product image on one side and the core product information on the other — title, price, variant selectors, and the add to cart action. This is the primary focal point of the page and sets the visual hierarchy.

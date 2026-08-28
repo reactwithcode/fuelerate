@@ -66,7 +66,7 @@ Status: Testing
 - [ ] Grid is hidden when no benefit blocks exist
 - [ ] Default icons (position 1–6) show when no custom icon is uploaded to a block
 - [ ] Custom icon shows when an image is uploaded to a block
-- [ ] 3-column grid on desktop, 2-column on mobile
+- [current section is not mobile-friendly, make it mobile friendly. looks mobile.png and current-mobile.png] 3-column grid on desktop, 2-column on mobile
 
 ### Social proof
 
