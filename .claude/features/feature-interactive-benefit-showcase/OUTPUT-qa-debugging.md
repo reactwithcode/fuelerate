@@ -12,13 +12,13 @@ Implementation plan: `.claude/features/feature-interactive-benefit-showcase/OUTP
 
 ---
 
-## Current Round (Round 2)
+## Current Round (Round 3)
 
 Status: Testing
 
 ### Core behavior
 
-- [ ] Page loads — first category pill is highlighted (dark olive background, white text)
+- [ ] Page loads — first category pill is highlighted (dark olive background, white text, auto-width / fits content)
 - [ ] Page loads — first category's image is visible in the centre column
 - [ ] Page loads — first category's title, description, bullets, and CTA appear in the dark right panel
 - [ ] Clicking the second pill — second pill becomes active, first loses active style
@@ -52,18 +52,21 @@ Status: Testing
 - [ ] Detail card content (title, description, bullets, CTA) matches the block's schema settings
 - [ ] Mobile detail card uses Recoleta for the title
 
-### Desktop layout (test at 1200px viewport width)
+### Desktop layout (test at 1440px viewport width)
 
 - [ ] Three columns are visible: pill list left, image centre, dark panel right
 - [ ] Section background is cream (`#f4f3ee`)
-- [ ] Pills are auto-sized to content width (not stretched full-width)
+- [ ] Active pill is auto-width (fits content — narrower than inactive pills)
+- [ ] Inactive pills span the full left-column width with a border
 - [ ] Active pill has dark olive background (`#31331e`) with white text
 - [ ] Inactive pills have transparent background with dark olive border and text
 - [ ] Detail panel background is dark olive (`#31331e`) with white text
-- [ ] Both left and right arrow buttons are visible in the panel — white circular background with dark olive icon
+- [ ] Panel content has generous horizontal padding (~108px each side), giving the text breathing room
+- [ ] Both left and right arrow buttons are visible — white circular background with dark olive icon
 - [ ] Section heading uses Recoleta font
 - [ ] Panel title uses Recoleta font
-- [ ] Image column width setting adjusts the centre column width in the customizer
+- [ ] Image column images have 5px rounded corners
+- [ ] Image column width setting (15–40%) adjusts the centre column width in the customizer — reset slider to 23% to match Figma proportions if it was saved at a higher value previously
 
 ### Accessibility
 
@@ -83,7 +86,7 @@ Status: Testing
 - [ ] Editing a block's title — pill label and panel heading update in the live preview
 - [ ] Editing a block's description — panel description updates in the live preview
 - [ ] Uploading a category image — image appears in the centre column when that block is active
-- [ ] Image column width setting (20–55%) — adjusts the width of the centre image column
+- [ ] Image column width setting (15–40%) — adjusts the width of the centre image column
 - [ ] Uploading an icon image — icon appears inside the pill alongside the title
 - [ ] Padding top / padding bottom settings — section spacing adjusts correctly
 - [ ] Preset ("Interactive Benefit Showcase") available when adding the section — drops in with 6 pre-filled blocks
@@ -116,3 +119,39 @@ Status: Testing
 
 #### [SKIPPED] All remaining items
 Could not be verified due to the above visual issues taking priority.
+
+---
+
+### Round 2
+
+#### [FAIL] Page loads — first category pill is highlighted (dark olive background, white text, auto-width)
+**User feedback:** Fetched Figma frames and compared screenshots — active pill was still rendering full-width.
+**Fix:** Root cause: `display: flex` on `.ibs__pill` makes it a block-level container, so `width: auto` resolves to "fill containing block" rather than shrinking to content. Changed to `width: fit-content`, which correctly shrinks the active pill to its text/icon content regardless of display type.
+
+#### [FAIL] Image column proportions — image column too wide
+**User feedback:** Screenshots showed image column at ~40% of section width instead of ~23%.
+**Fix (CSS):** Updated default CSS grid value from `25%` to `23%` (matching Figma's exact 331px at 1440px). Updated schema default from 25 → 23, min from 20 → 15, max from 55 → 40, step from 5 → 1 for finer control.
+**Note:** If the image column still appears wide, the Shopify customizer has a previously saved value (likely 35%+). Reset the "Image column width" slider to 23% in the customizer to match Figma.
+
+#### [FAIL] Panel content has too little horizontal padding
+**User feedback:** Comparing Figma frame data — panel content starts 109px from panel's left edge (Figma) vs 56px (our CSS).
+**Fix:** Updated `.ibs__panel-content` inset from `3rem 2.5rem 6rem 3.5rem` to `4.25rem 6.8rem 6rem 6.8rem`. Content width now ~362px (Figma: 363px ✓), top offset ~68px (Figma: 66.6px ✓).
+
+#### [FAIL] Left column left padding too small
+**User feedback:** Figma shows section heading at x=85px, pills at x=92px from section left edge; CSS had 64px (4rem).
+**Fix:** Updated `.ibs__left` padding-left from `4rem` → `5.5rem` (88px).
+
+#### [FAIL] Images have no rounded corners
+**User feedback:** Figma shows `rounded-[5px]` on image container.
+**Fix:** Changed `clip-path: inset(0)` to `clip-path: inset(0 round 5px)` on `.ibs__image`.
+
+#### [FAIL] Section min-height too short
+**User feedback:** Figma: panel is 556px tall, starts 81px from section top → section needs ≥637px.
+**Fix:** Updated `min-height` from `560px` → `640px`.
+
+#### [FAIL] Pill list gap too small
+**User feedback:** Figma: 6 pills in 319px height with justify-between → ~18px between pills. CSS had 0.75rem (12px).
+**Fix:** Updated `.ibs__list gap` from `0.75rem` → `1.125rem` (18px).
+
+#### [SKIPPED] All remaining items
+Could not be verified due to Figma analysis taking priority in this round.

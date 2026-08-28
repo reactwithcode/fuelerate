@@ -41,8 +41,8 @@
 .ibs {
   background-color: #f4f3ee;
   display: grid;
-  grid-template-columns: 1fr var(--ibs-image-col-width, 25%) minmax(340px, 580px);
-  min-height: 560px;
+  grid-template-columns: 1fr var(--ibs-image-col-width, 23%) minmax(340px, 580px);
+  min-height: 640px;
   position: relative;
 }
 
@@ -60,7 +60,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem 2.5rem 4rem 4rem;
+  padding: 4rem 2.5rem 4rem 5.5rem;
   gap: 1.5rem;
 }
 
@@ -92,7 +92,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.125rem;
 }
 
 /* Figma: py-10px px-20px, border-radius 50px, gap 10px
@@ -128,7 +128,7 @@
   color: #ffffff;
   border-color: #31331e;
   font-weight: 700;
-  width: auto;
+  width: fit-content;
 }
 
 .ibs__pill-icon {
@@ -166,7 +166,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  clip-path: inset(0);
+  clip-path: inset(0 round 5px);
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -187,8 +187,8 @@
 /* All panel-content items stacked — only active fades in */
 .ibs__panel-content {
   position: absolute;
-  /* top/sides: 3rem padding; bottom: leaves room for next arrow */
-  inset: 3rem 2.5rem 6rem 3.5rem;
+  /* Figma: content offset 109px from panel left, 108px from panel right */
+  inset: 4.25rem 6.8rem 6rem 6.8rem;
   opacity: 0;
   transition: opacity 0.25s ease;
   display: flex;
