@@ -10,6 +10,7 @@
     padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
     --ibs-image-col-width: {{ section.settings.image_width }}%;
+    --ibs-image-height: {{ section.settings.image_height }}%;
   }
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
@@ -197,6 +198,17 @@
       "step": 1,
       "unit": "%",
       "default": 23
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Image height",
+      "info": "Height of the image as a percentage of the section. 56% leaves cream background above.",
+      "min": 20,
+      "max": 90,
+      "step": 2,
+      "unit": "%",
+      "default": 56
     },
     {
       "type": "header",

@@ -12,84 +12,82 @@ Implementation plan: `.claude/features/feature-interactive-benefit-showcase/OUTP
 
 ---
 
-## Current Round (Round 3)
+## Current Round (Round 5)
 
 Status: Testing
 
 ### Core behavior
 
-- [icon and text inside category pill shouldn't in the middle, looks expected-result.png and newest-current-result-desktop.png] Page loads — first category pill is highlighted (dark olive background, white text, auto-width / fits content)
-- [Section subtext and Section heading should above "Category image", looks expected-result.png and newest-current-result-desktop.png] Page loads — first category's image is visible in the centre column
-- [current result for category's title, description, bullets, and CTA (newest-current-result-desktop.png) doesn't match with expected-result.png] Page loads — first category's title, description, bullets, and CTA appear in the dark right panel
+- [ ] Page loads — first category pill is highlighted (dark olive, white text, auto-width, icon + text left-aligned)
+- [ ] Page loads — first category's image is visible in the centre column, anchored to the section bottom with cream background showing above
+- [ ] Page loads — first category's title, description, bullets, and CTA appear in the dark right panel
 - [ ] Clicking the second pill — second pill becomes active, first loses active style
 - [ ] Clicking the second pill — centre image changes to the second block's image
 - [ ] Clicking the second pill — right panel content updates to the second block's content
-- [ ] Clicking the right arrow — advances to the next category (same result as clicking the next pill)
+- [ ] Clicking the right arrow — advances to the next category
 - [ ] Clicking the right arrow on the last category — wraps back to the first category
 - [ ] Clicking the left arrow — goes back to the previous category
 - [ ] Clicking the left arrow on the first category — wraps to the last category
-- [ ] Clicking the right arrow repeatedly — cycles through all categories in sequence and loops correctly
 - [ ] CTA link text and URL are correct per block
-- [ ] Only one category is active at a time (no two pills highlighted simultaneously)
+- [ ] Only one category is active at a time
 
 ### Edge cases
 
-- [ ] Block with no CTA URL set — the CTA link element is not rendered (no empty `<a>` tag)
-- [ ] Block with no category image — centre column image for that block does not render a broken `<img>` element
+- [ ] Block with no CTA URL set — the CTA link element is not rendered
+- [ ] Block with no category image — no broken `<img>` element rendered
 - [ ] Section with only 1 block — both arrow buttons are not visible
-- [ ] Block with empty bullets field — no empty `<ul>` rendered in the panel
-- [ ] All blocks have no images set — centre image column collapses or is hidden, no broken layout
+- [ ] Block with empty bullets field — no empty `<ul>` rendered
+- [ ] All blocks have no images set — image column collapses, no broken layout
 
 ### Mobile (test at 375px viewport width)
 
-- [category title and description should have margin/padding looks mobile.png on reference folder] First category is expanded on page load — detail card visible below first pill
+- [ ] First category is expanded on page load — detail card visible below first pill, with 8px gap
 - [ ] Other categories are collapsed on page load
-- [ ] Tapping a collapsed pill — it expands, showing its detail card inline below the pill
+- [ ] Tapping a collapsed pill — it expands, showing its detail card below
 - [ ] Tapping a collapsed pill — the previously open card collapses
 - [ ] Only one category can be open at a time on mobile
-- [ ] Centre image column is not visible on mobile
-- [ ] Right and left arrows are not visible on mobile
-- [ ] Detail card content (title, description, bullets, CTA) matches the block's schema settings
+- [ ] Detail card: title and description have adequate top padding (24px from card top edge)
+- [ ] Detail card: gap between title, description, bullets, and CTA is readable
+- [ ] Detail card content matches the block's schema settings
 - [ ] Mobile detail card uses Recoleta for the title
+- [ ] Centre image column is not visible on mobile
+- [ ] Arrows are not visible on mobile
 
-### Desktop layout (test at 1440px viewport width)
+### Desktop layout (test at 1440px viewport width — reset image_width to 23%, image_height to 56%)
 
-- [ ] Three columns are visible: pill list left, image centre, dark panel right
+- [ ] Three columns visible: pill list left, image centre, dark panel right
 - [ ] Section background is cream (`#f4f3ee`)
-- [ ] Active pill is auto-width (fits content — narrower than inactive pills)
-- [ ] Inactive pills span the full left-column width with a border
-- [ ] Active pill has dark olive background (`#31331e`) with white text
-- [ ] Inactive pills have transparent background with dark olive border and text
-- [ ] Detail panel background is dark olive (`#31331e`) with white text
-- [ ] Panel content has generous horizontal padding (~108px each side), giving the text breathing room
-- [ ] Both left and right arrow buttons are visible — white circular background with dark olive icon
+- [ ] Cream background shows in the IMAGE column above the image (heading/subtext area height in left column corresponds to the cream space above the image)
+- [ ] Active pill: auto-width (fit-content), dark olive, icon + text left-aligned
+- [ ] Inactive pills: full-width, border, icon + text left-aligned
+- [ ] Panel: dark olive, white text, title + description + bullets + CTA visible
+- [ ] Both arrow buttons visible — white circle, dark olive icon
 - [ ] Section heading uses Recoleta font
-- [ ] Panel title uses Recoleta font
-- [ ] Image column images have 5px rounded corners
-- [add Image column height setting. looks the expected-result.png and newest-current-result-desktop.png and newest-current-result-mobile.png] Image column width setting (15–40%) adjusts the centre column width in the customizer — reset slider to 23% to match Figma proportions if it was saved at a higher value previously
+- [ ] Image has 5px rounded corners
+- [ ] "Image height" slider (20–90%) controls how tall the image is — higher value = taller image, lower = shorter
+- [ ] "Image column width" slider (15–40%) adjusts image column width
+- [ ] Padding top / bottom settings work correctly
 
 ### Accessibility
 
 - [ ] Keyboard: Tab key reaches each pill
-- [ ] Keyboard: pressing Enter or Space on a focused pill activates it
+- [ ] Keyboard: Enter/Space on a focused pill activates it
 - [ ] Keyboard: Tab key reaches both arrow buttons
-- [ ] Keyboard: pressing Enter or Space on the next arrow advances to the next category
-- [ ] Keyboard: pressing Enter or Space on the prev arrow goes to the previous category
-- [ ] Active pill has `aria-selected="true"`; all others have `aria-selected="false"`
-- [ ] Arrow buttons have descriptive `aria-label` attributes ("Previous benefit" / "Next benefit")
+- [ ] Keyboard: Enter/Space on arrows navigate categories
+- [ ] Active pill has `aria-selected="true"`; all others `aria-selected="false"`
+- [ ] Arrow buttons have descriptive `aria-label` attributes
 
 ### Shopify customizer
 
-- [ ] Section appears in the customizer "Add section" sidebar
-- [ ] Adding a new block — a new pill appears in the list and a new panel is available
-- [ ] Removing a block — the pill and its panel are removed
-- [ ] Editing a block's title — pill label and panel heading update in the live preview
-- [ ] Editing a block's description — panel description updates in the live preview
-- [ ] Uploading a category image — image appears in the centre column when that block is active
-- [ ] Image column width setting (15–40%) — adjusts the width of the centre image column
-- [ ] Uploading an icon image — icon appears inside the pill alongside the title
-- [ ] Padding top / padding bottom settings — section spacing adjusts correctly
-- [ ] Preset ("Interactive Benefit Showcase") available when adding the section — drops in with 6 pre-filled blocks
+- [ ] Section appears in the "Add section" sidebar
+- [ ] Adding/removing a block — pill and panel update correctly
+- [ ] Editing block title/description — live preview updates
+- [ ] Uploading a category image — image appears in centre column when that block is active
+- [ ] Uploading an icon image — icon appears inside the pill
+- [ ] "Image height" setting (20–90%) — adjusts image height, anchored to section bottom
+- [ ] "Image column width" setting (15–40%) — adjusts image column width
+- [ ] Padding top / bottom settings adjust section spacing
+- [ ] Preset ("Benefit Showcase") drops in with 6 pre-filled blocks
 
 ---
 
@@ -106,52 +104,69 @@ Status: Testing
 **Fix:** Added Recoleta `@font-face` declarations (same CDN as CPI section) to the CSS. Applied `font-family: 'Recoleta', Georgia, serif` to `.ibs__heading` and `.ibs__panel-title`. Description and body text remain Figtree (sans-serif) to match the reference design.
 
 #### [FAIL] Right arrow is visible in the panel
-**User feedback:** "add left arrow too, give #fff background color. looks the expected-result.png on reference folder"
-**Fix:** Replaced the single `ibs__arrow` button with an `ibs__arrows` container holding both `.ibs__arrow--prev` and `.ibs__arrow--next` buttons. Changed arrow button background from `transparent + border` to solid `#ffffff` with `color: #31331e`. Updated JS to wire separate prev/next handlers (prev wraps to last, next wraps to first).
+**User feedback:** "add left arrow too, give #fff background color."
+**Fix:** Added both `.ibs__arrow--prev` and `.ibs__arrow--next` buttons. Changed background from transparent to `#ffffff` with dark olive icon color.
 
-#### [FAIL] Uploading a category image — image appears in the centre column when that block is active
-**User feedback:** "Make size smaller and add setting to change the width. looks the expected-result.png on reference folder"
-**Fix:** Added `image_width` range setting (20–55%, default 35%) to the schema. Wired it via a `--ibs-image-col-width` CSS custom property set in the section's `{%- style -%}` block. The grid template now uses `var(--ibs-image-col-width, 35%)` for the centre column width.
+#### [FAIL] Uploading a category image
+**User feedback:** "Make size smaller and add setting to change the width."
+**Fix:** Added `image_width` range setting (15–40%, default 23%). Wired via `--ibs-image-col-width` CSS custom property.
 
-#### [FAIL] Detail card content (title, description, bullets, CTA) matches the block's schema settings — mobile
-**User feedback:** "category title, description, bullet points and link icon on Benefit category doesn't look like on expected-result.png"
-**Fix:** Applied Recoleta to mobile card title. Made description bold (Figtree 700). Improved mobile card padding and spacing to better match the reference.
+#### [FAIL] Detail card content — mobile
+**User feedback:** "category title, description, bullet points and link icon doesn't look like on expected-result.png"
+**Fix:** Applied Recoleta to mobile card title. Made description bold (Figtree 700). Improved mobile card padding and spacing.
 
 #### [SKIPPED] All remaining items
-Could not be verified due to the above visual issues taking priority.
 
 ---
 
 ### Round 2
 
-#### [FAIL] Page loads — first category pill is highlighted (dark olive background, white text, auto-width)
-**User feedback:** Fetched Figma frames and compared screenshots — active pill was still rendering full-width.
-**Fix:** Root cause: `display: flex` on `.ibs__pill` makes it a block-level container, so `width: auto` resolves to "fill containing block" rather than shrinking to content. Changed to `width: fit-content`, which correctly shrinks the active pill to its text/icon content regardless of display type.
+#### [FAIL] Active pill is full-width (should be auto-width)
+**User feedback:** Pill widths still equal; compared to Figma.
+**Fix:** Root cause: `display: flex` on `.ibs__pill` makes it a block-level container, so `width: auto` resolves to "fill containing block." Changed to `width: fit-content`.
 
-#### [FAIL] Image column proportions — image column too wide
-**User feedback:** Screenshots showed image column at ~40% of section width instead of ~23%.
-**Fix (CSS):** Updated default CSS grid value from `25%` to `23%` (matching Figma's exact 331px at 1440px). Updated schema default from 25 → 23, min from 20 → 15, max from 55 → 40, step from 5 → 1 for finer control.
-**Note:** If the image column still appears wide, the Shopify customizer has a previously saved value (likely 35%+). Reset the "Image column width" slider to 23% in the customizer to match Figma.
+#### [FAIL] Image column too wide
+**User feedback:** Image column appearing at ~40% of section width instead of ~23%.
+**Fix:** Grid default changed from 25% to 23%. Schema default: 25 → 23, min: 20 → 15, max: 55 → 40, step: 5 → 1.
+**Note:** Saved customizer value still needs to be reset to 23%.
 
-#### [FAIL] Panel content has too little horizontal padding
-**User feedback:** Comparing Figma frame data — panel content starts 109px from panel's left edge (Figma) vs 56px (our CSS).
-**Fix:** Updated `.ibs__panel-content` inset from `3rem 2.5rem 6rem 3.5rem` to `4.25rem 6.8rem 6rem 6.8rem`. Content width now ~362px (Figma: 363px ✓), top offset ~68px (Figma: 66.6px ✓).
+#### [FAIL] Panel content horizontal padding too small
+**User feedback:** Figma shows content offset 109px from panel left edge; CSS had 56px.
+**Fix:** Updated `ibs__panel-content` inset to `4.25rem 6.8rem 6rem 6.8rem`.
 
 #### [FAIL] Left column left padding too small
-**User feedback:** Figma shows section heading at x=85px, pills at x=92px from section left edge; CSS had 64px (4rem).
 **Fix:** Updated `.ibs__left` padding-left from `4rem` → `5.5rem` (88px).
 
 #### [FAIL] Images have no rounded corners
-**User feedback:** Figma shows `rounded-[5px]` on image container.
-**Fix:** Changed `clip-path: inset(0)` to `clip-path: inset(0 round 5px)` on `.ibs__image`.
+**Fix:** `clip-path: inset(0)` → `clip-path: inset(0 round 5px)`.
 
-#### [FAIL] Section min-height too short
-**User feedback:** Figma: panel is 556px tall, starts 81px from section top → section needs ≥637px.
-**Fix:** Updated `min-height` from `560px` → `640px`.
+#### [FAIL] Section min-height too short / pill gap too small
+**Fix:** `min-height: 560px` → `640px`. `gap: 0.75rem` → `gap: 1.125rem`.
 
-#### [FAIL] Pill list gap too small
-**User feedback:** Figma: 6 pills in 319px height with justify-between → ~18px between pills. CSS had 0.75rem (12px).
-**Fix:** Updated `.ibs__list gap` from `0.75rem` → `1.125rem` (18px).
+---
 
-#### [SKIPPED] All remaining items
-Could not be verified due to Figma analysis taking priority in this round.
+### Round 3
+
+#### [FAIL] Icon and text inside pill centered (should be left-aligned)
+**User feedback:** "icon and text inside category pill shouldn't in the middle"
+**Fix:** `justify-content: center` → `justify-content: flex-start` on `.ibs__pill`.
+
+#### [FAIL] Image starts at top of section (should start at pill level)
+**User feedback:** "Section subtext and Section heading should above 'Category image'"
+**Fix:** Changed `.ibs__image` from `top: 0; height: 100%` to `top: var(--ibs-image-top, 44%); bottom: 0`. Added `object-position: center center`.
+
+#### [FAIL] No image start position setting
+**User feedback:** "add Image column height setting"
+**Fix:** Added `image_top_offset` range setting (0–70%, default 44%). Wired via `--ibs-image-top`.
+
+#### [FAIL] Mobile card — title and description need more spacing
+**User feedback:** "category title and description should have margin/padding"
+**Fix:** Increased top padding: 18px → 24px. Reduced internal gap: 2rem → 1rem. Added 8px gap between pill and card.
+
+---
+
+### Round 4
+
+#### [FAIL] "Image start position" setting — change to control height, not top offset
+**User feedback:** "change this to edit height not Image start position, looks expected-result.png and current-results.png"
+**Fix:** Changed approach from controlling where the image starts (top offset) to controlling the image height. Image is now anchored to the section bottom (`bottom: 0; height: var(--ibs-image-height, 56%)`). Higher % = taller image (fills more of the section from the bottom up). Default 56% = image fills bottom 56% of section, leaving cream background visible in the top 44%. Renamed schema setting from `image_top_offset` → `image_height`, label "Image height", default 56%, range 20–90%.
