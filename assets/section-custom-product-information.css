@@ -577,11 +577,11 @@
     display: none;
   }
 
-  /* Connecting line behind dots and pill */
+  /* Connecting line — aligned with button bottom edge = indicator center */
   .cpi__tabs-desktop-nav::before {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: 1.6rem;
     left: 0;
     right: 0;
     height: 1px;

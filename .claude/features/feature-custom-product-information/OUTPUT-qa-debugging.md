@@ -12,7 +12,7 @@ Implementation plan: `.claude/features/feature-custom-product-information/OUTPUT
 
 ---
 
-## Current Round (Round 4)
+## Current Round (Round 5)
 
 Status: Testing
 
@@ -77,7 +77,7 @@ Status: Testing
 
 ### Tabs / Accordions — mobile (<990px)
 
-- [current tabs doesn't look like expected tabs. looks newest-current-tabs.png and newest-expected-tabs.png. there is line between tabs not below tabs] Tabs render as accordions — no desktop tab nav visible on mobile
+- [ ] Tabs render as accordions — no desktop tab nav visible on mobile
 - [ ] First accordion is open on load
 - [ ] Clicking a summary opens that accordion
 - [ ] Multiple accordions can be open simultaneously
@@ -87,9 +87,8 @@ Status: Testing
 ### Tabs — desktop (≥990px)
 
 - [ ] Horizontal tab nav row appears with one button per tab block
-- [ ] Active tab shows a dark pill indicator below the label — matches reference (expected-tabs-result.png)
-- [ ] Inactive tabs show a small dot indicator
-- [ ] A thin line connects all the indicators horizontally
+- [ ] Active tab shows a dark pill indicator — pill and connecting line are on the same level (no extra line below)
+- [ ] Inactive tabs show a small dot indicator on the same connecting line
 - [ ] Clicking a tab button activates it (pill) and deactivates others (dots)
 - [ ] Active tab label is bold, inactive labels are muted
 - [ ] Tab nav scrolls horizontally if labels overflow
@@ -101,8 +100,8 @@ Status: Testing
 
 ### Responsive breakpoint transition
 
-- [ ] Resizing from desktop to mobile: desktop nav hides, accordion chrome appears — no JS errors
-- [ ] Resizing from mobile to desktop: desktop nav appears, accordion chrome hides — no JS errors
+- [ ] Resizing from desktop to mobile: desktop nav hides, accordion chrome appears
+- [ ] Resizing from mobile to desktop: desktop nav appears, accordion chrome hides
 
 ### Section in template
 
@@ -183,16 +182,24 @@ Status: Testing
 
 #### [FAIL] Desktop tabs — styling doesn't match expected-tab.png
 **User feedback:** "tabs doesn't like on expected-tab.png on the reference folder"
-**Fix:** Replaced plain underline with pill+dot indicator connected by a thin horizontal line. Active tab gets dark pill, inactive get small dot. Active label is bold.
+**Fix:** Replaced plain underline with pill+dot indicator connected by a thin horizontal line.
 
 #### [FAIL] Section padding — section was edge-to-edge
 **User feedback:** "give padding/margin left and right to the section, looks current-result.png fix it"
-**Fix:** Added `padding-left: 1.5rem; padding-right: 1.5rem` at mobile, `5rem` each side at 750px+.
+**Fix:** Added `padding-left/right: 1.5rem` mobile, `5rem` at 750px+.
 
 ---
 
 ### Round 3
 
 #### [FAIL] Mobile tabs — desktop tab nav visible on mobile viewport
-**User feedback:** "current tabs doesn't looks on the reference folder. looks current-tabs-result.png and expected-tabs-result.png"
-**Fix:** Replaced `matchMedia` approach with CSS-controlled visibility. Desktop nav is always built in JS on `connectedCallback` but hidden via `display: none` at mobile (no media query). The `@media (min-width: 990px)` CSS sets `display: flex` to show it. Breakpoint transitions now handled entirely by CSS, eliminating the Shopify editor iframe `matchMedia` reliability issue.
+**User feedback:** "current tabs doesn't looks on the reference folder"
+**Fix:** Replaced `matchMedia` with CSS-controlled visibility. Desktop nav always built in JS but hidden via `display: none` at mobile; shown at ≥990px via `@media`.
+
+---
+
+### Round 4
+
+#### [FAIL] Desktop tab connecting line misaligned — appearing below indicators as a second line
+**User feedback:** "there is line between tabs not below tabs. looks newest-current-tabs.png and newest-expected-tabs.png"
+**Fix:** The `::before` connecting line was anchored at `bottom: 0` of the nav, but button indicators are at the button's bottom edge which is `1.6rem` higher (the button's `padding-bottom`). Changed `bottom: 0` to `bottom: 1.6rem` so the line runs through the center of the pill and dots, not below them.
