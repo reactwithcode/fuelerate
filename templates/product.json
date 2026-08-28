@@ -89,6 +89,10 @@
         "padding_bottom": 0
       }
     },
+    "custom-product-information": {
+      "type": "section-custom-product-information",
+      "settings": {}
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -110,6 +114,7 @@
   },
   "order": [
     "main",
+    "custom-product-information",
     "disclosures",
     "related-products"
   ]
