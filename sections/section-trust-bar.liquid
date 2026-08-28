@@ -10,10 +10,19 @@
     padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
   }
+  .section-{{ section.id }}-padding .trust-bar__label {
+    color: {{ section.settings.label_color }};
+    font-size: {{ section.settings.label_size }}px;
+  }
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  @media screen and (max-width: 749px) {
+    .section-{{ section.id }}-padding .trust-bar__label {
+      font-size: {{ section.settings.label_size | minus: 4 }}px;
     }
   }
 {%- endstyle -%}
@@ -56,6 +65,31 @@
       "id": "background_color",
       "label": "Background color",
       "default": "#31331e"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Label size (desktop)",
+      "info": "Mobile size is automatically 4px smaller",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
     },
     {
       "type": "range",
