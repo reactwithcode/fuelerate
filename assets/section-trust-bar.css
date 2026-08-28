@@ -24,9 +24,8 @@
 }
 
 .trust-bar__icon {
-  width: 36px;
-  height: 36px;
   flex-shrink: 0;
+  /* width and height are output via section-id style block from icon_size setting */
 }
 
 .trust-bar__icon img {

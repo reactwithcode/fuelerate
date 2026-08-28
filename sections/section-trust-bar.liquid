@@ -10,6 +10,10 @@
     padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
   }
+  .section-{{ section.id }}-padding .trust-bar__icon {
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
+  }
   .section-{{ section.id }}-padding .trust-bar__label {
     color: {{ section.settings.label_color }};
     font-size: {{ section.settings.label_size }}px;
@@ -34,11 +38,12 @@
         {% for block in section.blocks %}
           <li class="trust-bar__item" {{ block.shopify_attributes }}>
             {% if block.settings.icon != blank %}
+              {%- assign icon_src_width = section.settings.icon_size | times: 2 -%}
               <div class="trust-bar__icon">
                 <img
-                  src="{{ block.settings.icon | image_url: width: 72 }}"
-                  width="36"
-                  height="36"
+                  src="{{ block.settings.icon | image_url: width: icon_src_width }}"
+                  width="{{ section.settings.icon_size }}"
+                  height="{{ section.settings.icon_size }}"
                   alt=""
                   loading="eager"
                 >
@@ -65,6 +70,20 @@
       "id": "background_color",
       "label": "Background color",
       "default": "#31331e"
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 36
     },
     {
       "type": "header",
