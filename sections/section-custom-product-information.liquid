@@ -4,6 +4,7 @@
 
 {{ 'section-custom-product-information.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'custom-product-information.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
 {%- style -%}
   .section-{{ section.id }}-padding .cpi__info {
@@ -19,11 +20,13 @@
 {%- endstyle -%}
 
 {%- liquid
-  assign gallery_blocks   = section.blocks | where: 'type', 'gallery_image'
-  assign benefit_blocks   = section.blocks | where: 'type', 'benefit'
-  assign customer_blocks  = section.blocks | where: 'type', 'customer_photo'
-  assign tab_blocks       = section.blocks | where: 'type', 'tab'
-  assign default_icons    = 'cpi-icon-sleep.svg,cpi-icon-muscle.svg,cpi-icon-calm.svg,cpi-icon-energy.svg,cpi-icon-organic.svg,cpi-icon-washable.svg' | split: ','
+  assign gallery_blocks  = section.blocks | where: 'type', 'gallery_image'
+  assign benefit_blocks  = section.blocks | where: 'type', 'benefit'
+  assign customer_blocks = section.blocks | where: 'type', 'customer_photo'
+  assign tab_blocks      = section.blocks | where: 'type', 'tab'
+  assign default_icons   = 'cpi-icon-sleep.svg,cpi-icon-muscle.svg,cpi-icon-calm.svg,cpi-icon-energy.svg,cpi-icon-organic.svg,cpi-icon-washable.svg' | split: ','
+  assign product_form_id = 'cpi-form-' | append: section.id
+  assign current_variant = product.selected_or_first_available_variant
 -%}
 
 <div class="cpi section-{{ section.id }}-padding">
@@ -39,7 +42,17 @@
             | image_tag:
               widths: '500, 750, 1000',
               class: 'cpi__gallery-img',
-              alt: section.settings.heading,
+              alt: product.title,
+              loading: 'eager'
+          }}
+        {%- elsif product.featured_image != blank -%}
+          {{
+            product.featured_image
+            | image_url: width: 1000
+            | image_tag:
+              widths: '500, 750, 1000',
+              class: 'cpi__gallery-img',
+              alt: product.title,
               loading: 'eager'
           }}
         {%- else -%}
@@ -58,7 +71,7 @@
                   | image_tag:
                     widths: '250, 500',
                     class: 'cpi__gallery-img',
-                    alt: section.settings.heading,
+                    alt: product.title,
                     loading: 'lazy'
                 }}
               {%- else -%}
@@ -71,11 +84,15 @@
     </div>
 
     {%- comment -%} ——— RIGHT: Product information ——— {%- endcomment -%}
-    <div class="cpi__info">
+    <cpi-product
+      class="cpi__info"
+      data-section-id="{{ section.id }}"
+      data-button-text="{{ section.settings.button_text | escape }}"
+    >
 
       {%- comment -%} Title + badges + price {%- endcomment -%}
       <div class="cpi__header">
-        <h2 class="cpi__title">{{ section.settings.heading }}</h2>
+        <h2 class="cpi__title">{{ product.title }}</h2>
 
         <div class="cpi__badges">
           {%- if section.settings.show_limited_stock -%}
@@ -104,18 +121,49 @@
           <p class="cpi__description">{{ section.settings.description }}</p>
         {%- endif -%}
 
-        <div class="cpi__price-row">
-          {%- if section.settings.original_price != blank -%}
-            <s class="cpi__price cpi__price--original">{{ section.settings.original_price }}</s>
-          {%- endif -%}
-          {%- if section.settings.sale_price != blank -%}
-            <span class="cpi__price cpi__price--sale">{{ section.settings.sale_price }}</span>
-          {%- endif -%}
-          {%- if section.settings.discount_label != blank -%}
-            <span class="cpi__discount-badge">{{ section.settings.discount_label }}</span>
+        <div class="cpi__price-row" id="cpi-price-{{ section.id }}">
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <s class="cpi__price cpi__price--original">{{ current_variant.compare_at_price | money }}</s>
+            <span class="cpi__price cpi__price--sale">{{ current_variant.price | money }}</span>
+            {%- assign discount_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round -%}
+            <span class="cpi__discount-badge">Save {{ discount_pct }}% OFF</span>
+          {%- else -%}
+            <span class="cpi__price cpi__price--sale">{{ current_variant.price | money }}</span>
           {%- endif -%}
         </div>
       </div>
+
+      {%- comment -%} Variant selector {%- endcomment -%}
+      {%- unless product.has_only_default_variant -%}
+        <variant-selects
+          id="variant-selects-{{ section.id }}"
+          class="cpi__variant-selects"
+          data-section="{{ section.id }}"
+          data-product-handle="{{ product.handle }}"
+          data-product-title="{{ product.title | escape }}"
+          data-product-id="{{ product.id }}"
+          data-currency-code="{{ cart.currency.iso_code }}"
+          {% # theme-check-disable %}
+          data-selected-price-amount="{{ current_variant.price | default: 0 | money_amount | escape }}"
+          {% # theme-check-enable %}
+        >
+          {%- for option in product.options_with_values -%}
+            <fieldset class="js product-form__input product-form__input--pill cpi__option-group">
+              <legend class="form__label cpi__option-label">{{ option.name }}</legend>
+              {% render 'product-variant-options',
+                product: product,
+                option: option,
+                block: nil,
+                picker_type: 'button'
+              %}
+            </fieldset>
+          {%- endfor -%}
+
+          <script type="application/json" data-selected-variant>
+            {{ current_variant | json }}
+          </script>
+        </variant-selects>
+      {%- endunless -%}
 
       {%- comment -%} Benefits {%- endcomment -%}
       {%- if benefit_blocks.size > 0 -%}
@@ -153,9 +201,41 @@
 
       {%- comment -%} Add to Cart {%- endcomment -%}
       <div class="cpi__cta">
-        <button type="button" class="cpi__btn-cart">
-          {{ section.settings.button_text }}
-        </button>
+        <product-form class="cpi__product-form" data-section-id="{{ section.id }}">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="product-form__error-message"></span>
+          </div>
+          {%- form 'product', product,
+            id: product_form_id,
+            class: 'form',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ current_variant.id }}"
+              class="product-variant-id"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+            <button
+              type="submit"
+              name="add"
+              id="cpi-submit-{{ section.id }}"
+              class="cpi__btn-cart"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              <span class="cpi__btn-text">
+                {%- if current_variant.available -%}
+                  {{ section.settings.button_text }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endform -%}
+        </product-form>
       </div>
 
       {%- comment -%} Social proof {%- endcomment -%}
@@ -188,39 +268,39 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Tabs {%- endcomment -%}
+      {%- comment -%} Tabs / Accordions {%- endcomment -%}
       {%- if tab_blocks.size > 0 -%}
         <hr class="cpi__divider">
         <product-info-tabs class="cpi__tabs">
-          <nav class="cpi__tabs-nav" role="tablist" aria-label="{{ 'accessibility.tabs' | t: default: 'Product details' }}">
-            {%- for block in tab_blocks -%}
-              <button
-                class="cpi__tabs-btn{% if forloop.first %} is-active{% endif %}"
-                role="tab"
-                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-                aria-controls="cpi-panel-{{ block.id }}"
-                id="cpi-btn-{{ block.id }}"
-                {{ block.shopify_attributes }}
-              >
-                {{- block.settings.label -}}
-              </button>
-            {%- endfor -%}
-          </nav>
           {%- for block in tab_blocks -%}
-            <div
-              class="cpi__tab-panel{% unless forloop.first %} is-hidden{% endunless %}"
-              id="cpi-panel-{{ block.id }}"
-              role="tabpanel"
-              aria-labelledby="cpi-btn-{{ block.id }}"
+            <details
+              class="cpi__tab-item"
+              id="cpi-tab-{{ block.id }}"
+              {% if forloop.first %}open{% endif %}
               {{ block.shopify_attributes }}
             >
-              {{ block.settings.content }}
-            </div>
+              <summary class="cpi__tab-summary" id="cpi-btn-{{ block.id }}">
+                {{- block.settings.label -}}
+                <span class="cpi__tab-icon" aria-hidden="true"></span>
+              </summary>
+              <div
+                class="cpi__tab-panel"
+                id="cpi-panel-{{ block.id }}"
+                role="tabpanel"
+                aria-labelledby="cpi-btn-{{ block.id }}"
+              >
+                {{ block.settings.content }}
+              </div>
+            </details>
           {%- endfor -%}
         </product-info-tabs>
       {%- endif -%}
 
-    </div>
+      <script type="application/json" id="cpi-variants-{{ section.id }}">
+        {{ product.variants | json }}
+      </script>
+
+    </cpi-product>
   </div>
 </div>
 
@@ -237,17 +317,12 @@
     {
       "type": "image_picker",
       "id": "main_image",
-      "label": "Main product image"
+      "label": "Main product image",
+      "info": "Leave blank to use the product's featured image."
     },
     {
       "type": "header",
       "content": "Product details"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Product title",
-      "default": "Terra Therapy Fitted Grounding Bedsheet"
     },
     {
       "type": "textarea",
@@ -276,30 +351,6 @@
       "id": "viewers_text",
       "label": "Live viewers text",
       "default": "23 people viewing this now",
-      "info": "Leave blank to hide."
-    },
-    {
-      "type": "header",
-      "content": "Pricing"
-    },
-    {
-      "type": "text",
-      "id": "original_price",
-      "label": "Original price",
-      "default": "$199.00",
-      "info": "Displayed with strikethrough. Leave blank to hide."
-    },
-    {
-      "type": "text",
-      "id": "sale_price",
-      "label": "Sale price",
-      "default": "$99.00"
-    },
-    {
-      "type": "text",
-      "id": "discount_label",
-      "label": "Discount label",
-      "default": "Save 50% OFF",
       "info": "Leave blank to hide."
     },
     {
@@ -464,7 +515,7 @@
           "type": "tab",
           "settings": {
             "label": "Description",
-            "content": "<p>Experience deeper sleep, less pain, and calmer mornings, all from the comfort of your bed. Terra Therapy’s grounding sheets are woven with 400 thread count organic cotton and 10% pure silver fiber to deliver a safe, comfortable, and effective grounding connection every night.</p><p>Plug into any grounded outlet and let Earth’s natural electrons flow through the sheet to support your body’s recovery, from better sleep and reduced inflammation to calmer nervous system function.</p><p>No EMFs. No batteries. Just effortless, science-backed healing while you sleep.</p>"
+            "content": "<p>Experience deeper sleep, less pain, and calmer mornings, all from the comfort of your bed. Terra Therapy's grounding sheets are woven with 400 thread count organic cotton and 10% pure silver fiber to deliver a safe, comfortable, and effective grounding connection every night.</p><p>Plug into any grounded outlet and let Earth's natural electrons flow through the sheet to support your body's recovery, from better sleep and reduced inflammation to calmer nervous system function.</p><p>No EMFs. No batteries. Just effortless, science-backed healing while you sleep.</p>"
           }
         },
         {

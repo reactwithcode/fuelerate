@@ -1,5 +1,99 @@
 /* Custom Product Information Section */
 
+/* ——— Recoleta font ——— */
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Thin.otf?v=1787898052') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Light.otf?v=1787898052') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Regular.otf?v=1787898052') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Bold.otf?v=1787898052') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Black.otf?v=1787898052') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Alt variants */
+
+@font-face {
+  font-family: 'Recoleta Alt';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Alt_Thin.otf?v=1787898052') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta Alt';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Alt_Light.otf?v=1787898052') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta Alt';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Alt_Regular.otf?v=1787898052') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta Alt';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Alt_Medium.otf?v=1787898052') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta Alt';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Alt_SemiBold.otf?v=1787898053') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta Alt';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Alt_Bold.otf?v=1787898052') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ——— Layout ——— */
+
 .cpi {
   background-color: #f4f3ee;
 }
@@ -180,6 +274,29 @@
   line-height: 1.11;
 }
 
+/* ——— Variant selector ——— */
+
+.cpi__variant-selects {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.cpi__option-group {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cpi__option-label {
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #31331e;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
 /* ——— Benefits ——— */
 
 .cpi__benefits {
@@ -257,10 +374,28 @@
   cursor: pointer;
   transition: opacity 0.2s ease;
   letter-spacing: 0.02em;
+  position: relative;
 }
 
-.cpi__btn-cart:hover {
+.cpi__btn-cart:hover:not([disabled]) {
   opacity: 0.85;
+}
+
+.cpi__btn-cart[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cpi__btn-cart .loading__spinner {
+  display: none;
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cpi__btn-cart.loading .loading__spinner {
+  display: block;
 }
 
 /* ——— Divider ——— */
@@ -318,58 +453,67 @@
   display: block;
 }
 
-/* ——— Tabs ——— */
+/* ——— Tabs / Accordions ——— */
 
 .cpi__tabs {
-  display: block;
-}
-
-.cpi__tabs-nav {
   display: flex;
+  flex-direction: column;
+}
+
+/* Mobile: accordion */
+
+.cpi__tab-item {
   border-bottom: 1px solid rgba(49, 51, 30, 0.15);
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
 }
 
-.cpi__tabs-nav::-webkit-scrollbar {
-  display: none;
+.cpi__tab-item:first-child {
+  border-top: 1px solid rgba(49, 51, 30, 0.15);
 }
 
-.cpi__tabs-btn {
-  flex: 1;
-  min-width: max-content;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  padding: 1.2rem 1rem;
+.cpi__tab-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.4rem 0;
   font-family: 'Figtree', system-ui, sans-serif;
   font-size: 1.6rem;
   font-weight: 400;
   color: rgba(49, 51, 30, 0.5);
   cursor: pointer;
-  text-align: center;
-  transition: color 0.2s ease;
-  margin-bottom: -1px;
-  white-space: nowrap;
+  list-style: none;
+  user-select: none;
 }
 
-.cpi__tabs-btn.is-active {
+.cpi__tab-summary::-webkit-details-marker {
+  display: none;
+}
+
+.cpi__tab-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.cpi__tab-item[open] .cpi__tab-icon {
+  transform: rotate(-135deg);
+}
+
+.cpi__tab-item[open] > .cpi__tab-summary {
   color: #31331e;
-  border-bottom-color: #31331e;
 }
 
 .cpi__tab-panel {
-  padding: 2rem 0;
+  padding: 1.2rem 0 2rem;
   font-family: 'Figtree', system-ui, sans-serif;
   font-size: 1.4rem;
   font-weight: 400;
   color: rgba(49, 51, 30, 0.75);
   line-height: 1.6;
-}
-
-.cpi__tab-panel.is-hidden {
-  display: none;
 }
 
 .cpi__tab-panel p {
@@ -378,6 +522,66 @@
 
 .cpi__tab-panel p:last-child {
   margin-bottom: 0;
+}
+
+/* Desktop: override to tabs */
+
+@media screen and (min-width: 990px) {
+  .cpi__tab-item {
+    border: none;
+  }
+
+  .cpi__tab-item:first-child {
+    border: none;
+  }
+
+  .cpi__tab-summary {
+    display: none;
+  }
+
+  .cpi__tab-panel {
+    display: none;
+    padding: 2rem 0;
+  }
+
+  .cpi__tab-panel.is-active {
+    display: block;
+  }
+
+  .cpi__tabs-desktop-nav {
+    display: flex;
+    border-bottom: 1px solid rgba(49, 51, 30, 0.15);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cpi__tabs-desktop-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cpi__tabs-btn {
+    flex: 1;
+    min-width: max-content;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 1.2rem 1rem;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: rgba(49, 51, 30, 0.5);
+    cursor: pointer;
+    text-align: center;
+    transition: color 0.2s ease;
+    margin-bottom: -1px;
+    white-space: nowrap;
+  }
+
+  .cpi__tabs-btn.is-active {
+    color: #31331e;
+    border-bottom-color: #31331e;
+  }
 }
 
 /* ——— Section padding ——— */
