@@ -117,14 +117,14 @@
     grid-template-columns: 1fr 1fr;
     align-items: start;
   }
+
+  .cpi__gallery {
+    position: sticky;
+    top: 0;
+  }
 }
 
 /* ——— Gallery ——— */
-
-.cpi__gallery {
-  position: sticky;
-  top: 0;
-}
 
 .cpi__gallery-main {
   aspect-ratio: 1 / 1;

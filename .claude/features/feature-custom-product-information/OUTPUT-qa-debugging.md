@@ -12,9 +12,15 @@ Implementation plan: `.claude/features/feature-custom-product-information/OUTPUT
 
 ---
 
-## Current Round (Round 5)
+## Current Round (Round 6)
 
 Status: Testing
+
+### Mobile layout
+
+- [ ] Gallery image does NOT stick to the top of the viewport when scrolling on mobile — it scrolls normally with the page
+- [ ] On mobile, gallery (image + thumbnails) appears above the info panel and scrolls naturally
+- [ ] On desktop (≥990px), gallery still sticks while scrolling through the info panel
 
 ### Fonts
 
@@ -138,6 +144,31 @@ Status: Testing
 ---
 
 ## Previous Rounds
+
+### Round 5
+
+#### [PASS] Fonts
+#### [PASS] Product title & pricing
+#### [PASS] Gallery
+#### [PASS] Variant selector
+#### [PASS] Variant change — live updates
+#### [PASS] Add to Cart
+#### [PASS] Benefits grid
+#### [PASS] Social proof
+#### [PASS] Tabs / Accordions — mobile
+#### [PASS] Tabs — desktop
+#### [PASS] Section padding
+#### [PASS] Responsive breakpoint transition
+#### [PASS] Section in template
+#### [PASS] Edge cases
+#### [PASS] Schema & customizer
+#### [PASS] Accessibility
+
+#### [FAIL] Section not mobile friendly
+**User feedback:** "the section is not mobile friendly"
+**Fix:** `position: sticky; top: 0` was applied to `.cpi__gallery` on all screen sizes. On mobile (single-column layout), this caused the gallery image to pin to the top of the viewport while the user scrolled through the info panel — completely broken scroll behavior. Moved the sticky rule inside the `@media screen and (min-width: 990px)` block so it only applies on the two-column desktop layout.
+
+---
 
 ### Round 1
 
