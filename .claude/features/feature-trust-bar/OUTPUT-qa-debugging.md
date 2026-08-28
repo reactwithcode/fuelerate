@@ -61,7 +61,7 @@ Status: Testing
 - [ ] Gap between stacked items is small (~5px)
 - [ ] Horizontal padding is ~19px left and right (fixed, from Figma)
 - [ ] Vertical padding is ~23px top and bottom
-- [ ] Label font is automatically 4px smaller than the desktop setting (default 16px)
+- [make label font become normal] Label font is automatically 4px smaller than the desktop setting (default 16px)
 - [ ] Icon size matches the customizer setting on mobile
 
 ### Accessibility
