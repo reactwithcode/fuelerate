@@ -23,7 +23,7 @@ The 3 rounds ensure we don't jump straight into building without questioning the
 Read and understand:
 
 1. **Feature spec** — `.claude/features/[feature-name]/feature.md` — the user's rough brief
-2. **Reference material** — `.claude/features/[feature-name]/reference/` — any designs, screenshots, notes, or images the user uploaded. If images exist, analyze them carefully — they often contain more information than the written brief.
+2. **Reference material** — `.claude/features/[feature-name]/reference/` — any designs, screenshots, notes, or images the user uploaded. If images exist, analyze them carefully — they often contain more information than the written brief. If `feature.md` contains a Figma URL, use the figma-context MCP tool to fetch live layout, spacing, and styling data for that frame rather than relying on static screenshots alone.
 3. **Theme analysis** — `.claude/context/OUTPUT-initial-theme-analysis.md` — to understand what already exists in the theme that's relevant
 4. **Project log** — `.claude/context/OUTPUT-project-log.md` — for decisions that might affect this feature
 5. **Other feature summaries** — if relevant, scan the summary section at the top of other `OUTPUT-implementation-plan.md` files to check for dependencies or overlap
