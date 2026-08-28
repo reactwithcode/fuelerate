@@ -5,7 +5,7 @@
 .trust-bar__inner {
   max-width: 1178px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  /* horizontal padding on desktop is output via section-id style block from padding_horizontal setting */
 }
 
 .trust-bar__items {
@@ -42,10 +42,6 @@
 }
 
 @media screen and (max-width: 749px) {
-  .trust-bar__inner {
-    padding: 0;
-  }
-
   .trust-bar__items {
     flex-direction: column;
     align-items: flex-start;
