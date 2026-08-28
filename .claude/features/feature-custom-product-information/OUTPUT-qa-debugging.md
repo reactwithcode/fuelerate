@@ -87,7 +87,7 @@ Status: Testing
 ### Tabs — desktop (≥990px)
 
 - [ ] Horizontal tab nav row appears with one button per tab block
-- [ ] First tab is active (underlined) on load and its panel is visible
+- [tabs doesn't like on expected-tab.png on the reference folder] First tab is active (underlined) on load and its panel is visible
 - [ ] Clicking a tab button activates it and shows its panel, deactivating others
 - [ ] Inactive tabs are greyed out
 - [ ] Tab nav scrolls horizontally if labels overflow (no horizontal page scroll)
@@ -117,7 +117,7 @@ Status: Testing
 - [ ] "Product title" text field no longer appears in the customizer
 - [ ] All remaining settings are present: description, limited stock toggle/label, viewers text, benefits heading, button text, social proof heading, section padding
 - [ ] Button label ("ADD TO CART") can be changed via the customizer setting
-- [ ] Section padding (top/bottom) sliders work and adjust spacing
+- [give padding/margin left and right to the section, looks current-result.png fix it] Section padding (top/bottom) sliders work and adjust spacing
 
 ### Accessibility
 
