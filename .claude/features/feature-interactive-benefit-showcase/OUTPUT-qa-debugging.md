@@ -18,9 +18,9 @@ Status: Testing
 
 ### Core behavior
 
-- [ ] Page loads — first category pill is highlighted (dark olive background, white text)
+- [width of each category pill should not same, looks the expected-result.png on reference folder] Page loads — first category pill is highlighted (dark olive background, white text)
 - [ ] Page loads — first category's image is visible in the centre column
-- [ ] Page loads — first category's title, description, bullets, and CTA appear in the dark right panel
+- [use Recoleta as the font for all text] Page loads — first category's title, description, bullets, and CTA appear in the dark right panel
 - [ ] Clicking the second pill — second pill becomes active, first loses active style
 - [ ] Clicking the second pill — centre image changes to the second block's image
 - [ ] Clicking the second pill — right panel content updates to the second block's content
@@ -47,7 +47,7 @@ Status: Testing
 - [ ] Only one category can be open at a time on mobile
 - [ ] Centre image column is not visible on mobile
 - [ ] Right arrow is not visible on mobile
-- [ ] Detail card content (title, description, bullets, CTA) matches the block's schema settings
+- [category title, description, bullet points and link icon on Benefit category doesn't looks like on expected-result.png] Detail card content (title, description, bullets, CTA) matches the block's schema settings
 
 ### Desktop layout (test at 1200px viewport width)
 
@@ -56,7 +56,7 @@ Status: Testing
 - [ ] Active pill has dark olive background (`#31331e`) with white text
 - [ ] Inactive pills have transparent background with dark olive border and text
 - [ ] Detail panel background is dark olive (`#31331e`) with white text
-- [ ] Right arrow is visible in the panel
+- [add left arrow too, give #fff background color. looks the expected-result.png on reference folder] Right arrow is visible in the panel
 
 ### Accessibility
 
@@ -74,7 +74,7 @@ Status: Testing
 - [ ] Removing a block — the pill and its panel are removed
 - [ ] Editing a block's title — pill label and panel heading update in the live preview
 - [ ] Editing a block's description — panel description updates in the live preview
-- [ ] Uploading a category image — image appears in the centre column when that block is active
+- [Make size smaller and add setting to change the width. looks the expected-result.png on reference folder] Uploading a category image — image appears in the centre column when that block is active
 - [ ] Uploading an icon image — icon appears inside the pill alongside the title
 - [ ] Padding top / padding bottom settings — section spacing adjusts correctly
 - [ ] Preset ("Interactive Benefit Showcase") available when adding the section — drops in with 6 pre-filled blocks
