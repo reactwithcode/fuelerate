@@ -96,6 +96,15 @@
 
 .cpi {
   background-color: #f4f3ee;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .cpi {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
 }
 
 .cpi__layout {
@@ -460,6 +469,11 @@
   flex-direction: column;
 }
 
+/* Desktop nav: always in DOM, hidden on mobile via CSS */
+.cpi__tabs-desktop-nav {
+  display: none;
+}
+
 /* Mobile: accordion */
 
 .cpi__tab-item {
@@ -546,9 +560,34 @@
   margin-bottom: 0;
 }
 
-/* Desktop: override to tabs */
+/* Desktop: switch to tab nav */
 
 @media screen and (min-width: 990px) {
+  /* Show desktop nav, hide accordion chrome */
+  .cpi__tabs-desktop-nav {
+    display: flex;
+    position: relative;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1.6rem;
+  }
+
+  .cpi__tabs-desktop-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Connecting line behind dots and pill */
+  .cpi__tabs-desktop-nav::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(49, 51, 30, 0.2);
+  }
+
   .cpi__tab-item {
     border: none;
   }
@@ -561,6 +600,7 @@
     display: none;
   }
 
+  /* Panels: only the active one shows */
   .cpi__tab-panel {
     display: none;
     padding: 2rem 0;
@@ -570,39 +610,51 @@
     display: block;
   }
 
-  .cpi__tabs-desktop-nav {
-    display: flex;
-    border-bottom: 1px solid rgba(49, 51, 30, 0.15);
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .cpi__tabs-desktop-nav::-webkit-scrollbar {
-    display: none;
-  }
-
   .cpi__tabs-btn {
     flex: 1;
     min-width: max-content;
     background: none;
     border: none;
-    border-bottom: 2px solid transparent;
-    padding: 1.2rem 1rem;
+    padding: 0 1.2rem 1.6rem;
     font-family: 'Figtree', system-ui, sans-serif;
     font-size: 1.6rem;
     font-weight: 400;
     color: rgba(49, 51, 30, 0.5);
     cursor: pointer;
     text-align: center;
-    transition: color 0.2s ease;
-    margin-bottom: -1px;
     white-space: nowrap;
+    position: relative;
+    transition: color 0.2s ease;
   }
 
+  /* Inactive: small dot on the line */
+  .cpi__tabs-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -0.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: rgba(49, 51, 30, 0.25);
+    z-index: 1;
+    transition: all 0.2s ease;
+  }
+
+  /* Active: pill spanning the button width */
   .cpi__tabs-btn.is-active {
     color: #31331e;
-    border-bottom-color: #31331e;
+    font-weight: 700;
+  }
+
+  .cpi__tabs-btn.is-active::after {
+    left: 1.2rem;
+    right: 1.2rem;
+    width: auto;
+    transform: none;
+    border-radius: 5rem;
+    background: #31331e;
   }
 }
 

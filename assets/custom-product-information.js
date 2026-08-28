@@ -88,35 +88,13 @@ if (!customElements.get('product-info-tabs')) {
     'product-info-tabs',
     class ProductInfoTabs extends HTMLElement {
       connectedCallback() {
-        this._mediaQuery = window.matchMedia('(min-width: 990px)');
-        this._onMQChange = this._handleLayout.bind(this);
-        this._mediaQuery.addEventListener('change', this._onMQChange);
-        this._handleLayout();
-      }
-
-      disconnectedCallback() {
-        this._mediaQuery.removeEventListener('change', this._onMQChange);
-        this._navEl?.remove();
-      }
-
-      _handleLayout() {
-        if (this._mediaQuery.matches) {
-          this._initTabs();
-        } else {
-          this._destroyTabs();
-        }
-      }
-
-      _initTabs() {
-        if (this._navEl) return;
-
-        const items = Array.from(this.querySelectorAll('.cpi__tab-item'));
+        this._items = Array.from(this.querySelectorAll('.cpi__tab-item'));
 
         this._navEl = document.createElement('div');
         this._navEl.className = 'cpi__tabs-desktop-nav';
         this._navEl.setAttribute('role', 'tablist');
 
-        items.forEach((item, i) => {
+        this._items.forEach((item, i) => {
           const summary = item.querySelector('.cpi__tab-summary');
           const panel = item.querySelector('.cpi__tab-panel');
           const label = summary?.childNodes[0]?.textContent.trim() || `Tab ${i + 1}`;
@@ -128,18 +106,22 @@ if (!customElements.get('product-info-tabs')) {
           btn.setAttribute('aria-controls', panel?.id || '');
           btn.setAttribute('id', `cpi-deskbtn-${item.id}`);
           btn.textContent = label;
-          btn.addEventListener('click', () => this._activate(items, i));
+          btn.addEventListener('click', () => this._activate(i));
           this._navEl.appendChild(btn);
         });
 
         this.prepend(this._navEl);
-        this._activate(items, 0);
+        this._activate(0);
       }
 
-      _activate(items, activeIndex) {
-        const navBtns = Array.from(this._navEl?.querySelectorAll('.cpi__tabs-btn') || []);
+      disconnectedCallback() {
+        this._navEl?.remove();
+      }
 
-        items.forEach((item, i) => {
+      _activate(activeIndex) {
+        const navBtns = Array.from(this._navEl.querySelectorAll('.cpi__tabs-btn'));
+
+        this._items.forEach((item, i) => {
           const panel = item.querySelector('.cpi__tab-panel');
           const isActive = i === activeIndex;
           panel?.classList.toggle('is-active', isActive);
@@ -147,13 +129,6 @@ if (!customElements.get('product-info-tabs')) {
           navBtns[i]?.setAttribute('aria-selected', String(isActive));
           item.open = isActive;
         });
-      }
-
-      _destroyTabs() {
-        if (!this._navEl) return;
-        this._navEl.remove();
-        this._navEl = null;
-        this.querySelectorAll('.cpi__tab-panel').forEach((p) => p.classList.remove('is-active'));
       }
     }
   );

@@ -12,7 +12,7 @@ Implementation plan: `.claude/features/feature-custom-product-information/OUTPUT
 
 ---
 
-## Current Round (Round 2)
+## Current Round (Round 4)
 
 Status: Testing
 
@@ -35,8 +35,8 @@ Status: Testing
 - [ ] Main image shows the schema image picker image when set
 - [ ] When no schema image is set, main image falls back to `product.featured_image`
 - [ ] When neither is set, the placeholder SVG shows
-- [ ] When no gallery image blocks are added, thumbnail grid shows the remaining product images automatically (from `product.images` offset 1)
-- [ ] When gallery image blocks are added, those take priority over product images in the thumbnail grid
+- [ ] When no gallery image blocks are added, thumbnail grid shows the remaining product images automatically
+- [ ] When gallery image blocks are added, those take priority over product images
 
 ### Variant selector
 
@@ -77,25 +77,32 @@ Status: Testing
 
 ### Tabs / Accordions — mobile (<990px)
 
-- [ ] Tabs render as accordions (no horizontal tab nav visible)
+- [current tabs doesn't look like expected tabs. looks newest-current-tabs.png and newest-expected-tabs.png. there is line between tabs not below tabs] Tabs render as accordions — no desktop tab nav visible on mobile
 - [ ] First accordion is open on load
 - [ ] Clicking a summary opens that accordion
 - [ ] Multiple accordions can be open simultaneously
-- [ ] Icon shows as "+" when closed, "−" (horizontal bar only) when open — matches reference design
+- [ ] Icon shows as "+" when closed, "−" when open
 - [ ] Tab section hides completely when no tab blocks exist
 
 ### Tabs — desktop (≥990px)
 
 - [ ] Horizontal tab nav row appears with one button per tab block
-- [tabs doesn't like on expected-tab.png on the reference folder] First tab is active (underlined) on load and its panel is visible
-- [ ] Clicking a tab button activates it and shows its panel, deactivating others
-- [ ] Inactive tabs are greyed out
-- [ ] Tab nav scrolls horizontally if labels overflow (no horizontal page scroll)
+- [ ] Active tab shows a dark pill indicator below the label — matches reference (expected-tabs-result.png)
+- [ ] Inactive tabs show a small dot indicator
+- [ ] A thin line connects all the indicators horizontally
+- [ ] Clicking a tab button activates it (pill) and deactivates others (dots)
+- [ ] Active tab label is bold, inactive labels are muted
+- [ ] Tab nav scrolls horizontally if labels overflow
+
+### Section padding
+
+- [ ] Section has left/right padding on mobile (1.5rem each side)
+- [ ] Section has left/right padding on tablet/desktop (5rem each side) — no longer edge-to-edge
 
 ### Responsive breakpoint transition
 
-- [ ] Resizing from desktop to mobile (cross 990px threshold) switches from tabs to accordions without JS errors
-- [ ] Resizing from mobile to desktop switches back to tabs correctly
+- [ ] Resizing from desktop to mobile: desktop nav hides, accordion chrome appears — no JS errors
+- [ ] Resizing from mobile to desktop: desktop nav appears, accordion chrome hides — no JS errors
 
 ### Section in template
 
@@ -117,7 +124,7 @@ Status: Testing
 - [ ] "Product title" text field no longer appears in the customizer
 - [ ] All remaining settings are present: description, limited stock toggle/label, viewers text, benefits heading, button text, social proof heading, section padding
 - [ ] Button label ("ADD TO CART") can be changed via the customizer setting
-- [give padding/margin left and right to the section, looks current-result.png fix it] Section padding (top/bottom) sliders work and adjust spacing
+- [ ] Section padding (top/bottom) sliders work and adjust spacing
 
 ### Accessibility
 
@@ -146,11 +153,10 @@ Status: Testing
 
 #### [FAIL] Gallery thumbnail grid shows other product images
 **User feedback:** "other product images don't show up, show them. looks reference folder"
-**Fix:** Added `elsif product.images.size > 1` fallback to the gallery grid — when no `gallery_image` blocks are configured, the thumbnail grid now automatically renders `product.images` starting from index 1 (skipping the featured image already shown as main).
+**Fix:** Added `elsif product.images.size > 1` fallback — when no gallery blocks are configured, the grid automatically renders `product.images` starting from index 1.
 
 #### [PASS] When no schema image set, falls back to product.featured_image
 #### [PASS] Placeholder SVG shows when no image exists
-
 #### [PASS] Variant selector hidden on single-variant product
 #### [PASS] Variant selector shows pill buttons for multi-variant
 #### [PASS] Selected variant highlighted on load
@@ -160,10 +166,33 @@ Status: Testing
 #### [PASS] Benefits grid shows/hides correctly
 #### [PASS] Social proof shows/hides correctly
 
-#### [FAIL] Tabs/accordions mobile styling matches reference
+#### [FAIL] Mobile tabs styling doesn't match reference
 **User feedback:** "tabs doesn't look like on the reference folder"
-**Fix:** Replaced the chevron (rotated corner) icon with a `+`/`−` style using CSS pseudo-elements — vertical bar disappears when the accordion is open, leaving only the horizontal bar. Matches the reference design's accordion icon style.
+**Fix:** Replaced chevron icon with `+`/`−` using CSS pseudo-elements.
 
 #### [PASS] Desktop tab nav appears and functions correctly
 #### [PASS] Section appears in product template
 #### [PASS] Schema cleaned (pricing fields removed)
+
+---
+
+### Round 2
+
+#### [PASS] Gallery — thumbnail grid now shows product images automatically
+#### [PASS] Mobile tabs — +/− icon correct
+
+#### [FAIL] Desktop tabs — styling doesn't match expected-tab.png
+**User feedback:** "tabs doesn't like on expected-tab.png on the reference folder"
+**Fix:** Replaced plain underline with pill+dot indicator connected by a thin horizontal line. Active tab gets dark pill, inactive get small dot. Active label is bold.
+
+#### [FAIL] Section padding — section was edge-to-edge
+**User feedback:** "give padding/margin left and right to the section, looks current-result.png fix it"
+**Fix:** Added `padding-left: 1.5rem; padding-right: 1.5rem` at mobile, `5rem` each side at 750px+.
+
+---
+
+### Round 3
+
+#### [FAIL] Mobile tabs — desktop tab nav visible on mobile viewport
+**User feedback:** "current tabs doesn't looks on the reference folder. looks current-tabs-result.png and expected-tabs-result.png"
+**Fix:** Replaced `matchMedia` approach with CSS-controlled visibility. Desktop nav is always built in JS on `connectedCallback` but hidden via `display: none` at mobile (no media query). The `@media (min-width: 990px)` CSS sets `display: flex` to show it. Breakpoint transitions now handled entirely by CSS, eliminating the Shopify editor iframe `matchMedia` reliability issue.
