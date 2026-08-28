@@ -1,0 +1,124 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400&display=swap">
+
+{{ 'section-trust-bar.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% if section.blocks.size > 0 %}
+  <div class="trust-bar section-{{ section.id }}-padding">
+    <div class="trust-bar__inner">
+      <ul class="trust-bar__items" role="list">
+        {% for block in section.blocks %}
+          <li class="trust-bar__item" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}
+              <div class="trust-bar__icon">
+                <img
+                  src="{{ block.settings.icon | image_url: width: 72 }}"
+                  width="36"
+                  height="36"
+                  alt=""
+                  loading="eager"
+                >
+              </div>
+            {% endif %}
+            {% if block.settings.label != blank %}
+              <p class="trust-bar__label">{{ block.settings.label }}</p>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#31331e"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 28
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Trust signal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Bar",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": { "label": "90-Day Results-Backed Guarantee" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "Designed in USA" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "Ships in 2–6 Days" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "A Tree Planted per Order" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

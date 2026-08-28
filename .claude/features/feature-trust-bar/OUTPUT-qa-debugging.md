@@ -21,7 +21,7 @@ Status: Testing
 - [ ] Section appears in the customizer Add Section panel under the name "Trust Bar"
 - [ ] Dropping the section onto a page renders a dark olive strip
 - [ ] Default preset pre-fills 4 items with the correct label text (no icons by default)
-- [ ] All 4 labels display correctly: "90-Day Results-Backed Guarantee", "Designed in USA", "Ships in 2–6 Days", "A Tree Planted per Order"
+- [add setting to change label size and color] All 4 labels display correctly: "90-Day Results-Backed Guarantee", "Designed in USA", "Ships in 2–6 Days", "A Tree Planted per Order"
 - [ ] Uploading an icon image to a block renders the icon at 36×36px next to the label
 - [ ] Icon and label are vertically centered and separated by 8px gap
 
