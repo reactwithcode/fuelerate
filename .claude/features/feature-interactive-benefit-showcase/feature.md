@@ -5,7 +5,7 @@
 Build a custom product page section, matching this Figma design desktop:
 https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-1744&t=4jOoUmIxKiys88Dy-0, https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-2763&t=4jOoUmIxKiys88Dy-0, https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-2870&t=4jOoUmIxKiys88Dy-0, https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-2923&t=4jOoUmIxKiys88Dy-0, https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-2975&t=4jOoUmIxKiys88Dy-0, https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-3027&t=4jOoUmIxKiys88Dy-0, https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-3079&t=4jOoUmIxKiys88Dy-0
 
-Build a custom product page section, matching this Figma design desktop and mobile:
+Build a custom product page section, matching this Figma design mobile:
 https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-3543&t=4jOoUmIxKiys88Dy-0
 
 ### Feature Overview

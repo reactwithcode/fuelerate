@@ -1,6 +1,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap">
 
 {{ 'section-interactive-benefit-showcase.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'benefit-showcase.js' | asset_url }}" defer="defer"></script>
@@ -32,6 +32,7 @@
 <benefit-showcase>
   <div class="ibs section-{{ section.id }}-padding{% unless has_images %} ibs--no-images{% endunless %}">
 
+    {%- comment -%} Left column — heading, subtext, pill list {%- endcomment -%}
     <div class="ibs__left">
       {%- if section.settings.heading != blank -%}
         <h2 class="ibs__heading">{{ section.settings.heading | escape }}</h2>
@@ -65,6 +66,7 @@
               <span class="ibs__pill-label">{{ block.settings.title | default: 'Benefit' | escape }}</span>
             </button>
 
+            {%- comment -%} Mobile inline detail card {%- endcomment -%}
             <div
               class="ibs__mobile-card{% if forloop.first %} ibs__mobile-card--active{% endif %}"
               data-index="{{ forloop.index0 }}"
@@ -86,9 +88,9 @@
                 </ul>
               {%- endif -%}
               {%- if block.settings.cta_url != blank -%}
-                <a class="ibs__cta" href="{{ block.settings.cta_url }}">
-                  {{ block.settings.cta_text | default: 'Explore the science behind these benefits' | escape }}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                <a class="ibs__cta-area" href="{{ block.settings.cta_url }}">
+                  <svg class="ibs__cta-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M9 3v10.5l-3 5.5a2.5 2.5 0 0 0 2.1 3.5h9.8a2.5 2.5 0 0 0 2.1-3.5L15 13.5V3"/><path d="M9 16.5h6"/></svg>
+                  <span class="ibs__cta-text">{{ block.settings.cta_text | default: 'Explore the science behind these benefits' | escape }}</span>
                 </a>
               {%- endif -%}
             </div>
@@ -98,13 +100,14 @@
       </ul>
     </div>
 
+    {%- comment -%} Centre column — category images + prev arrow {%- endcomment -%}
     <div class="ibs__image-col">
       {%- for block in section.blocks -%}
         {%- if block.settings.category_image != blank -%}
           <img
             src="{{ block.settings.category_image | image_url: width: 800 }}"
             srcset="{{ block.settings.category_image | image_url: width: 400 }} 400w, {{ block.settings.category_image | image_url: width: 600 }} 600w, {{ block.settings.category_image | image_url: width: 800 }} 800w"
-            sizes="(min-width: 990px) 35vw, 100vw"
+            sizes="(min-width: 990px) var(--ibs-image-col-width, 35vw), 100vw"
             class="ibs__image{% if forloop.first %} ibs__image--active{% endif %}"
             data-index="{{ forloop.index0 }}"
             alt="{{ block.settings.title | escape }}"
@@ -114,8 +117,14 @@
           >
         {%- endif -%}
       {%- endfor -%}
+      {%- if section.blocks.size > 1 -%}
+        <button class="ibs__arrow ibs__arrow--prev" aria-label="Previous benefit" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+      {%- endif -%}
     </div>
 
+    {%- comment -%} Right column — dark detail panel + next arrow {%- endcomment -%}
     <div class="ibs__panel">
       {%- for block in section.blocks -%}
         <div
@@ -139,23 +148,18 @@
             </ul>
           {%- endif -%}
           {%- if block.settings.cta_url != blank -%}
-            <a class="ibs__cta" href="{{ block.settings.cta_url }}">
-              {{ block.settings.cta_text | default: 'Explore the science behind these benefits' | escape }}
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            <a class="ibs__cta-area" href="{{ block.settings.cta_url }}">
+              <svg class="ibs__cta-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M9 3v10.5l-3 5.5a2.5 2.5 0 0 0 2.1 3.5h9.8a2.5 2.5 0 0 0 2.1-3.5L15 13.5V3"/><path d="M9 16.5h6"/></svg>
+              <span class="ibs__cta-text">{{ block.settings.cta_text | default: 'Explore the science behind these benefits' | escape }}</span>
             </a>
           {%- endif -%}
         </div>
       {%- endfor -%}
 
       {%- if section.blocks.size > 1 -%}
-        <div class="ibs__arrows">
-          <button class="ibs__arrow ibs__arrow--prev" aria-label="Previous benefit" type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-          </button>
-          <button class="ibs__arrow ibs__arrow--next" aria-label="Next benefit" type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </button>
-        </div>
+        <button class="ibs__arrow ibs__arrow--next" aria-label="Next benefit" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
       {%- endif -%}
     </div>
 
@@ -172,13 +176,13 @@
       "type": "text",
       "id": "heading",
       "label": "Section heading",
-      "default": "The Science Behind Every Benefit"
+      "default": "One Natural Solution. Whole-Body Benefits."
     },
     {
       "type": "textarea",
       "id": "subtext",
       "label": "Section subtext",
-      "default": "Tap a category to explore the evidence."
+      "default": "Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. Backed by 20+ years of research and thousands of customer results."
     },
     {
       "type": "header",
@@ -192,7 +196,7 @@
       "max": 55,
       "step": 5,
       "unit": "%",
-      "default": 35
+      "default": 25
     },
     {
       "type": "header",
@@ -206,7 +210,7 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "default": 48
+      "default": 0
     },
     {
       "type": "range",
@@ -216,7 +220,7 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "default": 48
+      "default": 0
     }
   ],
   "blocks": [
@@ -228,7 +232,7 @@
           "type": "image_picker",
           "id": "icon",
           "label": "Pill icon",
-          "info": "Small icon shown inside the pill. Recommended: 48×48px square, dark on transparent background."
+          "info": "Small icon shown inside the pill. Recommended: 48×48px, dark on transparent background."
         },
         {
           "type": "text",
@@ -265,7 +269,7 @@
           "type": "image_picker",
           "id": "category_image",
           "label": "Category image",
-          "info": "Shown in the centre column when this benefit is active. Recommended: portrait orientation."
+          "info": "Shown in the centre column when this benefit is active."
         }
       ]
     }
@@ -276,39 +280,27 @@
       "blocks": [
         {
           "type": "benefit",
-          "settings": {
-            "title": "Neurological & Mental Health"
-          }
+          "settings": { "title": "Neurological & Mental Health" }
         },
         {
           "type": "benefit",
-          "settings": {
-            "title": "Musculoskeletal Pain & Inflammation"
-          }
+          "settings": { "title": "Musculoskeletal Pain & Inflammation" }
         },
         {
           "type": "benefit",
-          "settings": {
-            "title": "Cardiovascular & Circulatory Health"
-          }
+          "settings": { "title": "Cardiovascular & Circulatory Health" }
         },
         {
           "type": "benefit",
-          "settings": {
-            "title": "Immune & Inflammatory Conditions"
-          }
+          "settings": { "title": "Immune & Inflammatory Conditions" }
         },
         {
           "type": "benefit",
-          "settings": {
-            "title": "Hormonal & Metabolic Balance"
-          }
+          "settings": { "title": "Hormonal & Metabolic Balance" }
         },
         {
           "type": "benefit",
-          "settings": {
-            "title": "Specialized Support"
-          }
+          "settings": { "title": "Specialized Support" }
         }
       ]
     }
