@@ -326,11 +326,13 @@
         "benefit_gGPnAm": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/showcase_benefit_icon_6.png",
             "title": "Specialized Support",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "description": "A daily grounding practice can also support:",
+            "bullets": "Injury & post-surgery recovery\nPregnancy support (with doctor approval)\nJet lag & circadian disruption\nSkin health (eczema, psoriasis)\nAthletic performance & muscle recovery",
             "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
+            "cta_url": "https://terratherapy.co/products/terra-therapy-grounding-socks?srsltid=AfmBOopjs9RKXX0sPA4zUfaCdeRDHwpwjrEq5IU2YZuWXUT-uMMH0zmw",
+            "category_image": "shopify://shop_images/showcase_benefit_category_6.png"
           }
         }
       },
