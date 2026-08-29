@@ -85,7 +85,14 @@ if (!customElements.get('comparison-table')) {
 
         const cartData = await response.json();
         const cartDrawer = document.querySelector('cart-drawer');
-        if (cartDrawer) cartDrawer.renderContents(cartData);
+        if (cartDrawer) {
+          cartDrawer.renderContents(cartData);
+          // renderContents() only clears is-empty from .drawer__inner — the outer
+          // <cart-drawer> element keeps it too (see product-form.js's add-to-cart
+          // flow, which clears it the same way), and component-cart-drawer.css
+          // keys off that outer class to hide the populated cart view.
+          cartDrawer.classList.remove('is-empty');
+        }
 
       } catch {
         this.showCartError();
