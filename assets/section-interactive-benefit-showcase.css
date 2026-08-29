@@ -54,10 +54,14 @@ benefit-showcase {
   /* 4th column (67px) = panel's right margin, keeps left col at ~462px matching Figma */
   grid-template-columns: 1fr var(--ibs-image-col-width, 23%) minmax(340px, 580px) 67px;
   /* Row 1: intro heading/subtext (auto height). Row 2: pills + image (fixed
-     556px, matching Figma's panel height) — a fixed row keeps the image/panel
-     a consistent height regardless of how the intro text wraps at different
-     viewport widths; leaving it as 1fr made it grow/shrink with the intro. */
-  grid-template-rows: auto 556px;
+     460px) — a fixed row keeps the image/panel a consistent height regardless
+     of how the intro text wraps at different viewport widths; leaving it as
+     1fr made it grow/shrink with the intro. Tightened from Figma's raw 556px
+     panel height — since the panel spans this row plus the intro row above
+     it, using 556 here made the panel taller than Figma intended once the
+     intro's real (correctly-sized) height was added on top. Panel's internal
+     spacing (gaps/insets) is tightened to match so its content still fits. */
+  grid-template-rows: auto 460px;
   grid-template-areas:
     'intro intro panel .'
     'left  image panel .';
@@ -226,13 +230,14 @@ benefit-showcase {
 /* All panel-content items stacked — only active fades in */
 .ibs__panel-content {
   position: absolute;
-  /* Figma: 109px from panel sides, 76px from panel top (157px from section top - 81px panel offset), 96px from panel bottom */
-  inset: 76px 109px 96px 109px;
+  /* Figma specced 109px sides / 76px top / 96px bottom; tightened top/bottom
+     to fit the panel's reduced height (see .ibs grid-template-rows). */
+  inset: 56px 109px 64px 109px;
   opacity: 0;
   transition: opacity 0.25s ease;
   display: flex;
   flex-direction: column;
-  gap: 35px;
+  gap: 24px;
   overflow-y: auto;
   pointer-events: none;
 }
