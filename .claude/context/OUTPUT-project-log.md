@@ -7,6 +7,15 @@ This is the project's persistent memory. AI reads it at the start of every sessi
 - **Architectural choices** — Technical decisions that affect the project long-term
 - **Risks & open questions** — Things to watch out for in future development
 
+## 2026-08-29 — Comparison Table: Terra Therapy row was too dark (gradient end color fixed)
+
+User flagged the row as "too dark" vs. `.claude/features/feature-comparison-table/reference/desktop.png` / `mobile.png`. Rather than eyeball it, sampled actual pixel RGB values from those reference PNGs (Python/Pillow, temporarily installed then removed). Result: the row's dark end is a **dark forest green** (~`#41643a`, sampled consistently at the row's right edge on desktop), not the near-black `#31331e` (the theme's primary text/brand color) that had been reused for it since Round 2.
+- Replaced `#31331e` with `#41643a` as the gradient end-color / background-color fallback in all 3 places: desktop `.ct__row--ours`, and mobile `.ct__row--ours .ct__cell--solution` / `.ct__row--ours .ct__col-viewport`.
+- Also adjusted the desktop gradient stop from `60%` to `100%` — sampled data showed the color still gradually darkening past the 60% mark, not plateauing there.
+- **Note for future rounds**: `#31331e` is the theme's brand/text color and looks tempting to reuse for "dark olive," but the actual design wants a distinct, greener dark tone (`#41643a`) for this specific gradient — don't default back to `#31331e` here.
+
+**Not yet verified in a live theme preview** — no dev server available in this session.
+
 ## 2026-08-29 — Comparison Table: Terra Therapy row mobile chip fix (matched against live Figma node data)
 
 Compared `assets/section-comparison-table.css` against the actual Figma layer data (via `get_design_context`, not just screenshots) for node 1-2405 (desktop) and 1-4012 (mobile):
