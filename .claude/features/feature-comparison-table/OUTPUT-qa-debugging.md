@@ -20,7 +20,7 @@ Status: Testing
 
 - [ ] Section renders without errors on a Shopify page
 - [ ] Heading "Why We Are Really Different" is visible and styled correctly
-- [ ] Terra Therapy row shows the sage-to-olive gradient, rounded corners, and inset margin from the card edges (matching `reference/expected-result.png`)
+- [make Terra Therapy row gradiant color like on figma design and wider than the rows and table. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-2405&t=4jOoUmIxKiys88Dy-0 and https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0] Terra Therapy row shows the sage-to-olive gradient, rounded corners, and inset margin from the card edges (matching `reference/expected-result.png`)
 - [ ] Terra Therapy row icon (wing/fabric graphic) displays small and un-rotated above the logo, not cropped/rotated into a square
 - [ ] All 4 competitor rows render below the brand row
 - [ ] All 5 columns visible at once on desktop (Solution + How it works + What to consider + Cost over time + Side effects)
@@ -32,7 +32,7 @@ Status: Testing
 
 ### Cart button
 
-- [ ] ADD TO CART button renders with no visible border (border: none applied)
+- [doesn't add the product to the drawer cart] ADD TO CART button renders with no visible border (border: none applied)
 - [ ] Button does NOT render when no product is selected
 - [ ] Clicking the button adds the product to the cart
 - [ ] Cart drawer opens after a successful add
