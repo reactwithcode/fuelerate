@@ -258,6 +258,8 @@ benefit-showcase {
   gap: 24px;
   overflow-y: auto;
   pointer-events: none;
+  align-items: center;
+  justify-content: center;
 }
 
 .ibs__panel-content--active {
@@ -312,7 +314,6 @@ benefit-showcase {
   gap: 5px;
   color: #ffffff;
   text-decoration: none;
-  margin-top: auto;
 }
 
 .ibs__cta-area:hover {
