@@ -258,7 +258,7 @@ benefit-showcase {
   gap: 24px;
   overflow-y: auto;
   pointer-events: none;
-  align-items: center;
+  align-items: start;
   justify-content: center;
 }
 
