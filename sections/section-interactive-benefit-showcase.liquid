@@ -33,15 +33,20 @@
 <benefit-showcase>
   <div class="ibs section-{{ section.id }}-padding{% unless has_images %} ibs--no-images{% endunless %}">
 
-    {%- comment -%} Left column — heading, subtext, pill list {%- endcomment -%}
-    <div class="ibs__left">
-      {%- if section.settings.heading != blank -%}
-        <h2 class="ibs__heading">{{ section.settings.heading | escape }}</h2>
-      {%- endif -%}
-      {%- if section.settings.subtext != blank -%}
-        <p class="ibs__subtext">{{ section.settings.subtext | escape }}</p>
-      {%- endif -%}
+    {%- comment -%} Intro — heading + subtext, spans above the pill list and category image {%- endcomment -%}
+    {%- if section.settings.heading != blank or section.settings.subtext != blank -%}
+      <div class="ibs__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ibs__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtext != blank -%}
+          <p class="ibs__subtext">{{ section.settings.subtext | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
+    {%- comment -%} Left column — pill list {%- endcomment -%}
+    <div class="ibs__left">
       <ul class="ibs__list" role="tablist" aria-label="{{ section.settings.heading | default: 'Benefit categories' | escape }}">
         {%- for block in section.blocks -%}
           <li class="ibs__item" role="presentation" {{ block.shopify_attributes }}>
@@ -203,12 +208,12 @@
       "type": "range",
       "id": "image_height",
       "label": "Image height",
-      "info": "Height of the image as a percentage of the section. 56% leaves cream background above.",
-      "min": 20,
-      "max": 90,
+      "info": "Height of the image within its row, below the heading and subtext. 100% fills the row; lower values leave cream background under the image.",
+      "min": 60,
+      "max": 100,
       "step": 2,
       "unit": "%",
-      "default": 56
+      "default": 100
     },
     {
       "type": "header",
