@@ -266,11 +266,12 @@
         "benefit_4qwczt": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/showcase_benefit_icon_1_7057de19-2e14-46a6-afa9-53278c884ee0.png",
             "title": "Neurological & Mental Health",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "description": "Grounding helps calm and stabilize the nervous system, supporting those dealing with:",
+            "bullets": "Migraines & headaches\nNeuropathy & brain fog\nAnxiety, depression & mood swings\nADHD & focus issues\nInsomnia & disrupted sleep",
             "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
+            "cta_url": "https://lonestarneurology.net/others/the-link-between-mental-health-and-neurology/"
           }
         },
         "benefit_xkWiAJ": {
