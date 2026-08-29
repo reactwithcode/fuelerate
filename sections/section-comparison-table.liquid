@@ -16,8 +16,8 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-  {%- comment -%} Terra Therapy row background: merchant upload wins, otherwise fall back to the theme's default gradient graphic (matches Figma) {%- endcomment -%}
-  .section-{{ section.id }} .ct__row--ours {
+  {%- comment -%} Terra Therapy row background: merchant upload wins, otherwise fall back to the theme's default gradient graphic (matches Figma). Painted on ::before (not the row itself) so the row's own grid-template-columns stays identical to sibling rows and the column dividers stay aligned. {%- endcomment -%}
+  .section-{{ section.id }} .ct__row--ours::before {
     background-image: url('{% if section.settings.our_row_bg != blank %}{{ section.settings.our_row_bg | image_url: width: 1400 }}{% else %}{{ 'ct-row-bg-desktop.png' | asset_url }}{% endif %}');
   }
   @media screen and (max-width: 749px) {

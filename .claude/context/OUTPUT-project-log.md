@@ -7,6 +7,14 @@ This is the project's persistent memory. AI reads it at the start of every sessi
 - **Architectural choices** — Technical decisions that affect the project long-term
 - **Risks & open questions** — Things to watch out for in future development
 
+## 2026-08-29 — Comparison Table: fixed desktop column-divider misalignment on the Terra Therapy row
+
+User sent a screenshot showing the background-image fix from the previous entry actually worked (confirmed the gradient graphic renders correctly), but the row's internal vertical divider lines (between Solution/How it works/etc.) didn't line up with the header row's dividers above it.
+- **Root cause**: `.ct__row--ours` used `margin: 0 -20px` to bleed 20px past the white card on each side. Every row shares the same `.ct__row { grid-template-columns: 190px repeat(4, 1fr); }` definition, but that -20px margin makes *this row's own box* 40px wider than sibling rows — so the fixed `190px` Solution column lands correctly, but the `1fr` tracks after it compute to different absolute pixel positions than in the header/competitor rows, which stay at the card's normal width. Hence the visible divider misalignment.
+- **Fix**: stopped resizing the row itself. `.ct__row--ours` no longer has any margin/width override — it's exactly the same box size as every sibling row, so its grid (and thus its dividers) line up perfectly. The ~20px bleed + background image is now painted on a `.ct__row--ours::before` pseudo-element (`position: absolute; left: -20px; right: -20px`) sitting behind the row's content. Moved the Liquid `{% style %}` block's background-image rule from `.ct__row--ours` to `.ct__row--ours::before` to match.
+- **Confirmed live**: this session has an active `shopify theme dev --store developmet-test.myshopify.com` process (port 9292) — verified the compiled CSS served at `/cdn/shop/t/1/assets/section-comparison-table.css` already reflects the new `::before` rule.
+- **Note**: this section isn't placed in any committed template/JSON in this repo — it's only reachable via a live Theme Editor/customizer session. Screenshots from the user are the only way to visually verify changes; can't fetch the rendered page directly.
+
 ## 2026-08-29 — Comparison Table: fixed background-image cropping on desktop (cover → stretch)
 
 User reported the desktop Terra Therapy row still didn't match Figma after the previous change. Root cause: `background-size: cover` preserves aspect ratio and crops to fill — since the live row's actual width:height ratio won't exactly match the Figma-exported `ct-row-bg-desktop.png` (1313×116, sized off Figma's fixed 1440px canvas), it was cropping part of the gradient off the edges (likely losing some of the light-green start and/or dark-green end), leaving a narrower/duller-looking band than intended.

@@ -116,14 +116,28 @@
 }
 
 /* ── Our product row (highlighted) ── */
+/* The row itself keeps the exact same grid-template-columns box as every
+   sibling row (no margin/width change) so the column divider lines stay
+   vertically aligned with the header and competitor rows above/below it.
+   The ~20px bleed past the card edges is purely decorative, painted on a
+   ::before behind the row instead of resizing the row's own grid. */
 .ct__row--ours {
+  position: relative;
+  z-index: 1;
+}
+
+.ct__row--ours::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20px;
+  right: -20px;
   background-color: #41643a;
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  margin: 0 -20px;
   border-radius: 5px;
-  position: relative;
-  z-index: 1;
+  z-index: -1;
 }
 
 .ct__row--ours .ct__cell {
