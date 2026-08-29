@@ -67,13 +67,18 @@ if (!customElements.get('comparison-table')) {
         const response = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
+          body: JSON.stringify({
+            items: [{ id: variantId, quantity: 1 }],
+            sections: ['cart-drawer', 'cart-icon-bubble'],
+            sections_url: window.location.pathname
+          })
         });
 
         if (!response.ok) throw new Error('Cart error');
 
         const cartData = await response.json();
-        publish(PUB_SUB_EVENTS.cartUpdate, { source: 'product-form', cartData });
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer) cartDrawer.renderContents(cartData);
 
       } catch {
         this.showCartError();

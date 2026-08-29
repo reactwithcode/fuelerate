@@ -60,8 +60,14 @@
   background: #ffffff;
   border-radius: 5px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
+  /* overflow:hidden removed — Terra Therapy row extends beyond card edges */
 }
+
+/* Card corner rounding applied to cells instead of overflow:hidden */
+.ct__row--header .ct__cell--solution { border-top-left-radius: 5px; }
+.ct__row--header .ct__col-track .ct__cell:last-child { border-top-right-radius: 5px; }
+.ct__row--competitor:last-child .ct__cell--solution { border-bottom-left-radius: 5px; }
+.ct__row--competitor:last-child .ct__col-track .ct__cell:last-child { border-bottom-right-radius: 5px; }
 
 /* ─────────────────────────────────────────
    ROW & GRID  (desktop: all 5 cols in grid)
@@ -112,11 +118,11 @@
 /* ── Our product row (highlighted) ── */
 .ct__row--ours {
   background-color: #31331e;
-  background-image: linear-gradient(135deg, #7aa66f 0%, #31331e 100%);
-  background-size: cover;
-  background-position: center;
-  margin: 8px;
-  border-radius: 12px;
+  background-image: linear-gradient(90deg, #5a7a50 0%, #31331e 60%);
+  margin: 0 -20px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
 }
 
 .ct__row--ours .ct__cell {
@@ -294,6 +300,11 @@
   .ct__row {
     display: flex;
     align-items: stretch;
+  }
+
+  /* Cancel the negative desktop margin on mobile to avoid horizontal scroll */
+  .ct__row--ours {
+    margin: 0;
   }
 
   .ct__cell--solution {
