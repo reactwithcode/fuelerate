@@ -16,11 +16,18 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-  {%- if section.settings.our_row_bg != blank -%}
+  {%- comment -%} Terra Therapy row background: merchant upload wins, otherwise fall back to the theme's default gradient graphic (matches Figma) {%- endcomment -%}
   .section-{{ section.id }} .ct__row--ours {
-    background-image: url('{{ section.settings.our_row_bg | image_url: width: 1400 }}');
+    background-image: url('{% if section.settings.our_row_bg != blank %}{{ section.settings.our_row_bg | image_url: width: 1400 }}{% else %}{{ 'ct-row-bg-desktop.png' | asset_url }}{% endif %}');
   }
-  {%- endif -%}
+  @media screen and (max-width: 749px) {
+    .section-{{ section.id }} .ct__row--ours .ct__cell--solution {
+      background-image: url('{% if section.settings.our_row_bg != blank %}{{ section.settings.our_row_bg | image_url: width: 400 }}{% else %}{{ 'ct-row-bg-mobile-solution.png' | asset_url }}{% endif %}');
+    }
+    .section-{{ section.id }} .ct__row--ours .ct__col-viewport {
+      background-image: url('{% if section.settings.our_row_bg != blank %}{{ section.settings.our_row_bg | image_url: width: 800 }}{% else %}{{ 'ct-row-bg-mobile-attribute.png' | asset_url }}{% endif %}');
+    }
+  }
 {%- endstyle -%}
 
 <div class="ct section-{{ section.id }}-padding section-{{ section.id }}">
@@ -79,7 +86,19 @@
               {%- if block.settings.icon != blank -%}
                 {{ block.settings.icon | image_url: width: 120 | image_tag: class: 'ct__competitor-icon', alt: '', loading: 'lazy', width: 60, height: 60 }}
               {%- else -%}
-                <div class="ct__competitor-icon-placeholder"></div>
+                {%- comment -%} No icon uploaded — fall back to the theme's default icon for the shipped presets, matched by name {%- endcomment -%}
+                {%- case block.settings.name -%}
+                  {%- when 'Sleeping Pills' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-sleeping-pills.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- when 'Pain Meds' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-pain-meds.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- when 'Chiropractor' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-chiropractor.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- when 'Supplements' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-supplements.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- else -%}
+                    <div class="ct__competitor-icon-placeholder"></div>
+                {%- endcase -%}
               {%- endif -%}
               <span class="ct__competitor-name">{{ block.settings.name }}</span>
             </div>

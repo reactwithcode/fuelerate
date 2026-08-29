@@ -7,6 +7,25 @@ This is the project's persistent memory. AI reads it at the start of every sessi
 - **Architectural choices** — Technical decisions that affect the project long-term
 - **Risks & open questions** — Things to watch out for in future development
 
+## 2026-08-29 — Comparison Table: fixed background-image cropping on desktop (cover → stretch)
+
+User reported the desktop Terra Therapy row still didn't match Figma after the previous change. Root cause: `background-size: cover` preserves aspect ratio and crops to fill — since the live row's actual width:height ratio won't exactly match the Figma-exported `ct-row-bg-desktop.png` (1313×116, sized off Figma's fixed 1440px canvas), it was cropping part of the gradient off the edges (likely losing some of the light-green start and/or dark-green end), leaving a narrower/duller-looking band than intended.
+- **Fix**: changed `background-size: cover` → `background-size: 100% 100%` (+ `background-repeat: no-repeat`) on `.ct__row--ours` (desktop) and both mobile split cells (`.ct__cell--solution`, `.ct__col-viewport`). Since the image is a smooth two-tone gradient with no shape/detail to protect, non-uniform stretching is visually safe and guarantees the gradient's start/end always land exactly at the row's edges regardless of its actual rendered size.
+- **Watch for**: if a merchant uploads their own `our_row_bg` with real photographic content (not a smooth gradient), this same `100% 100%` stretch would visibly distort it. Worth reconsidering (e.g. `cover` + wider export margins) if that setting sees real use.
+
+**Not yet verified in a live theme preview** — no dev server available in this session.
+
+## 2026-08-29 — Comparison Table: Terra Therapy row now uses Figma's actual background image; default competitor icons added
+
+User asked for the Terra Therapy row to use an **image** background (matching Figma nodes 1-2405/1-4012), not a computed CSS gradient, plus a default icon for the competitor "Icon / product image" setting.
+- Downloaded the actual rendered graphics via the Figma MCP (`download_assets`, not screenshots) for: the desktop row bar (node 1:2416, 1313×116), the mobile attribute chip (node 1:4021, 246×51), and the mobile solution chip (node 1:4034, 120×79). Saved as `assets/ct-row-bg-desktop.png`, `assets/ct-row-bg-mobile-attribute.png`, `assets/ct-row-bg-mobile-solution.png`.
+- Wired these into `sections/section-comparison-table.liquid`'s `{% style %}` block as the default `background-image`, with the existing `our_row_bg` merchant-upload setting still taking priority when set (`{% if %}` inside the `url(...)`). `assets/section-comparison-table.css` now just sets `background-color: #41643a` (solid fallback) + `background-size: cover` on `.ct__row--ours` and its mobile-split cells, instead of a `linear-gradient(...)`.
+- **Found and fixed a stale bug while in there**: `assets/ct-icon-pain-meds.png` (from an earlier round) was a completely blank/transparent 1024×1024 PNG — re-downloaded the real "Pain Meds" bottle photo from Figma node 1:2455 to replace it.
+- Added a default-icon fallback in the competitor block markup: when `block.settings.icon` is blank, a `{% case block.settings.name %}` matches the 4 shipped presets (Sleeping Pills / Pain Meds / Chiropractor / Supplements) to their existing `ct-icon-*.png` assets; any other/custom competitor name still falls back to the empty placeholder div (a merchant adding a new competitor is expected to upload their own icon — no generic catch-all icon was introduced).
+- **Trade-off to flag**: the icon fallback matches on the block's exact `name` text. If a merchant renames one of the 4 preset blocks (e.g. "Sleeping Pills" → "Ambien"), it loses its default icon and falls back to the empty placeholder. Kept simple per the "CMS settings, not pixel-perfect" philosophy — not worth a more robust keyed-lookup for 4 presets.
+
+**Not yet verified in a live theme preview** — no dev server available in this session.
+
 ## 2026-08-29 — Comparison Table: Terra Therapy row was too dark (gradient end color fixed)
 
 User flagged the row as "too dark" vs. `.claude/features/feature-comparison-table/reference/desktop.png` / `mobile.png`. Rather than eyeball it, sampled actual pixel RGB values from those reference PNGs (Python/Pillow, temporarily installed then removed). Result: the row's dark end is a **dark forest green** (~`#41643a`, sampled consistently at the row's right edge on desktop), not the near-black `#31331e` (the theme's primary text/brand color) that had been reused for it since Round 2.
