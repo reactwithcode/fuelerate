@@ -118,7 +118,7 @@
 /* ── Our product row (highlighted) ── */
 .ct__row--ours {
   background-color: #31331e;
-  background-image: linear-gradient(90deg, #5a7a50 0%, #31331e 60%);
+  background-image: linear-gradient(90deg, #7aa66f 0%, #31331e 60%);
   margin: 0 -20px;
   border-radius: 5px;
   position: relative;
@@ -135,6 +135,12 @@
 
 .ct__row--ours .ct__cell--solution {
   border-right-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Vertically center content in Terra Therapy attribute cells */
+.ct__row--ours .ct__col-track .ct__cell {
+  display: flex;
+  align-items: center;
 }
 
 /* ── Competitor rows ── */
@@ -287,7 +293,7 @@
 }
 
 /* ================================================
-   MOBILE  (< 750px): 2-column layout with slider
+   MOBILE  (< 750px): 2-column card layout with slider
    ================================================ */
 
 @media screen and (max-width: 749px) {
@@ -296,38 +302,52 @@
     margin-bottom: 2.4rem;
   }
 
-  /* Switch each row to flex: fixed solution col + sliding viewport */
+  /* Card becomes a 2-column grid — rows use display:contents so
+     solution cells stack into column 1 and viewports into column 2.
+     The cream gap between columns is the section background showing through. */
+  .ct__card {
+    display: grid;
+    grid-template-columns: 108px 1fr;
+    column-gap: 12px;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  /* Rows dissolve into the grid — their children participate directly */
   .ct__row {
-    display: flex;
-    align-items: stretch;
+    display: contents;
   }
 
-  /* Cancel the negative desktop margin on mobile to avoid horizontal scroll */
-  .ct__row--ours {
-    margin: 0;
-  }
-
+  /* Solution cells: white card, left column */
   .ct__cell--solution {
-    flex: 0 0 108px;
-    width: 108px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.8rem;
     padding: 1.6rem 1rem;
+    border-right: none;
   }
 
-  /* Viewport clips to show one content column at a time */
+  /* Viewport cells: white card, right column */
   .ct__col-viewport {
     display: block;
-    flex: 1;
+    background: #ffffff;
     overflow: hidden;
     min-width: 0;
   }
 
-  /* Track slides horizontally */
+  /* Track slides horizontally inside the viewport */
   .ct__col-track {
     display: flex;
+    height: 100%;
     transition: transform 0.35s ease;
   }
 
-  /* Each content cell = full viewport width */
+  /* Each attribute cell fills the viewport width */
   .ct__col-track .ct__cell {
     flex: 0 0 100%;
     width: 100%;
@@ -341,23 +361,45 @@
     padding: 1.6rem 1rem;
   }
 
-  .ct__ours-photo {
-    width: 60px;
+  /* Top borders applied to cells directly (rows are display:contents) */
+  .ct__row--competitor .ct__cell--solution,
+  .ct__row--competitor .ct__col-viewport {
+    border-top: 1px solid rgba(49, 51, 30, 0.1);
   }
 
-  .ct__ours-logo {
-    width: 100px;
-    max-height: 28px;
+  /* Corner rounding — top of each column */
+  .ct__row--header .ct__cell--solution { border-top-left-radius: 5px; }
+  .ct__row--header .ct__col-viewport { border-top-right-radius: 5px; }
+
+  /* Corner rounding — bottom of each column */
+  .ct__row--competitor:last-child .ct__cell--solution { border-bottom-left-radius: 5px; }
+  .ct__row--competitor:last-child .ct__col-viewport { border-bottom-right-radius: 5px; }
+
+  /* Terra Therapy row — dark gradient, extends wider than the column grid */
+  .ct__row--ours .ct__cell--solution {
+    background: linear-gradient(90deg, #7aa66f 0%, #31331e 100%);
+    margin-left: -8px;
+    padding-left: calc(1rem + 8px);
+    border-radius: 5px 0 0 5px;
+    border-top: none;
+    position: relative;
+    z-index: 1;
   }
 
-  .ct__competitor-icon {
-    width: 36px;
-    height: 36px;
+  .ct__row--ours .ct__col-viewport {
+    background: #31331e;
+    margin-right: -8px;
+    border-radius: 0 5px 5px 0;
+    border-top: none;
+    position: relative;
+    z-index: 1;
   }
 
-  .ct__competitor-name {
-    font-size: 1.3rem;
-  }
+  /* Image sizes */
+  .ct__ours-photo { width: 60px; }
+  .ct__ours-logo { width: 100px; max-height: 28px; }
+  .ct__competitor-icon { width: 36px; height: 36px; }
+  .ct__competitor-name { font-size: 1.3rem; }
 
   /* Pagination dots */
   .ct__pagination {

@@ -12,7 +12,7 @@ Implementation plan: `.claude/features/feature-comparison-table/OUTPUT-implement
 
 ---
 
-## Current Round (Round 4)
+## Current Round (Round 5)
 
 Status: Testing
 
@@ -20,7 +20,8 @@ Status: Testing
 
 - [ ] Section renders without errors on a Shopify page
 - [ ] Heading "Why We Are Really Different" is visible and styled correctly
-- [align center and gradient color should lighter looks the figma https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-2405&t=4jOoUmIxKiys88Dy-0 and desktop.png on reference folder] Terra Therapy row is wider than the white card (~20px per side), with a left-to-dark gradient and rounded corners
+- [ ] Terra Therapy row is wider than the white card (~20px per side), with a left-to-dark gradient (lighter sage green start) and rounded corners
+- [ ] Terra Therapy row attribute cells are vertically centered
 - [ ] Terra Therapy row has no vertical gap from the header row above or the competitor rows below
 - [ ] All 4 competitor rows render below the brand row
 - [ ] White card corners still appear rounded (top-left, top-right, bottom-left, bottom-right)
@@ -44,8 +45,10 @@ Status: Testing
 
 ### Mobile carousel
 
-- [Terra Therapy row's column should wider than the solution column and Terra Therapy row's column on how it works column should wider than the how it works column. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0 and mobile.png on reference folder] Terra Therapy row has no horizontal overflow or scroll on mobile
-- [solution column and how it works column should be sperated with a space. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0 and mobile.png on reference folder] On mobile (< 750px), only the Solution column + one attribute column are visible at a time
+- [ ] Two distinct column areas visible — solution column (left) and attribute column (right), separated by a cream gap
+- [ ] Terra Therapy row spans wider than both columns (extends ~8px beyond outer edges)
+- [ ] Terra Therapy row has a dark gradient background across its full width
+- [ ] On mobile (< 750px), only the Solution column + one attribute column are visible at a time
 - [ ] First attribute column ("How it works") is visible by default on load
 - [ ] 4 pagination dots visible below the table, first dot active
 - [ ] Swiping left slides to the next attribute column
@@ -75,6 +78,24 @@ Status: Testing
 ---
 
 ## Previous Rounds
+
+### Round 4 — Archived
+
+#### [FAIL] Terra Therapy row is wider than the white card, with a left-to-dark gradient and rounded corners
+**User feedback:** "align center and gradient color should lighter looks the figma desktop.png on reference folder" — gradient starting color (`#5a7a50`) was too dark; attribute cells in the Terra Therapy row were top-aligned instead of vertically centered.
+**Fix:** (1) Changed gradient start from `#5a7a50` to `#7aa66f` (lighter sage green). (2) Added `display: flex; align-items: center` to `.ct__row--ours .ct__col-track .ct__cell` so attribute cell content centers vertically.
+
+#### [FAIL] Terra Therapy row has no horizontal overflow or scroll on mobile
+**User feedback:** "Terra Therapy row's column should wider than the solution column and Terra Therapy row's column on how it works column should wider than the how it works column" — the dark background only filled each row individually; it didn't span both columns as a unified band, and was not wider than the column grid.
+**Fix:** Restructured mobile layout from row-based flex to a 2-column CSS Grid on `.ct__card` (`display: grid; grid-template-columns: 108px 1fr; column-gap: 12px`). Rows become `display: contents` so cells flow directly into the grid. `.ct__row--ours .ct__cell--solution` gets `margin-left: -8px` and `.ct__row--ours .ct__col-viewport` gets `margin-right: -8px` to extend beyond the column edges.
+
+#### [FAIL] On mobile (< 750px), only the Solution column + one attribute column are visible at a time
+**User feedback:** "solution column and how it works column should be separated with a space" — there was no visual gap between the solution panel and the attribute panel.
+**Fix:** With the new CSS Grid approach, `column-gap: 12px` creates the cream gap (`.ct__card` background is now transparent, revealing the section's `#f4f3ee` background). Each column has its own white `background` applied to the cells directly.
+
+#### [SKIPPED] All remaining items (cart button, tablet, schema, edge cases — not yet tested)
+
+---
 
 ### Round 3 — Archived
 
