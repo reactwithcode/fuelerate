@@ -1,0 +1,463 @@
+/* ============================================
+   Interactive Benefit Showcase — ibs__
+   ============================================ */
+
+/* ——— Recoleta font (same CDN as CPI section) ——— */
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Thin.otf?v=1787898052') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Light.otf?v=1787898052') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Regular.otf?v=1787898052') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Bold.otf?v=1787898052') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ——— Section container — 3-column grid ——— */
+
+/* Full-bleed cream background at any viewport width. The grid itself
+   (.ibs) is capped below so its 1fr pills column doesn't stretch into a
+   large empty gap on very wide screens — see max-width on .ibs. */
+benefit-showcase {
+  display: block;
+  background-color: #f4f3ee;
+}
+
+.ibs {
+  background-color: #f4f3ee;
+  display: grid;
+  max-width: 1600px;
+  margin: 0 auto;
+  /* No column is `1fr` anymore (see grid-template-columns below), so the
+     tracks won't necessarily fill the full container width on their own —
+     without this they'd pack to the left, leaving empty space only on the
+     right instead of staying visually centered. */
+  justify-content: center;
+  /* Left column was `1fr`, which absorbs all leftover space once the max-width
+     cap leaves the image/panel columns short of the budget — at wide viewports
+     that stretched the pills column (and the intro block above it) far wider
+     than Figma's ~462px, leaving a large empty gap before the image. Bounding
+     it keeps pills/heading/subtext close to the image at every width.
+     4th column (67px) = panel's right margin. */
+  grid-template-columns: minmax(340px, 462px) var(--ibs-image-col-width, 23%) minmax(340px, 580px) 67px;
+  /* Row 1: intro heading/subtext (auto height). Row 2: pills + image (fixed
+     460px) — a fixed row keeps the image/panel a consistent height regardless
+     of how the intro text wraps at different viewport widths; leaving it as
+     1fr made it grow/shrink with the intro. Tightened from Figma's raw 556px
+     panel height — since the panel spans this row plus the intro row above
+     it, using 556 here made the panel taller than Figma intended once the
+     intro's real (correctly-sized) height was added on top. Panel's internal
+     spacing (gaps/insets) is tightened to match so its content still fits. */
+  grid-template-rows: auto 460px;
+  grid-template-areas:
+    'intro intro panel .'
+    'left  image panel .';
+  position: relative;
+}
+
+.ibs--no-images {
+  grid-template-columns: minmax(340px, 462px) minmax(340px, 580px);
+  grid-template-areas:
+    'intro panel'
+    'left  panel';
+}
+
+.ibs--no-images .ibs__image-col {
+  display: none;
+}
+
+/* ——— Intro — heading + subtext, spans above the pills and image ——— */
+
+.ibs__intro {
+  grid-area: intro;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 64px 40px 0 88px;
+}
+
+/* ——— Left column ——— */
+
+.ibs__left {
+  grid-area: left;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 40px 64px 88px;
+}
+
+/* Figma: Recoleta 400, 64px, line-height 1.2 */
+.ibs__heading {
+  font-family: 'Recoleta', Georgia, serif;
+  font-size: 64px;
+  font-weight: 400;
+  color: #31331e;
+  margin: 0;
+  line-height: 1.2;
+  /* Figma: 681.7px. Without this, the heading stretches across the full
+     intro width at wide viewports and wraps to fewer/longer lines than
+     the reference. */
+  max-width: 682px;
+}
+
+/* Figma: Figtree 400, 16px, line-height 1.11 */
+.ibs__subtext {
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #31331e;
+  line-height: 1.11;
+  margin: 0;
+  /* Figma: 645px. Same reasoning as .ibs__heading — caps the line width so
+     it wraps to 3 lines like the reference instead of stretching wider and
+     collapsing to 2 lines at wide viewports. */
+  max-width: 645px;
+}
+
+/* ——— Pill list ——— */
+
+.ibs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  /* Each pill sizes to its own content (fit-content) instead of stretching
+     to the full column width — without this, li.ibs__item stretches to
+     match .ibs__list's width by default (flex cross-axis stretch). */
+  align-items: flex-start;
+  gap: 18px;
+}
+
+/* Figma: py-10px px-20px, border-radius 50px, gap 10px
+   Inactive: border 1px solid #31331e, full-width
+   Active:   bg #31331e, auto-width */
+.ibs__pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 1px solid #31331e;
+  background: transparent;
+  color: #31331e;
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.11;
+  justify-content: flex-start;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.ibs__pill:hover:not(.ibs__pill--active) {
+  background: rgba(49, 51, 30, 0.06);
+}
+
+/* Active: auto-width chip, Figtree Bold */
+.ibs__pill--active {
+  background: #31331e;
+  color: #ffffff;
+  border-color: #31331e;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.ibs__pill-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.ibs__pill--active .ibs__pill-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* ——— Mobile card (hidden on desktop) ——— */
+
+.ibs__mobile-card {
+  display: none;
+}
+
+/* ——— Centre column — images ——— */
+
+/* overflow: visible so the prev arrow button (at left: -25px) isn't clipped.
+   Images use clip-path: inset(0) to stay within column bounds. */
+.ibs__image-col {
+  grid-area: image;
+  position: relative;
+  overflow: visible;
+}
+
+/* All images stacked — only active fades in. Fills the row's full height,
+   directly below the intro (which already provides the spacing above). */
+.ibs__image {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  clip-path: inset(0 round 5px);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.ibs__image--active {
+  opacity: 1;
+}
+
+/* ——— Right column — dark detail panel ——— */
+
+.ibs__panel {
+  grid-area: panel;
+  background: #31331e;
+  color: #ffffff;
+  position: relative;
+  border-radius: 5px;
+  margin-top: 82px;
+}
+
+/* All panel-content items stacked — only active fades in */
+.ibs__panel-content {
+  position: absolute;
+  /* Figma specced 109px sides / 76px top / 96px bottom; tightened top/bottom
+     to fit the panel's reduced height (see .ibs grid-template-rows). */
+  inset: 56px 109px 64px 109px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+  pointer-events: none;
+  align-items: start;
+  justify-content: center;
+}
+
+.ibs__panel-content--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ——— Panel typography ——— */
+
+/* Figma: Recoleta 400, 48px, line-height 1.2 */
+.ibs__panel-title {
+  font-family: 'Recoleta', Georgia, serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Figma: Figtree Bold, 16px, line-height 1.11 */
+.ibs__panel-description {
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.11;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Figma: Figtree 400, 16px, list-disc, padding-left 24px */
+.ibs__bullets {
+  list-style: disc;
+  padding-left: 24px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.11;
+  color: #ffffff;
+}
+
+/* ——— CTA area: icon above centred text ——— */
+
+/* Figma: flex-col, items-center, gap 5px, w-307px */
+.ibs__cta-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.ibs__cta-area:hover {
+  opacity: 0.8;
+}
+
+.ibs__cta-icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Figma: Figtree Bold, 16px, line-height 1.11, text-center */
+.ibs__cta-text {
+  font-family: 'Figtree', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.11;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* ——— Arrow buttons ——— */
+
+/* Figma: bg-white, rounded-25px (50%), size-50px, drop-shadow 0 0 5px rgba(0,0,0,0.15) */
+.ibs__arrow {
+  position: absolute;
+  bottom: 32px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  color: #31331e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.ibs__arrow:hover {
+  opacity: 0.85;
+}
+
+/* Prev arrow: on the left edge of the image column */
+.ibs__image-col .ibs__arrow--prev {
+  left: -25px;
+}
+
+/* Next arrow: on the right edge of the panel */
+.ibs__panel .ibs__arrow--next {
+  right: -25px;
+}
+
+/* ============================================
+   Mobile — single-column accordion (≤989px)
+   ============================================ */
+
+@media screen and (max-width: 989px) {
+  .ibs {
+    display: block;
+  }
+
+  .ibs__image-col,
+  .ibs__panel {
+    display: none;
+  }
+
+  /* Figma mobile: px-19px py-23px, items-center, gap-22px.
+     Split across .ibs__intro (heading/subtext) and .ibs__left (pills) —
+     they're separate siblings now, so margin-top on .ibs__left recreates
+     the gap that used to come from one shared flex container. */
+  .ibs__intro {
+    padding: 23px 19px 0;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .ibs__left {
+    padding: 0 19px 23px;
+    gap: 22px;
+    align-items: center;
+    margin-top: 22px;
+  }
+
+  /* Figma mobile heading: Recoleta 24px, text-center, line-height normal, max-width 248px */
+  .ibs__heading {
+    font-size: 24px;
+    text-align: center;
+    line-height: normal;
+    max-width: 248px;
+  }
+
+  /* Figma mobile subtext: Figtree 400, text-center */
+  .ibs__subtext {
+    text-align: center;
+  }
+
+  .ibs__list {
+    width: 100%;
+    align-items: flex-start;
+    /* Figma mobile pill list: gap-10px */
+    gap: 10px;
+  }
+
+  /* Mobile: inactive pills full-width, active pill stays fit-content (inherits desktop rule) */
+  .ibs__pill {
+    width: 100%;
+    white-space: normal;
+  }
+  .ibs__pill--active {
+    white-space: normal;
+  }
+
+  /* Mobile detail card — Figma: bg #31331e, p-18px, gap-35px, border-radius 5px */
+  .ibs__mobile-card {
+    display: none;
+    flex-direction: column;
+    gap: 35px;
+    background: #31331e;
+    color: #ffffff;
+    padding: 18px;
+    border-radius: 5px;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .ibs__mobile-card--active {
+    display: flex;
+  }
+
+  /* Figma mobile card title: Recoleta 24px */
+  .ibs__mobile-card .ibs__panel-title {
+    font-size: 24px;
+  }
+
+  .ibs__mobile-card .ibs__panel-description {
+    font-size: 16px;
+  }
+
+  .ibs__mobile-card .ibs__cta-area {
+    margin-top: 0;
+  }
+}

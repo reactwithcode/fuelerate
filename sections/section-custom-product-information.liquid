@@ -1,0 +1,562 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap">
+
+{{ 'section-custom-product-information.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-product-information.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding .cpi__info {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding .cpi__info {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign gallery_blocks  = section.blocks | where: 'type', 'gallery_image'
+  assign benefit_blocks  = section.blocks | where: 'type', 'benefit'
+  assign customer_blocks = section.blocks | where: 'type', 'customer_photo'
+  assign tab_blocks      = section.blocks | where: 'type', 'tab'
+  assign default_icons   = 'cpi-icon-sleep.svg,cpi-icon-muscle.svg,cpi-icon-calm.svg,cpi-icon-energy.svg,cpi-icon-organic.svg,cpi-icon-washable.svg' | split: ','
+  assign product_form_id = 'cpi-form-' | append: section.id
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+<div class="cpi section-{{ section.id }}-padding">
+  <div class="cpi__layout">
+
+    {%- comment -%} ——— LEFT: Image gallery ——— {%- endcomment -%}
+    <div class="cpi__gallery">
+      <div class="cpi__gallery-main">
+        {%- if section.settings.main_image != blank -%}
+          {{
+            section.settings.main_image
+            | image_url: width: 1000
+            | image_tag:
+              widths: '500, 750, 1000',
+              class: 'cpi__gallery-img',
+              alt: product.title,
+              loading: 'eager'
+          }}
+        {%- elsif product.featured_image != blank -%}
+          {{
+            product.featured_image
+            | image_url: width: 1000
+            | image_tag:
+              widths: '500, 750, 1000',
+              class: 'cpi__gallery-img',
+              alt: product.title,
+              loading: 'eager'
+          }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'cpi__gallery-img cpi__placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      {%- if gallery_blocks.size > 0 -%}
+        <div class="cpi__gallery-grid">
+          {%- for block in gallery_blocks -%}
+            <div class="cpi__gallery-thumb" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 500
+                  | image_tag:
+                    widths: '250, 500',
+                    class: 'cpi__gallery-img',
+                    alt: product.title,
+                    loading: 'lazy'
+                }}
+              {%- else -%}
+                {{ 'product-2' | placeholder_svg_tag: 'cpi__gallery-img cpi__placeholder-svg' }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- elsif product.images.size > 1 -%}
+        <div class="cpi__gallery-grid">
+          {%- for image in product.images offset: 1 -%}
+            <div class="cpi__gallery-thumb">
+              {{
+                image
+                | image_url: width: 500
+                | image_tag:
+                  widths: '250, 500',
+                  class: 'cpi__gallery-img',
+                  alt: product.title,
+                  loading: 'lazy'
+              }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ——— RIGHT: Product information ——— {%- endcomment -%}
+    <cpi-product
+      class="cpi__info"
+      data-section-id="{{ section.id }}"
+      data-button-text="{{ section.settings.button_text | escape }}"
+    >
+
+      {%- comment -%} Title + badges + price {%- endcomment -%}
+      <div class="cpi__header">
+        <h2 class="cpi__title">{{ product.title }}</h2>
+
+        <div class="cpi__badges">
+          {%- if section.settings.show_limited_stock -%}
+            <span class="cpi__badge cpi__badge--stock">
+              <img
+                class="cpi__badge-icon"
+                src="{{ 'cpi-icon-limited-stock.svg' | asset_url }}"
+                width="20"
+                height="20"
+                alt=""
+                loading="lazy"
+              >
+              {{- section.settings.limited_stock_text -}}
+            </span>
+          {%- endif -%}
+
+          {%- if section.settings.viewers_text != blank -%}
+            <span class="cpi__badge cpi__badge--viewers">
+              <span class="cpi__badge-dot" aria-hidden="true"></span>
+              {{- section.settings.viewers_text -}}
+            </span>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.description != blank -%}
+          <p class="cpi__description">{{ section.settings.description }}</p>
+        {%- endif -%}
+
+        <div class="cpi__price-row" id="cpi-price-{{ section.id }}">
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <s class="cpi__price cpi__price--original">{{ current_variant.compare_at_price | money }}</s>
+            <span class="cpi__price cpi__price--sale">{{ current_variant.price | money }}</span>
+            {%- assign discount_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round -%}
+            <span class="cpi__discount-badge">Save {{ discount_pct }}% OFF</span>
+          {%- else -%}
+            <span class="cpi__price cpi__price--sale">{{ current_variant.price | money }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Variant selector {%- endcomment -%}
+      {%- unless product.has_only_default_variant -%}
+        <variant-selects
+          id="variant-selects-{{ section.id }}"
+          class="cpi__variant-selects"
+          data-section="{{ section.id }}"
+          data-product-handle="{{ product.handle }}"
+          data-product-title="{{ product.title | escape }}"
+          data-product-id="{{ product.id }}"
+          data-currency-code="{{ cart.currency.iso_code }}"
+          {% # theme-check-disable %}
+          data-selected-price-amount="{{ current_variant.price | default: 0 | money_amount | escape }}"
+          {% # theme-check-enable %}
+        >
+          {%- for option in product.options_with_values -%}
+            <fieldset class="js product-form__input product-form__input--pill cpi__option-group">
+              <legend class="form__label cpi__option-label">{{ option.name }}</legend>
+              {% render 'product-variant-options',
+                product: product,
+                option: option,
+                block: nil,
+                picker_type: 'button'
+              %}
+            </fieldset>
+          {%- endfor -%}
+
+          <script type="application/json" data-selected-variant>
+            {{ current_variant | json }}
+          </script>
+        </variant-selects>
+      {%- endunless -%}
+
+      {%- comment -%} Benefits {%- endcomment -%}
+      {%- if benefit_blocks.size > 0 -%}
+        <div class="cpi__benefits">
+          {%- if section.settings.benefits_heading != blank -%}
+            <p class="cpi__benefits-heading">{{ section.settings.benefits_heading }}</p>
+          {%- endif -%}
+          <div class="cpi__benefits-grid">
+            {%- for block in benefit_blocks -%}
+              <div class="cpi__benefit" {{ block.shopify_attributes }}>
+                <div class="cpi__benefit-icon">
+                  {%- if block.settings.icon != blank -%}
+                    {{
+                      block.settings.icon
+                      | image_url: width: 48
+                      | image_tag: width: 24, height: 24, alt: ''
+                    }}
+                  {%- else -%}
+                    {%- assign default_icon = default_icons[forloop.index0] -%}
+                    <img
+                      src="{{ default_icon | asset_url }}"
+                      width="24"
+                      height="24"
+                      alt=""
+                      loading="lazy"
+                    >
+                  {%- endif -%}
+                </div>
+                <p class="cpi__benefit-text">{{ block.settings.text }}</p>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Add to Cart {%- endcomment -%}
+      <div class="cpi__cta">
+        <product-form class="cpi__product-form" data-section-id="{{ section.id }}">
+          <div class="product-form__error-message-wrapper" role="alert" hidden>
+            <span class="product-form__error-message"></span>
+          </div>
+          {%- form 'product', product,
+            id: product_form_id,
+            class: 'form',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ current_variant.id }}"
+              class="product-variant-id"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+            <button
+              type="submit"
+              name="add"
+              id="cpi-submit-{{ section.id }}"
+              class="cpi__btn-cart"
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              <span class="cpi__btn-text">
+                {%- if current_variant.available -%}
+                  {{ section.settings.button_text }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endform -%}
+        </product-form>
+      </div>
+
+      {%- comment -%} Social proof {%- endcomment -%}
+      {%- if customer_blocks.size > 0 -%}
+        <hr class="cpi__divider">
+        <div class="cpi__social-proof">
+          {%- if section.settings.social_proof_heading != blank -%}
+            <p class="cpi__social-proof-heading">{{ section.settings.social_proof_heading }}</p>
+          {%- endif -%}
+          <div class="cpi__avatars">
+            {%- for block in customer_blocks -%}
+              <div class="cpi__avatar" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 200
+                    | image_tag:
+                      width: 94,
+                      height: 94,
+                      class: 'cpi__avatar-img',
+                      alt: block.settings.alt,
+                      loading: 'lazy'
+                  }}
+                {%- else -%}
+                  {{ 'customer' | placeholder_svg_tag: 'cpi__avatar-placeholder' }}
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Tabs / Accordions {%- endcomment -%}
+      {%- if tab_blocks.size > 0 -%}
+        <hr class="cpi__divider">
+        <product-info-tabs class="cpi__tabs">
+          {%- for block in tab_blocks -%}
+            <details
+              class="cpi__tab-item"
+              id="cpi-tab-{{ block.id }}"
+              {% if forloop.first %}open{% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <summary class="cpi__tab-summary" id="cpi-btn-{{ block.id }}">
+                {{- block.settings.label -}}
+                <span class="cpi__tab-icon" aria-hidden="true"></span>
+              </summary>
+              <div
+                class="cpi__tab-panel"
+                id="cpi-panel-{{ block.id }}"
+                role="tabpanel"
+                aria-labelledby="cpi-btn-{{ block.id }}"
+              >
+                {{ block.settings.content }}
+              </div>
+            </details>
+          {%- endfor -%}
+        </product-info-tabs>
+      {%- endif -%}
+
+      <script type="application/json" id="cpi-variants-{{ section.id }}">
+        {{ product.variants | json }}
+      </script>
+
+    </cpi-product>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Product Info",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main product image",
+      "info": "Leave blank to use the product's featured image."
+    },
+    {
+      "type": "header",
+      "content": "Product details"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Short description",
+      "default": "Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home."
+    },
+    {
+      "type": "header",
+      "content": "Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_limited_stock",
+      "label": "Show limited stock badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "limited_stock_text",
+      "label": "Limited stock label",
+      "default": "Limited Stock"
+    },
+    {
+      "type": "text",
+      "id": "viewers_text",
+      "label": "Live viewers text",
+      "default": "23 people viewing this now",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "header",
+      "content": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_heading",
+      "label": "Benefits heading",
+      "default": "Why you need this?"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "ADD TO CART"
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "text",
+      "id": "social_proof_heading",
+      "label": "Social proof heading",
+      "default": "Real People. Real Healing."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Gallery image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Custom icon",
+          "info": "Optional. Defaults to a preset icon based on position (1–6)."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Benefit text",
+          "default": "Describe one product benefit here"
+        }
+      ]
+    },
+    {
+      "type": "customer_photo",
+      "name": "Customer photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer photo"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "default": "Happy customer"
+        }
+      ]
+    },
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "Description"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab content",
+          "default": "<p>Add content for this tab here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Info",
+      "blocks": [
+        { "type": "gallery_image" },
+        { "type": "gallery_image" },
+        { "type": "gallery_image" },
+        { "type": "gallery_image" },
+        {
+          "type": "benefit",
+          "settings": { "text": "Fall asleep faster and wake up fully rested" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "text": "Less joint pain and morning stiffness" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "text": "Calmer mood and lower daily stress" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "text": "More energy throughout the day" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "text": "400 TC organic cotton, the softest and strongest grounding sheet" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "text": "Machine washable and built to last" }
+        },
+        { "type": "customer_photo" },
+        { "type": "customer_photo" },
+        { "type": "customer_photo" },
+        { "type": "customer_photo" },
+        { "type": "customer_photo" },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Description",
+            "content": "<p>Experience deeper sleep, less pain, and calmer mornings, all from the comfort of your bed. Terra Therapy's grounding sheets are woven with 400 thread count organic cotton and 10% pure silver fiber to deliver a safe, comfortable, and effective grounding connection every night.</p><p>Plug into any grounded outlet and let Earth's natural electrons flow through the sheet to support your body's recovery, from better sleep and reduced inflammation to calmer nervous system function.</p><p>No EMFs. No batteries. Just effortless, science-backed healing while you sleep.</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Who is it for?",
+            "content": "<p>This grounding sheet is ideal for anyone seeking natural wellness support through sleep — from those with chronic inflammation or joint pain to anyone who simply wants to wake up more rested and energised.</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Shipping and returns",
+            "content": "<p>Free shipping on all orders. Returns accepted within 30 days of delivery. Contact support for a return label.</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Care Instructions",
+            "content": "<p>Machine washable on a gentle cycle. Wash with mild, silver-safe detergent. Do not bleach. Tumble dry on low. Do not iron directly over the silver threads.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

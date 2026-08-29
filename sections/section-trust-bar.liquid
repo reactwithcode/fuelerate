@@ -1,0 +1,204 @@
+{{ 'section-trust-bar.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+  .section-{{ section.id }}-padding .trust-bar__icon {
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
+  }
+  .section-{{ section.id }}-padding .trust-bar__label {
+    color: {{ section.settings.label_color }};
+    font-size: {{ section.settings.label_size }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    .section-{{ section.id }}-padding .trust-bar__inner {
+      padding-left: {{ section.settings.padding_horizontal }}px;
+      padding-right: {{ section.settings.padding_horizontal }}px;
+    }
+  }
+  @media screen and (max-width: 749px) {
+    .section-{{ section.id }}-padding .trust-bar__label {
+      font-size: {{ section.settings.label_size | minus: 4 }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign default_icons = 'trust-bar-icon-shield-check.svg,trust-bar-icon-usa.svg,trust-bar-icon-package.svg,trust-bar-icon-tree.svg' | split: ','
+  assign icon_src_width = section.settings.icon_size | times: 2
+-%}
+
+{% if section.blocks.size > 0 %}
+  <div class="trust-bar section-{{ section.id }}-padding">
+    <div class="trust-bar__inner">
+      <ul class="trust-bar__items" role="list">
+        {% for block in section.blocks %}
+          {%- assign default_icon = default_icons[forloop.index0] -%}
+          <li class="trust-bar__item" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}
+              <div class="trust-bar__icon">
+                <img
+                  src="{{ block.settings.icon | image_url: width: icon_src_width }}"
+                  width="{{ section.settings.icon_size }}"
+                  height="{{ section.settings.icon_size }}"
+                  alt=""
+                  loading="eager"
+                >
+              </div>
+            {% elsif default_icon != blank %}
+              <div class="trust-bar__icon">
+                <img
+                  src="{{ default_icon | asset_url }}"
+                  width="{{ section.settings.icon_size }}"
+                  height="{{ section.settings.icon_size }}"
+                  alt=""
+                  loading="eager"
+                >
+              </div>
+            {% endif %}
+            {% if block.settings.label != blank %}
+              <p class="trust-bar__label">{{ block.settings.label }}</p>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#31331e"
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Label size (desktop)",
+      "info": "Mobile size is automatically 4px smaller",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding (desktop)",
+      "info": "Left and right padding inside the bar on tablet and desktop",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 28
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Custom icon",
+          "info": "Optional. Defaults to a preset icon based on position (1–4)."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Trust signal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Bar",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": { "label": "90-Day Results-Backed Guarantee" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "Designed in USA" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "Ships in 2–6 Days" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "A Tree Planted per Order" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

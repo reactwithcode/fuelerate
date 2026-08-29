@@ -1,0 +1,314 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap">
+
+{{ 'section-interactive-benefit-showcase.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'benefit-showcase.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    --ibs-image-col-width: {{ section.settings.image_width }}%;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign has_images = false
+  for block in section.blocks
+    if block.settings.category_image != blank
+      assign has_images = true
+      break
+    endif
+  endfor
+-%}
+
+<benefit-showcase>
+  <div class="ibs section-{{ section.id }}-padding{% unless has_images %} ibs--no-images{% endunless %}">
+
+    {%- comment -%} Intro — heading + subtext, spans above the pill list and category image {%- endcomment -%}
+    {%- if section.settings.heading != blank or section.settings.subtext != blank -%}
+      <div class="ibs__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ibs__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtext != blank -%}
+          <p class="ibs__subtext">{{ section.settings.subtext | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Left column — pill list {%- endcomment -%}
+    <div class="ibs__left">
+      <ul class="ibs__list" role="tablist" aria-label="{{ section.settings.heading | default: 'Benefit categories' | escape }}">
+        {%- for block in section.blocks -%}
+          <li class="ibs__item" role="presentation" {{ block.shopify_attributes }}>
+
+            <button
+              class="ibs__pill{% if forloop.first %} ibs__pill--active{% endif %}"
+              data-index="{{ forloop.index0 }}"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              type="button"
+            >
+              {%- if block.settings.icon != blank -%}
+                <img
+                  src="{{ block.settings.icon | image_url: width: 48 }}"
+                  alt=""
+                  class="ibs__pill-icon"
+                  loading="lazy"
+                  width="24"
+                  height="24"
+                  aria-hidden="true"
+                >
+              {%- endif -%}
+              <span class="ibs__pill-label">{{ block.settings.title | default: 'Benefit' | escape }}</span>
+            </button>
+
+            {%- comment -%} Mobile inline detail card {%- endcomment -%}
+            <div
+              class="ibs__mobile-card{% if forloop.first %} ibs__mobile-card--active{% endif %}"
+              data-index="{{ forloop.index0 }}"
+              role="tabpanel"
+            >
+              <h3 class="ibs__panel-title">{{ block.settings.title | default: 'Benefit' | escape }}</h3>
+              {%- if block.settings.description != blank -%}
+                <p class="ibs__panel-description">{{ block.settings.description | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.bullets != blank -%}
+                {%- assign bullet_lines = block.settings.bullets | newline_to_br | split: '<br />' -%}
+                <ul class="ibs__bullets">
+                  {%- for bullet in bullet_lines -%}
+                    {%- assign b = bullet | strip -%}
+                    {%- if b != blank -%}
+                      <li>{{ b | escape }}</li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+              {%- if block.settings.cta_url != blank -%}
+                <a class="ibs__cta-area" href="{{ block.settings.cta_url }}">
+                  <svg class="ibs__cta-icon"  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.2805 8.09435L16.6555 2.46935C16.5859 2.39962 16.5031 2.3443 16.4121 2.30656C16.321 2.26882 16.2234 2.24939 16.1249 2.24939C16.0263 2.24939 15.9287 2.26882 15.8377 2.30656C15.7466 2.3443 15.6639 2.39962 15.5943 2.46935L3.47895 14.5847C2.69175 15.3719 2.24951 16.4395 2.24951 17.5528C2.24951 18.6661 2.69175 19.7337 3.47895 20.5209C4.26615 21.3081 5.33381 21.7504 6.44707 21.7504C7.56034 21.7504 8.628 21.3081 9.4152 20.5209L19.9049 10.0312L21.9871 9.33748C22.1084 9.29711 22.2175 9.22638 22.3038 9.13199C22.3901 9.03761 22.4509 8.92272 22.4803 8.79824C22.5097 8.67376 22.5068 8.54382 22.4718 8.42079C22.4368 8.29775 22.371 8.1857 22.2805 8.09529V8.09435ZM8.35395 19.4597C7.84509 19.9501 7.16407 20.2212 6.45738 20.2147C5.75069 20.2082 5.07479 19.9245 4.57506 19.4248C4.07533 18.9251 3.7917 18.2492 3.78519 17.5425C3.77867 16.8358 4.04978 16.1548 4.5402 15.6459L7.2402 12.9459C8.03426 12.674 9.27926 12.5709 10.903 13.4147C11.8968 13.934 12.7949 14.1647 13.5805 14.2331L8.35395 19.4597ZM19.2627 8.66342C19.1522 8.70013 19.0517 8.76208 18.9693 8.84436L15.2596 12.554C14.4655 12.8259 13.2205 12.929 11.5968 12.0853C10.603 11.5659 9.70489 11.3353 8.91926 11.2669L16.1249 4.06029L20.3615 8.29686L19.2627 8.66342Z" fill="white"/></svg>
+                  <span class="ibs__cta-text">{{ block.settings.cta_text | default: 'Explore the science behind these benefits' | escape }}</span>
+                </a>
+              {%- endif -%}
+            </div>
+
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- comment -%} Centre column — category images + prev arrow {%- endcomment -%}
+    <div class="ibs__image-col">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.category_image != blank -%}
+          <img
+            src="{{ block.settings.category_image | image_url: width: 800 }}"
+            srcset="{{ block.settings.category_image | image_url: width: 400 }} 400w, {{ block.settings.category_image | image_url: width: 600 }} 600w, {{ block.settings.category_image | image_url: width: 800 }} 800w"
+            sizes="(min-width: 990px) var(--ibs-image-col-width, 35vw), 100vw"
+            class="ibs__image{% if forloop.first %} ibs__image--active{% endif %}"
+            data-index="{{ forloop.index0 }}"
+            alt="{{ block.settings.title | escape }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            width="{{ block.settings.category_image.width }}"
+            height="{{ block.settings.category_image.height }}"
+          >
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if section.blocks.size > 1 -%}
+        <button class="ibs__arrow ibs__arrow--prev" aria-label="Previous benefit" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Right column — dark detail panel + next arrow {%- endcomment -%}
+    <div class="ibs__panel">
+      {%- for block in section.blocks -%}
+        <div
+          class="ibs__panel-content{% if forloop.first %} ibs__panel-content--active{% endif %}"
+          data-index="{{ forloop.index0 }}"
+          role="tabpanel"
+        >
+          <h3 class="ibs__panel-title">{{ block.settings.title | default: 'Benefit' | escape }}</h3>
+          {%- if block.settings.description != blank -%}
+            <p class="ibs__panel-description">{{ block.settings.description | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.bullets != blank -%}
+            {%- assign bullet_lines = block.settings.bullets | newline_to_br | split: '<br />' -%}
+            <ul class="ibs__bullets">
+              {%- for bullet in bullet_lines -%}
+                {%- assign b = bullet | strip -%}
+                {%- if b != blank -%}
+                  <li>{{ b | escape }}</li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if block.settings.cta_url != blank -%}
+            <a class="ibs__cta-area" href="{{ block.settings.cta_url }}">
+               <svg class="ibs__cta-icon"  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.2805 8.09435L16.6555 2.46935C16.5859 2.39962 16.5031 2.3443 16.4121 2.30656C16.321 2.26882 16.2234 2.24939 16.1249 2.24939C16.0263 2.24939 15.9287 2.26882 15.8377 2.30656C15.7466 2.3443 15.6639 2.39962 15.5943 2.46935L3.47895 14.5847C2.69175 15.3719 2.24951 16.4395 2.24951 17.5528C2.24951 18.6661 2.69175 19.7337 3.47895 20.5209C4.26615 21.3081 5.33381 21.7504 6.44707 21.7504C7.56034 21.7504 8.628 21.3081 9.4152 20.5209L19.9049 10.0312L21.9871 9.33748C22.1084 9.29711 22.2175 9.22638 22.3038 9.13199C22.3901 9.03761 22.4509 8.92272 22.4803 8.79824C22.5097 8.67376 22.5068 8.54382 22.4718 8.42079C22.4368 8.29775 22.371 8.1857 22.2805 8.09529V8.09435ZM8.35395 19.4597C7.84509 19.9501 7.16407 20.2212 6.45738 20.2147C5.75069 20.2082 5.07479 19.9245 4.57506 19.4248C4.07533 18.9251 3.7917 18.2492 3.78519 17.5425C3.77867 16.8358 4.04978 16.1548 4.5402 15.6459L7.2402 12.9459C8.03426 12.674 9.27926 12.5709 10.903 13.4147C11.8968 13.934 12.7949 14.1647 13.5805 14.2331L8.35395 19.4597ZM19.2627 8.66342C19.1522 8.70013 19.0517 8.76208 18.9693 8.84436L15.2596 12.554C14.4655 12.8259 13.2205 12.929 11.5968 12.0853C10.603 11.5659 9.70489 11.3353 8.91926 11.2669L16.1249 4.06029L20.3615 8.29686L19.2627 8.66342Z" fill="white"/></svg>
+              <span class="ibs__cta-text">{{ block.settings.cta_text | default: 'Explore the science behind these benefits' | escape }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      {%- if section.blocks.size > 1 -%}
+        <button class="ibs__arrow ibs__arrow--next" aria-label="Next benefit" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      {%- endif -%}
+    </div>
+
+  </div>
+</benefit-showcase>
+
+{% schema %}
+{
+  "name": "Benefit Showcase",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "One Natural Solution. Whole-Body Benefits."
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Section subtext",
+      "default": "Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. Backed by 20+ years of research and thousands of customer results."
+    },
+    {
+      "type": "header",
+      "content": "Image column"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Image column width",
+      "min": 15,
+      "max": 40,
+      "step": 1,
+      "unit": "%",
+      "default": 23
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Pill icon",
+          "info": "Small icon shown inside the pill. Recommended: 48×48px, dark on transparent background."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category title",
+          "default": "Benefit Category"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Describe the benefit category here."
+        },
+        {
+          "type": "textarea",
+          "id": "bullets",
+          "label": "Bullet points",
+          "info": "One bullet per line.",
+          "default": "Key benefit one\nKey benefit two\nKey benefit three"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Link text",
+          "default": "Explore the science behind these benefits"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Link URL",
+          "info": "Leave blank to hide the link."
+        },
+        {
+          "type": "image_picker",
+          "id": "category_image",
+          "label": "Category image",
+          "info": "Shown in the centre column when this benefit is active."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefit Showcase",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": { "title": "Neurological & Mental Health" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "title": "Musculoskeletal Pain & Inflammation" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "title": "Cardiovascular & Circulatory Health" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "title": "Immune & Inflammatory Conditions" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "title": "Hormonal & Metabolic Balance" }
+        },
+        {
+          "type": "benefit",
+          "settings": { "title": "Specialized Support" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
