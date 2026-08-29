@@ -1,0 +1,335 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap">
+
+{{ 'section-comparison-table.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'comparison-table.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  {%- comment -%} Terra Therapy row background: merchant upload wins on desktop, otherwise the CSS gradient (see section-comparison-table.css) shows. Mobile ALWAYS uses the CSS gradient, even if a background image is uploaded — a photo cover-cropped into these small chip shapes (confirmed via DevTools: the Solution cell was rendering the uploaded row background image via background-size:cover, not the tuned gradient) looks wrong at this size, unlike desktop's single wide bar. {%- endcomment -%}
+  {%- if section.settings.our_row_bg != blank -%}
+  .section-{{ section.id }} .ct__row--ours::before {
+    background-image: url('{{ section.settings.our_row_bg | image_url: width: 1400 }}');
+    background-size: cover;
+    background-position: center;
+  }
+  {%- endif -%}
+{%- endstyle -%}
+
+<div class="ct section-{{ section.id }}-padding section-{{ section.id }}">
+  <div class="page-width">
+
+    {%- if section.settings.title != blank -%}
+      <h2 class="ct__heading">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    <comparison-table class="ct__table-wrapper">
+      <div class="ct__card">
+
+        {%- comment -%} ── HEADER ROW ── {%- endcomment -%}
+        <div class="ct__row ct__row--header">
+          <div class="ct__cell ct__cell--solution">Solution</div>
+          <div class="ct__col-viewport">
+            <div class="ct__col-track">
+              <div class="ct__cell">How it works</div>
+              <div class="ct__cell">What to consider</div>
+              <div class="ct__cell">Cost over time</div>
+              <div class="ct__cell">Side effects</div>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%} ── OUR PRODUCT ROW ── {%- endcomment -%}
+        <div class="ct__row ct__row--ours">
+          <div class="ct__cell ct__cell--solution ct__cell--ours-solution">
+            <div class="ct__ours-photo-wrap">
+              {%- if section.settings.our_product_image != blank -%}
+                {{ section.settings.our_product_image | image_url: width: 200 | image_tag: class: 'ct__ours-photo', alt: '', loading: 'lazy', width: 100, height: 100 }}
+              {%- else -%}
+                <img class="ct__ours-photo" src="{{ 'ct-product-photo.png' | asset_url }}" alt="" width="100" height="100" loading="lazy">
+              {%- endif -%}
+            </div>
+            {%- if section.settings.our_logo != blank -%}
+              {{ section.settings.our_logo | image_url: width: 308 | image_tag: class: 'ct__ours-logo', alt: section.settings.our_name, loading: 'lazy', width: 154, height: 38 }}
+            {%- else -%}
+              <img class="ct__ours-logo" src="{{ 'ct-logo-terra-therapy.png' | asset_url }}" alt="{{ section.settings.our_name }}" width="154" height="38" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="ct__col-viewport">
+            <div class="ct__col-track">
+              <div class="ct__cell">{{ section.settings.our_how_it_works }}</div>
+              <div class="ct__cell">{{ section.settings.our_what_to_consider }}</div>
+              <div class="ct__cell">{{ section.settings.our_cost_over_time }}</div>
+              <div class="ct__cell">{{ section.settings.our_side_effects }}</div>
+            </div>
+          </div>
+        </div>
+
+        {%- comment -%} ── COMPETITOR ROWS ── {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          <div class="ct__row ct__row--competitor" {{ block.shopify_attributes }}>
+            <div class="ct__cell ct__cell--solution">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 120 | image_tag: class: 'ct__competitor-icon', alt: '', loading: 'lazy', width: 60, height: 60 }}
+              {%- else -%}
+                {%- comment -%} No icon uploaded — fall back to the theme's default icon for the shipped presets, matched by name {%- endcomment -%}
+                {%- case block.settings.name -%}
+                  {%- when 'Sleeping Pills' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-sleeping-pills.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- when 'Pain Meds' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-pain-meds.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- when 'Chiropractor' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-chiropractor.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- when 'Supplements' -%}
+                    <img class="ct__competitor-icon" src="{{ 'ct-icon-supplements.png' | asset_url }}" alt="" width="60" height="60" loading="lazy">
+                  {%- else -%}
+                    <div class="ct__competitor-icon-placeholder"></div>
+                {%- endcase -%}
+              {%- endif -%}
+              <span class="ct__competitor-name">{{ block.settings.name }}</span>
+            </div>
+            <div class="ct__col-viewport">
+              <div class="ct__col-track">
+                <div class="ct__cell">{{ block.settings.how_it_works }}</div>
+                <div class="ct__cell">{{ block.settings.what_to_consider }}</div>
+                <div class="ct__cell">{{ block.settings.cost_over_time }}</div>
+                <div class="ct__cell">{{ block.settings.side_effects }}</div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+
+      </div>
+
+      {%- comment -%} ── PAGINATION DOTS (mobile only) ── {%- endcomment -%}
+      <div class="ct__pagination" aria-hidden="true">
+        {%- assign col_labels = 'How it works,What to consider,Cost over time,Side effects' | split: ',' -%}
+        {%- for label in col_labels -%}
+          <button class="ct__dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="{{ label }}"></button>
+        {%- endfor -%}
+      </div>
+    </comparison-table>
+
+    {%- assign ct_product = all_products[section.settings.button_product] -%}
+    {%- assign ct_variant = nil -%}
+    {%- if ct_product != blank -%}
+      {%- assign ct_variant = ct_product.first_available_variant -%}
+    {%- endif -%}
+    {%- if section.settings.button_text != blank and ct_variant != nil -%}
+      <div class="ct__cta">
+        <button
+          class="ct__btn"
+          type="button"
+          data-variant-id="{{ ct_variant.id }}"
+        >
+          {{ section.settings.button_text }}
+        </button>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison Table",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Why We Are Really Different"
+    },
+    {
+      "type": "header",
+      "content": "Our Product Row"
+    },
+    {
+      "type": "text",
+      "id": "our_name",
+      "label": "Brand name",
+      "default": "Terra Therapy"
+    },
+    {
+      "type": "image_picker",
+      "id": "our_logo",
+      "label": "Brand logo (white version)"
+    },
+    {
+      "type": "image_picker",
+      "id": "our_product_image",
+      "label": "Product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "our_row_bg",
+      "label": "Row background image"
+    },
+    {
+      "type": "textarea",
+      "id": "our_how_it_works",
+      "label": "How it works",
+      "default": "Reconnects body to Earth's natural charge to reduce inflammation and improve sleep"
+    },
+    {
+      "type": "textarea",
+      "id": "our_what_to_consider",
+      "label": "What to consider",
+      "default": "Requires grounded outlet and direct skin contact for best results"
+    },
+    {
+      "type": "text",
+      "id": "our_cost_over_time",
+      "label": "Cost over time",
+      "default": "One-time purchase"
+    },
+    {
+      "type": "text",
+      "id": "our_side_effects",
+      "label": "Side effects",
+      "default": "None - 100% safe, drug-free"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "ADD TO CART"
+    },
+    {
+      "type": "product",
+      "id": "button_product",
+      "label": "Product to add to cart"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "competitor",
+      "name": "Competitor",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Competitor"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon / product image"
+        },
+        {
+          "type": "textarea",
+          "id": "how_it_works",
+          "label": "How it works",
+          "default": "Description of how it works"
+        },
+        {
+          "type": "textarea",
+          "id": "what_to_consider",
+          "label": "What to consider",
+          "default": "Description of what to consider"
+        },
+        {
+          "type": "text",
+          "id": "cost_over_time",
+          "label": "Cost over time",
+          "default": "Ongoing"
+        },
+        {
+          "type": "textarea",
+          "id": "side_effects",
+          "label": "Side effects",
+          "default": "Description of side effects"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison Table",
+      "blocks": [
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "Sleeping Pills",
+            "how_it_works": "Sedate the brain with sleep-inducing chemicals",
+            "what_to_consider": "Tolerance builds, grogginess, not long-term safe",
+            "cost_over_time": "Ongoing",
+            "side_effects": "Dependency & side effects"
+          }
+        },
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "Pain Meds",
+            "how_it_works": "Block pain signals temporarily",
+            "what_to_consider": "Doesn't treat root cause, side effects common",
+            "cost_over_time": "High if chronic",
+            "side_effects": "Risk of addiction or long-term damage"
+          }
+        },
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "Chiropractor",
+            "how_it_works": "Manual realignment of joints/spine",
+            "what_to_consider": "Frequent visits needed, temporary relief",
+            "cost_over_time": "High recurring cost",
+            "side_effects": "Not suitable for every condition"
+          }
+        },
+        {
+          "type": "competitor",
+          "settings": {
+            "name": "Supplements",
+            "how_it_works": "Target isolated symptoms like melatonin or blue light",
+            "what_to_consider": "Vary in effectiveness, often don't address the root",
+            "cost_over_time": "Ongoing",
+            "side_effects": "Often unproven or inconsistent"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
