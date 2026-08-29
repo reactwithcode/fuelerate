@@ -290,11 +290,13 @@
         "benefit_nwHWeD": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/showcase_benefit_icon_3.png",
             "title": "Cardiovascular & Circulatory Health",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "description": "Grounding supports healthy blood flow and thermal regulation. Ideal for those managing:",
+            "bullets": "Poor circulation\nHigh blood pressure\nSwollen legs & feet\nVaricose veins\nCold extremities",
             "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
+            "cta_url": "https://my.clevelandclinic.org/health/body/circulatory-and-cardiovascular-system",
+            "category_image": "shopify://shop_images/showcase_benefit_category_3.png"
           }
         },
         "benefit_mWFTcg": {
