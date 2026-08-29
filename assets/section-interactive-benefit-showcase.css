@@ -77,9 +77,9 @@
 
 .ibs__left {
   grid-area: left;
+  align-self: start;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 1.5rem 2.5rem 4rem 5.5rem;
 }
 
