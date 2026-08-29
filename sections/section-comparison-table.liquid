@@ -16,13 +16,11 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+  {%- if section.settings.our_row_bg != blank -%}
   .section-{{ section.id }} .ct__row--ours {
-    {%- if section.settings.our_row_bg != blank -%}
-      background-image: url('{{ section.settings.our_row_bg | image_url: width: 1400 }}');
-    {%- else -%}
-      background-image: url('{{ 'ct-bg-ours.png' | asset_url }}');
-    {%- endif -%}
+    background-image: url('{{ section.settings.our_row_bg | image_url: width: 1400 }}');
   }
+  {%- endif -%}
 {%- endstyle -%}
 
 <div class="ct section-{{ section.id }}-padding section-{{ section.id }}">
