@@ -86,6 +86,34 @@
     "custom-product-information": {
       "type": "section-custom-product-information",
       "blocks": {
+        "tab_MfwhaE": {
+          "type": "tab",
+          "settings": {
+            "label": "Description",
+            "content": "<p>Experience deeper sleep, less pain, and calmer mornings, all from the comfort of your bed. Terra Therapy’s grounding sheets are woven with 400 thread count organic cotton and 10% pure silver fiber to deliver a safe, comfortable, and effective grounding connection every night.  Plug into any grounded outlet and let Earth’s natural electrons flow through the sheet to support your body’s recovery, from better sleep and reduced inflammation to calmer nervous system function.  No EMFs. No batteries. Just effortless, science-backed healing while you sleep.</p>"
+          }
+        },
+        "tab_NPiVA6": {
+          "type": "tab",
+          "settings": {
+            "label": "Who is it for?",
+            "content": "<p>Grounding can support you if you’re:<br/></p><ul><li>Struggling with poor sleep, racing thoughts, or insomnia</li><li>Waking up stiff, sore, or fatigued</li><li>Living with chronic pain, inflammation, or autoimmune issues</li><li>Experiencing anxiety, stress, or hormonal imbalance</li><li>Looking for a natural, non-invasive wellness solution</li></ul>"
+          }
+        },
+        "tab_8AE8qj": {
+          "type": "tab",
+          "settings": {
+            "label": "Shipping & Returns",
+            "content": "<ul><li>Free U.S. shipping on orders over $100</li><li>Fast delivery: 2–6 days (U.S. & Canada), 7–10 days (EU & international)</li><li>90-Day Money-Back Guarantee: Try it risk-free. If you don’t feel the benefits, send it back. No questions asked.</li><li>Returns: Contact our support team for easy return instructions. Products must be in good condition.</li><li>Support: Our team is available 24/7 to help with ordering, setup, or troubleshooting.</li></ul>"
+          }
+        },
+        "tab_xzqVK9": {
+          "type": "tab",
+          "settings": {
+            "label": "Care Instructions",
+            "content": "<p>To maintain conductivity and extend the life of your grounding sheet:<br/></p><ul><li>Wash on gentle cycle with mild detergent</li><li>Avoid bleach, fabric softeners, or dryer sheets</li><li>Air dry when possible, or tumble dry on low</li><li>Do not dry clean</li><li>Wash regularly to remove body oils that can affect performance</li></ul><p>We include full care instructions in the box, and our customer team is always available if you need help.</p>"
+          }
+        },
         "customer_photo_Xtai9M": {
           "type": "customer_photo",
           "settings": {
@@ -159,6 +187,10 @@
         }
       },
       "block_order": [
+        "tab_MfwhaE",
+        "tab_NPiVA6",
+        "tab_8AE8qj",
+        "tab_xzqVK9",
         "customer_photo_Xtai9M",
         "customer_photo_JRpR8G",
         "customer_photo_BDRrMF",
@@ -183,6 +215,51 @@
         "padding_bottom": 48
       }
     },
+    "section_trust_bar_bwYC9J": {
+      "type": "section-trust-bar",
+      "blocks": {
+        "item_wGrDJf": {
+          "type": "item",
+          "settings": {
+            "label": "90-Day Results-Backed Guarantee"
+          }
+        },
+        "item_CWDUCA": {
+          "type": "item",
+          "settings": {
+            "label": "Designed in USA"
+          }
+        },
+        "item_pxRPx4": {
+          "type": "item",
+          "settings": {
+            "label": "Ships in 2–6 Days"
+          }
+        },
+        "item_3thWNd": {
+          "type": "item",
+          "settings": {
+            "label": "A Tree Planted per Order"
+          }
+        }
+      },
+      "block_order": [
+        "item_wGrDJf",
+        "item_CWDUCA",
+        "item_pxRPx4",
+        "item_3thWNd"
+      ],
+      "name": "Trust Bar",
+      "settings": {
+        "background_color": "#31331e",
+        "icon_size": 36,
+        "label_color": "#ffffff",
+        "label_size": 20,
+        "padding_horizontal": 40,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
     "disclosures": {
       "type": "disclosures",
       "settings": {
@@ -196,6 +273,7 @@
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -216,6 +294,7 @@
   "order": [
     "main",
     "custom-product-information",
+    "section_trust_bar_bwYC9J",
     "disclosures",
     "related-products"
   ]
