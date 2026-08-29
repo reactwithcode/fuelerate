@@ -44,7 +44,7 @@ Status: Testing
 
 ### Mobile carousel
 
-- [Terra Therapy row should wider than the solution column. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0 and mobile.png on reference folder] Terra Therapy row has no horizontal overflow or scroll on mobile
+- [Terra Therapy row's column should wider than the solution column and Terra Therapy row's column on how it works column should wider than the how it works column. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0 and mobile.png on reference folder] Terra Therapy row has no horizontal overflow or scroll on mobile
 - [solution column and how it works column should be sperated with a space. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0 and mobile.png on reference folder] On mobile (< 750px), only the Solution column + one attribute column are visible at a time
 - [ ] First attribute column ("How it works") is visible by default on load
 - [ ] 4 pagination dots visible below the table, first dot active
