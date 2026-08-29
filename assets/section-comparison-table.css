@@ -229,6 +229,18 @@
   background-color: #96b518;
 }
 
+.ct__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ct__cart-error {
+  text-align: center;
+  color: #c0392b;
+  font-size: 1.4rem;
+  margin-top: 0.8rem;
+}
+
 /* ================================================
    TABLET  (750px – 989px): tighten up cell padding
    ================================================ */

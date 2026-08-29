@@ -107,11 +107,20 @@
       </div>
     </comparison-table>
 
-    {%- if section.settings.button_text != blank -%}
+    {%- assign ct_product = all_products[section.settings.button_product] -%}
+    {%- assign ct_variant = nil -%}
+    {%- if ct_product != blank -%}
+      {%- assign ct_variant = ct_product.first_available_variant -%}
+    {%- endif -%}
+    {%- if section.settings.button_text != blank and ct_variant != nil -%}
       <div class="ct__cta">
-        <a href="{{ section.settings.button_url | default: '#' }}" class="ct__btn">
+        <button
+          class="ct__btn"
+          type="button"
+          data-variant-id="{{ ct_variant.id }}"
+        >
           {{ section.settings.button_text }}
-        </a>
+        </button>
       </div>
     {%- endif -%}
 
@@ -190,9 +199,9 @@
       "default": "ADD TO CART"
     },
     {
-      "type": "url",
-      "id": "button_url",
-      "label": "Button link"
+      "type": "product",
+      "id": "button_product",
+      "label": "Product to add to cart"
     },
     {
       "type": "header",
