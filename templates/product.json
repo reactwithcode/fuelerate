@@ -85,6 +85,92 @@
     },
     "custom-product-information": {
       "type": "section-custom-product-information",
+      "blocks": {
+        "customer_photo_Xtai9M": {
+          "type": "customer_photo",
+          "settings": {
+            "image": "shopify://shop_images/Ellipse_Photo_1.png",
+            "alt": "Happy customer"
+          }
+        },
+        "customer_photo_JRpR8G": {
+          "type": "customer_photo",
+          "settings": {
+            "image": "shopify://shop_images/Ellipse_Photo_2.png",
+            "alt": "Happy customer"
+          }
+        },
+        "customer_photo_BDRrMF": {
+          "type": "customer_photo",
+          "settings": {
+            "image": "shopify://shop_images/Ellipse_Photo_1.png",
+            "alt": "Happy customer"
+          }
+        },
+        "customer_photo_UV9tzb": {
+          "type": "customer_photo",
+          "settings": {
+            "image": "shopify://shop_images/Ellipse_Photo_2.png",
+            "alt": "Happy customer"
+          }
+        },
+        "customer_photo_QVxhHE": {
+          "type": "customer_photo",
+          "settings": {
+            "image": "shopify://shop_images/Ellipse_Photo_1.png",
+            "alt": "Happy customer"
+          }
+        },
+        "benefit_dKPebb": {
+          "type": "benefit",
+          "settings": {
+            "text": "Describe one product benefit here"
+          }
+        },
+        "benefit_wJQFAF": {
+          "type": "benefit",
+          "settings": {
+            "text": "Describe one product benefit here"
+          }
+        },
+        "benefit_rwaCNP": {
+          "type": "benefit",
+          "settings": {
+            "text": "Describe one product benefit here"
+          }
+        },
+        "benefit_UDdgak": {
+          "type": "benefit",
+          "settings": {
+            "text": "Describe one product benefit here"
+          }
+        },
+        "benefit_F9mdRp": {
+          "type": "benefit",
+          "settings": {
+            "text": "Describe one product benefit here"
+          }
+        },
+        "benefit_FXg3mz": {
+          "type": "benefit",
+          "settings": {
+            "text": "Describe one product benefit here"
+          }
+        }
+      },
+      "block_order": [
+        "customer_photo_Xtai9M",
+        "customer_photo_JRpR8G",
+        "customer_photo_BDRrMF",
+        "customer_photo_UV9tzb",
+        "customer_photo_QVxhHE",
+        "benefit_dKPebb",
+        "benefit_wJQFAF",
+        "benefit_rwaCNP",
+        "benefit_UDdgak",
+        "benefit_F9mdRp",
+        "benefit_FXg3mz"
+      ],
       "settings": {
         "description": "Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home.",
         "show_limited_stock": true,
