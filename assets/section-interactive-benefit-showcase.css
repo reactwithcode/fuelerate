@@ -51,8 +51,18 @@ benefit-showcase {
   display: grid;
   max-width: 1600px;
   margin: 0 auto;
-  /* 4th column (67px) = panel's right margin, keeps left col at ~462px matching Figma */
-  grid-template-columns: 1fr var(--ibs-image-col-width, 23%) minmax(340px, 580px) 67px;
+  /* No column is `1fr` anymore (see grid-template-columns below), so the
+     tracks won't necessarily fill the full container width on their own —
+     without this they'd pack to the left, leaving empty space only on the
+     right instead of staying visually centered. */
+  justify-content: center;
+  /* Left column was `1fr`, which absorbs all leftover space once the max-width
+     cap leaves the image/panel columns short of the budget — at wide viewports
+     that stretched the pills column (and the intro block above it) far wider
+     than Figma's ~462px, leaving a large empty gap before the image. Bounding
+     it keeps pills/heading/subtext close to the image at every width.
+     4th column (67px) = panel's right margin. */
+  grid-template-columns: minmax(340px, 462px) var(--ibs-image-col-width, 23%) minmax(340px, 580px) 67px;
   /* Row 1: intro heading/subtext (auto height). Row 2: pills + image (fixed
      460px) — a fixed row keeps the image/panel a consistent height regardless
      of how the intro text wraps at different viewport widths; leaving it as
@@ -69,7 +79,7 @@ benefit-showcase {
 }
 
 .ibs--no-images {
-  grid-template-columns: 1fr minmax(340px, 580px);
+  grid-template-columns: minmax(340px, 462px) minmax(340px, 580px);
   grid-template-areas:
     'intro panel'
     'left  panel';
@@ -107,6 +117,10 @@ benefit-showcase {
   color: #31331e;
   margin: 0;
   line-height: 1.2;
+  /* Figma: 681.7px. Without this, the heading stretches across the full
+     intro width at wide viewports and wraps to fewer/longer lines than
+     the reference. */
+  max-width: 682px;
 }
 
 /* Figma: Figtree 400, 16px, line-height 1.11 */
@@ -117,6 +131,10 @@ benefit-showcase {
   color: #31331e;
   line-height: 1.11;
   margin: 0;
+  /* Figma: 645px. Same reasoning as .ibs__heading — caps the line width so
+     it wraps to 3 lines like the reference instead of stretching wider and
+     collapsing to 2 lines at wide viewports. */
+  max-width: 645px;
 }
 
 /* ——— Pill list ——— */
