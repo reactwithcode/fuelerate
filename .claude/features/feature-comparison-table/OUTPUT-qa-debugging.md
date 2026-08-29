@@ -20,7 +20,7 @@ Status: Testing
 
 - [ ] Section renders without errors on a Shopify page
 - [ ] Heading "Why We Are Really Different" is visible and styled correctly
-- [ ] Terra Therapy row is wider than the white card (~20px per side), with a left-to-dark gradient and rounded corners
+- [align center and gradient color should lighter looks the figma https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-2405&t=4jOoUmIxKiys88Dy-0 and desktop.png on reference folder] Terra Therapy row is wider than the white card (~20px per side), with a left-to-dark gradient and rounded corners
 - [ ] Terra Therapy row has no vertical gap from the header row above or the competitor rows below
 - [ ] All 4 competitor rows render below the brand row
 - [ ] White card corners still appear rounded (top-left, top-right, bottom-left, bottom-right)
@@ -44,8 +44,8 @@ Status: Testing
 
 ### Mobile carousel
 
-- [ ] Terra Therapy row has no horizontal overflow or scroll on mobile
-- [ ] On mobile (< 750px), only the Solution column + one attribute column are visible at a time
+- [Terra Therapy row should wider than the solution column. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0 and mobile.png on reference folder] Terra Therapy row has no horizontal overflow or scroll on mobile
+- [solution column and how it works column should be sperated with a space. looks https://www.figma.com/design/yw8bxwzgE1IPEiORri0rjD/Dev-Assessment--Copy-?node-id=1-4012&t=4jOoUmIxKiys88Dy-0 and mobile.png on reference folder] On mobile (< 750px), only the Solution column + one attribute column are visible at a time
 - [ ] First attribute column ("How it works") is visible by default on load
 - [ ] 4 pagination dots visible below the table, first dot active
 - [ ] Swiping left slides to the next attribute column
