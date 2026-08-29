@@ -134,8 +134,7 @@
   left: -20px;
   right: -20px;
   background-color: #41643a;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background-image: linear-gradient(90deg, #7aa66f 0%, #41643a 100%);
   border-radius: 5px;
   z-index: -1;
 }
@@ -156,7 +155,7 @@
 .ct__row--ours .ct__col-track .ct__cell {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 /* ── Competitor rows ── */
@@ -324,7 +323,7 @@
   .ct__card {
     display: grid;
     grid-template-columns: 108px 1fr;
-    column-gap: 25px;
+    column-gap: 20px;
     background: transparent;
     box-shadow: none;
     border-radius: 0;
@@ -333,6 +332,18 @@
   /* Rows dissolve into the grid — their children participate directly */
   .ct__row {
     display: contents;
+  }
+
+  /* The desktop bleed decoration (.ct__row--ours::before, added for the
+     column-divider-alignment fix) must be explicitly hidden on mobile —
+     display:contents on the row does NOT reliably suppress ::before
+     generation in every browser. Left unhidden, it renders as a stray
+     absolutely-positioned box (its containing block falls through to an
+     ancestor since display:contents doesn't establish one), showing up
+     as an extra chip-shaped block below the real content. Mobile paints
+     its own chip backgrounds directly on the cells instead. */
+  .ct__row--ours::before {
+    display: none;
   }
 
   /* Solution cells: white card, left column */
@@ -392,29 +403,65 @@
   .ct__row--competitor:last-child .ct__col-viewport { border-bottom-right-radius: 5px; }
 
   /* Terra Therapy row — two independent floating chips (matches Figma:
-     each cell is fully rounded on its own, not merged into one flat seam),
-     both drawing from the same sage-green-to-olive gradient */
+     each cell is fully rounded on its own, not merged into one flat seam).
+     Uses plain CSS gradients here (not an image like desktop) — Figma's
+     mobile chip graphic is a small glow/highlight texture sized for an
+     ~80px-tall mockup cell; the live cell is much taller (real text wraps
+     to several lines), so stretching that image smears the glow into a
+     blob. Multi-stop CSS gradients scale cleanly to any cell height.
+     Stops below are sampled directly from the client's reference PNG
+     (.claude/features/feature-comparison-table/reference/mobile.png) —
+     the Solution chip actually lightens left→right (not a fade to dark),
+     and the attribute chip has an off-center glow (dark both edges,
+     brightest around 70-80% of its width), not a simple 2-stop fade.
+     A merchant-uploaded background image (real photo) still applies via
+     the media query below. */
+  /* align-self: start — each chip is sized to its own content (Figma shows
+     the shorter "how it works" text chip ending well above the taller
+     icon+logo solution chip), instead of CSS Grid's default stretch, which
+     would force both to the row's tallest item's height */
   .ct__row--ours .ct__cell--solution {
-    background-color: #41643a;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background-image: linear-gradient(90deg, #7e9c69 0%, #9eb582 100%);
     margin: 0 -8px;
     padding-left: calc(1rem + 8px);
     border-radius: 5px;
     border-top: none;
     position: relative;
     z-index: 1;
+    align-self: start;
   }
 
+  /* The viewport itself stays full height with its normal white background
+     (no align-self here) — this is what covers the space below the
+     shorter chip inside it. Giving align-self to the viewport directly
+     (like the solution cell above) left that space uncovered, showing the
+     transparent card background instead of white. The chip itself lives
+     on the cell inside (below) so it can be shorter than the viewport. */
+  /* No margin/bleed here (unlike the solution cell) — comparison-table.js
+     measures slider width from the header row's viewport and applies that
+     same offset to every row's track. If this viewport were wider than the
+     header's, each slide advance would compound the mismatch (a growing
+     sliver of the previous slide left visible, worse with each swipe). */
   .ct__row--ours .ct__col-viewport {
-    background-color: #41643a;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    margin: 0 -8px;
-    border-radius: 5px;
-    border-top: none;
+    background-color: #ffffff;
     position: relative;
     z-index: 1;
+  }
+
+  .ct__row--ours .ct__col-track {
+    align-items: center;
+  }
+
+  .ct__row--ours .ct__col-track .ct__cell {
+    /* Radial glow, sampled directly from the client's reference PNG
+       (.claude/features/feature-comparison-table/reference/mobile.png) —
+       brightest slightly right of center near the bottom, darkest at the
+       top corners. Fixed px radii (not relative/auto ellipse sizing) so
+       the contrast stays consistent regardless of the cell's actual
+       rendered size — auto-sizing washed out the contrast once the real
+       cell's proportions differed from Figma's tiny mockup. */
+    background-image: radial-gradient(ellipse 220px 90px at 58% 100%, #89a872 0%, #6b8d5d 45%, #587a4c 75%, #54774c 100%);
+    border-radius: 5px;
   }
 
   /* Image sizes */

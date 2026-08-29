@@ -16,18 +16,14 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-  {%- comment -%} Terra Therapy row background: merchant upload wins, otherwise fall back to the theme's default gradient graphic (matches Figma). Painted on ::before (not the row itself) so the row's own grid-template-columns stays identical to sibling rows and the column dividers stay aligned. {%- endcomment -%}
+  {%- comment -%} Terra Therapy row background: merchant upload wins on desktop, otherwise the CSS gradient (see section-comparison-table.css) shows. Mobile ALWAYS uses the CSS gradient, even if a background image is uploaded — a photo cover-cropped into these small chip shapes (confirmed via DevTools: the Solution cell was rendering the uploaded row background image via background-size:cover, not the tuned gradient) looks wrong at this size, unlike desktop's single wide bar. {%- endcomment -%}
+  {%- if section.settings.our_row_bg != blank -%}
   .section-{{ section.id }} .ct__row--ours::before {
-    background-image: url('{% if section.settings.our_row_bg != blank %}{{ section.settings.our_row_bg | image_url: width: 1400 }}{% else %}{{ 'ct-row-bg-desktop.png' | asset_url }}{% endif %}');
+    background-image: url('{{ section.settings.our_row_bg | image_url: width: 1400 }}');
+    background-size: cover;
+    background-position: center;
   }
-  @media screen and (max-width: 749px) {
-    .section-{{ section.id }} .ct__row--ours .ct__cell--solution {
-      background-image: url('{% if section.settings.our_row_bg != blank %}{{ section.settings.our_row_bg | image_url: width: 400 }}{% else %}{{ 'ct-row-bg-mobile-solution.png' | asset_url }}{% endif %}');
-    }
-    .section-{{ section.id }} .ct__row--ours .ct__col-viewport {
-      background-image: url('{% if section.settings.our_row_bg != blank %}{{ section.settings.our_row_bg | image_url: width: 800 }}{% else %}{{ 'ct-row-bg-mobile-attribute.png' | asset_url }}{% endif %}');
-    }
-  }
+  {%- endif -%}
 {%- endstyle -%}
 
 <div class="ct section-{{ section.id }}-padding section-{{ section.id }}">
