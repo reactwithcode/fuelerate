@@ -260,8 +260,90 @@
         "padding_bottom": 28
       }
     },
+    "section_interactive_benefit_showcase_y7H4i9": {
+      "type": "section-interactive-benefit-showcase",
+      "blocks": {
+        "benefit_4qwczt": {
+          "type": "benefit",
+          "settings": {
+            "title": "Neurological & Mental Health",
+            "description": "Describe the benefit category here.",
+            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "cta_text": "Explore the science behind these benefits",
+            "cta_url": ""
+          }
+        },
+        "benefit_xkWiAJ": {
+          "type": "benefit",
+          "settings": {
+            "title": "Musculoskeletal Pain & Inflammation",
+            "description": "Describe the benefit category here.",
+            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "cta_text": "Explore the science behind these benefits",
+            "cta_url": ""
+          }
+        },
+        "benefit_nwHWeD": {
+          "type": "benefit",
+          "settings": {
+            "title": "Cardiovascular & Circulatory Health",
+            "description": "Describe the benefit category here.",
+            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "cta_text": "Explore the science behind these benefits",
+            "cta_url": ""
+          }
+        },
+        "benefit_mWFTcg": {
+          "type": "benefit",
+          "settings": {
+            "title": "Immune & Inflammatory Conditions",
+            "description": "Describe the benefit category here.",
+            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "cta_text": "Explore the science behind these benefits",
+            "cta_url": ""
+          }
+        },
+        "benefit_zBHRNf": {
+          "type": "benefit",
+          "settings": {
+            "title": "Hormonal & Metabolic Balance",
+            "description": "Describe the benefit category here.",
+            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "cta_text": "Explore the science behind these benefits",
+            "cta_url": ""
+          }
+        },
+        "benefit_gGPnAm": {
+          "type": "benefit",
+          "settings": {
+            "title": "Specialized Support",
+            "description": "Describe the benefit category here.",
+            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "cta_text": "Explore the science behind these benefits",
+            "cta_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "benefit_4qwczt",
+        "benefit_xkWiAJ",
+        "benefit_nwHWeD",
+        "benefit_mWFTcg",
+        "benefit_zBHRNf",
+        "benefit_gGPnAm"
+      ],
+      "name": "Benefit Showcase",
+      "settings": {
+        "heading": "One Natural Solution. Whole-Body Benefits.",
+        "subtext": "Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. Backed by 20+ years of research and thousands of customer results.",
+        "image_width": 23,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
     "disclosures": {
       "type": "disclosures",
+      "disabled": true,
       "settings": {
         "heading": "Disclosures",
         "heading_size": "h2",
@@ -295,6 +377,7 @@
     "main",
     "custom-product-information",
     "section_trust_bar_bwYC9J",
+    "section_interactive_benefit_showcase_y7H4i9",
     "disclosures",
     "related-products"
   ]
