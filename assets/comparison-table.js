@@ -69,6 +69,8 @@ if (!customElements.get('comparison-table')) {
       if (!variantId) return;
 
       this.ctaBtn.disabled = true;
+      this.ctaBtn.classList.add('loading');
+      this.ctaBtn.querySelector('.loading__spinner')?.classList.remove('hidden');
 
       try {
         const response = await fetch('/cart/add.js', {
@@ -98,6 +100,8 @@ if (!customElements.get('comparison-table')) {
         this.showCartError();
       } finally {
         this.ctaBtn.disabled = false;
+        this.ctaBtn.classList.remove('loading');
+        this.ctaBtn.querySelector('.loading__spinner')?.classList.add('hidden');
       }
     }
 

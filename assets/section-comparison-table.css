@@ -252,6 +252,7 @@
   min-width: 372px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  position: relative;
 }
 
 .ct__btn:hover {
@@ -261,6 +262,20 @@
 .ct__btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.ct__btn.loading {
+  color: transparent;
+}
+
+.ct__btn.loading > .loading__spinner {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .ct__cart-error {

@@ -136,7 +136,8 @@
             type="button"
             data-variant-id="{{ ct_variant.id }}"
           >
-            {{ section.settings.button_text }}
+            <span class="ct__btn-text">{{ section.settings.button_text }}</span>
+            {%- render 'loading-spinner' -%}
           </button>
         </div>
       {%- endif -%}

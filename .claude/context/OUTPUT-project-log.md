@@ -184,6 +184,14 @@ Fixed the highlighted "Terra Therapy" row in `sections/section-comparison-table.
 
 **Not yet verified in a live theme preview** — no dev server available in this session; visual confirmation is pending the next QA round. See Round 3 in `OUTPUT-qa-debugging.md`.
 
+## 2026-08-29 — Add-to-cart spinner centered on both sections
+
+Small fix, no plan needed. Both `section-custom-product-information.liquid`'s Add to Cart button and `section-comparison-table.liquid`'s CTA button now center the loading spinner over the button while it's submitting, matching the theme's existing `.button.loading` convention in `base.css` (button text goes `color: transparent`, spinner absolutely centered via `top/left: 50%` + `translate(-50%, -50%)`), instead of each section improvising its own positioning:
+- `assets/section-custom-product-information.css`: `.cpi__btn-cart` spinner was right-aligned (`right: 2rem`), not centered — replaced with the centered pattern.
+- `assets/section-comparison-table.css` / `.liquid` / `assets/comparison-table.js`: `.ct__btn` had **no spinner at all** — added the `loading-spinner` snippet render, wrapped the button label in `.ct__btn-text` (so it can be hidden while loading), added the centered CSS, and wired `comparison-table.js`'s `handleCartClick()` to toggle `.loading` on the button and un/hide the spinner around the fetch call.
+
+**Not yet verified in a live theme preview** — no dev server available in this session.
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 # OUTPUT-project-log.md — v1.0
