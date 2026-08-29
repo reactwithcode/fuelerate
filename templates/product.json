@@ -66,6 +66,7 @@
         "description",
         "share"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
@@ -82,16 +83,30 @@
         "padding_bottom": 12
       }
     },
+    "custom-product-information": {
+      "type": "section-custom-product-information",
+      "settings": {
+        "description": "Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home.",
+        "show_limited_stock": true,
+        "limited_stock_text": "Limited Stock",
+        "viewers_text": "23 people viewing this now",
+        "benefits_heading": "Why you need this?",
+        "button_text": "ADD TO CART",
+        "social_proof_heading": "Real People. Real Healing.",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
     "disclosures": {
       "type": "disclosures",
       "settings": {
+        "heading": "Disclosures",
+        "heading_size": "h2",
+        "open_by_default": false,
+        "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 0
       }
-    },
-    "custom-product-information": {
-      "type": "section-custom-product-information",
-      "settings": {}
     },
     "related-products": {
       "type": "related-products",
