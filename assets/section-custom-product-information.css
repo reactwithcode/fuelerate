@@ -443,7 +443,7 @@
   height: 9.4rem;
   border-radius: 50%;
   overflow: hidden;
-  outline: 2px solid #a8ca1b;
+  outline: #000;
   outline-offset: 2px;
   flex-shrink: 0;
 }
