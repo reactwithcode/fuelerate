@@ -141,6 +141,7 @@
 .ct__row--ours .ct__col-track .ct__cell {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 /* ── Competitor rows ── */
@@ -375,21 +376,23 @@
   .ct__row--competitor:last-child .ct__cell--solution { border-bottom-left-radius: 5px; }
   .ct__row--competitor:last-child .ct__col-viewport { border-bottom-right-radius: 5px; }
 
-  /* Terra Therapy row — dark gradient, extends wider than the column grid */
+  /* Terra Therapy row — two independent floating chips (matches Figma:
+     each cell is fully rounded on its own, not merged into one flat seam),
+     both drawing from the same sage-green-to-olive gradient */
   .ct__row--ours .ct__cell--solution {
     background: linear-gradient(90deg, #7aa66f 0%, #31331e 100%);
     margin-left: -8px;
     padding-left: calc(1rem + 8px);
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
     border-top: none;
     position: relative;
     z-index: 1;
   }
 
   .ct__row--ours .ct__col-viewport {
-    background: #31331e;
+    background: linear-gradient(90deg, #7aa66f 0%, #31331e 30%);
     margin-right: -8px;
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px;
     border-top: none;
     position: relative;
     z-index: 1;
