@@ -1,7 +1,3 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400&display=swap">
-
 {{ 'section-trust-bar.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
@@ -35,17 +31,32 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  assign default_icons = 'trust-bar-icon-shield-check.svg,trust-bar-icon-usa.svg,trust-bar-icon-package.svg,trust-bar-icon-tree.svg' | split: ','
+  assign icon_src_width = section.settings.icon_size | times: 2
+-%}
+
 {% if section.blocks.size > 0 %}
   <div class="trust-bar section-{{ section.id }}-padding">
     <div class="trust-bar__inner">
       <ul class="trust-bar__items" role="list">
         {% for block in section.blocks %}
+          {%- assign default_icon = default_icons[forloop.index0] -%}
           <li class="trust-bar__item" {{ block.shopify_attributes }}>
             {% if block.settings.icon != blank %}
-              {%- assign icon_src_width = section.settings.icon_size | times: 2 -%}
               <div class="trust-bar__icon">
                 <img
                   src="{{ block.settings.icon | image_url: width: icon_src_width }}"
+                  width="{{ section.settings.icon_size }}"
+                  height="{{ section.settings.icon_size }}"
+                  alt=""
+                  loading="eager"
+                >
+              </div>
+            {% elsif default_icon != blank %}
+              <div class="trust-bar__icon">
+                <img
+                  src="{{ default_icon | asset_url }}"
                   width="{{ section.settings.icon_size }}"
                   height="{{ section.settings.icon_size }}"
                   alt=""
@@ -154,7 +165,8 @@
         {
           "type": "image_picker",
           "id": "icon",
-          "label": "Icon"
+          "label": "Custom icon",
+          "info": "Optional. Defaults to a preset icon based on position (1–4)."
         },
         {
           "type": "text",

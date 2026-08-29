@@ -1,3 +1,12 @@
+/* ── Recoleta (self-hosted on store CDN, same file as CPI section) ── */
+@font-face {
+  font-family: 'Recoleta';
+  src: url('https://cdn.shopify.com/s/files/1/0831/6557/7465/files/Recoleta_Regular.otf?v=1787898052') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 .trust-bar {
   width: 100%;
 }
@@ -35,7 +44,7 @@
 }
 
 .trust-bar__label {
-  font-family: 'Figtree', sans-serif;
+  font-family: 'Recoleta', serif;
   font-weight: 400;
   line-height: 1.11;
   margin: 0;
