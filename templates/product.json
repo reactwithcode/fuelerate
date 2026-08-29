@@ -314,11 +314,13 @@
         "benefit_zBHRNf": {
           "type": "benefit",
           "settings": {
+            "icon": "shopify://shop_images/showcase_benefit_icon_5.png",
             "title": "Hormonal & Metabolic Balance",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
+            "description": "Grounding helps support hormone and metabolic regulation. Particularly helpful for:",
+            "bullets": "Menopause & perimenopause\nPCOS & irregular cycles\nThyroid imbalance\nInsulin resistance & blood sugar issues",
             "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
+            "cta_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8020896/",
+            "category_image": "shopify://shop_images/showcase_benefit_category_5.png"
           }
         },
         "benefit_gGPnAm": {
