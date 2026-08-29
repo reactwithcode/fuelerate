@@ -51,8 +51,15 @@ if (!customElements.get('comparison-table')) {
       // Only apply transforms when the viewport is a real box (mobile).
       // On desktop, display: contents makes offsetWidth === 0.
       if (getComputedStyle(this.firstViewport).display === 'contents') return;
-      const w = this.firstViewport.offsetWidth;
+      // Each track measures its own parent viewport's width rather than
+      // sharing one row's width across all of them — rows like the Terra
+      // Therapy highlight can be a different width (e.g. it bleeds past
+      // the card edge), and sharing a single width caused the offset to
+      // drift further off with every slide advance for any row whose
+      // viewport width didn't match the row used to measure it.
       this.tracks.forEach((track) => {
+        const viewport = track.parentElement;
+        const w = viewport ? viewport.offsetWidth : 0;
         track.style.transform = `translateX(${-(this.activeIndex * w)}px)`;
       });
     }

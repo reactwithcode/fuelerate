@@ -317,6 +317,10 @@
     margin-bottom: 2.4rem;
   }
 
+  .ct__row--ours .ct__col-track .ct__cell {
+    height: 100px;
+  }
+
   /* Card becomes a 2-column grid — rows use display:contents so
      solution cells stack into column 1 and viewports into column 2.
      The cream gap between columns is the section background showing through. */
@@ -437,13 +441,14 @@
      (like the solution cell above) left that space uncovered, showing the
      transparent card background instead of white. The chip itself lives
      on the cell inside (below) so it can be shorter than the viewport. */
-  /* No margin/bleed here (unlike the solution cell) — comparison-table.js
-     measures slider width from the header row's viewport and applies that
-     same offset to every row's track. If this viewport were wider than the
-     header's, each slide advance would compound the mismatch (a growing
-     sliver of the previous slide left visible, worse with each swipe). */
+  /* Bleeds like the solution cell (matches Figma's floating-chip look on
+     both sides of the row). Safe now that comparison-table.js measures
+     each row's own viewport width instead of sharing one row's width
+     across every track — previously this margin caused a growing
+     slide-drift glitch because of that shared-width assumption. */
   .ct__row--ours .ct__col-viewport {
-    background-color: #ffffff;
+    background-color: white;
+    /* margin: 0 -8px; */
     position: relative;
     z-index: 1;
   }

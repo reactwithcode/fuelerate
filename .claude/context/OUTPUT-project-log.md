@@ -7,6 +7,19 @@ This is the project's persistent memory. AI reads it at the start of every sessi
 - **Architectural choices** — Technical decisions that affect the project long-term
 - **Risks & open questions** — Things to watch out for in future development
 
+## 2026-08-29 — Comparison Table: reverted the "shorter chip" design — attribute chip now fills the full column height on mobile
+
+After a couple of rounds trying to nail the exact white-space behavior around the "how it works" chip (color, then sides, then top/bottom), the user settled on: no white gap anywhere — the chip should fill the entire column height, matching the Solution chip exactly. This reverses the "shorter chip, centered, matching Figma's tighter mockup" design from several rounds back.
+- `assets/section-comparison-table.css`: `.ct__row--ours .ct__col-track` changed `align-items: center` → `align-items: stretch`. `.ct__row--ours .ct__col-track .ct__cell` gained an explicit `height: 100%` — needed because an externally-added unscoped rule (not mine, found a couple rounds ago and left alone at the time — see previous entry) sets a fixed `height: 90px` on the same selector for desktop; without overriding it, mobile would inherit that 90px cap even with `align-items: stretch` on the parent.
+- **Takeaway for future rounds**: the "shorter chip with visible white space" design is no longer wanted — don't reintroduce `align-items: center`/`flex-start` + shrink-to-content here without checking first, since this has flip-flopped a few times this session.
+
+## 2026-08-29 — Comparison Table: attribute chip now bleeds past the card edge on mobile too, by fixing the slider's shared-width assumption
+
+User asked for the "how it works" chip to bleed outside its column like the Solution chip does (currently flush/contained, since last round removed the viewport's bleed margin to fix the slide-drift bug). Rather than just re-add the margin (which would reintroduce that bug), fixed the actual root cause in `assets/comparison-table.js`: `updateOffset()` measured width from `this.firstViewport` (header row's) and applied that one shared value to every row's track. Changed it to measure each track's own parent viewport (`track.parentElement.offsetWidth`) independently — so a row's viewport can now be a different width (e.g. bled past the card edge) without any drift, since each row's slide offset is entirely self-contained.
+- With that fixed, restored `margin: 0 -8px` on `.ct__row--ours .ct__col-viewport` in `assets/section-comparison-table.css`, matching the Solution cell's bleed.
+- **Note**: hit a strange one mid-fix — the first attempt at this CSS edit applied cleanly but then silently reverted on disk within ~2 seconds (verified via direct `grep`, not just a stale curl cache) before the dev server ever picked it up. Re-applied it and it stuck. Watch for this if edits to this file seem to "not take" — verify against the file on disk directly, not just the last Read in context.
+- Verified both the JS and CSS changes live via the running `theme dev` server.
+
 ## 2026-08-29 — Comparison Table: two real bugs — merchant-uploaded row image overriding mobile, and a growing slider-drift glitch on slide 2+
 
 User sent DevTools screenshots that revealed the actual root cause of most of this session's back-and-forth: `section.settings.our_row_bg` **is set** on this section instance (a real uploaded file, `..._Therapy_row_background.png`), which was overriding the tuned CSS gradient on `.ct__cell--solution` via `background-size: cover` this whole time on mobile. Also surfaced a genuinely new bug: swiping to slide 2/3/4 ("Cost over time", "What to consider") showed a thin vertical strip that grew wider with each swipe.
