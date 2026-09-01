@@ -131,11 +131,89 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "section_interactive_benefit_showcase_F9WBtd": {
+      "type": "section-interactive-benefit-showcase",
+      "name": "Benefit Showcase",
+      "settings": {
+        "heading": "One Natural Solution. Whole-Body Benefits.",
+        "subtext": "Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. Backed by 20+ years of research and thousands of customer results.",
+        "image_width": 23,
+        "body_systems": [],
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "section_comparison_table_9JhWDJ": {
+      "type": "section-comparison-table",
+      "blocks": {
+        "competitor_WTYwpd": {
+          "type": "competitor",
+          "settings": {
+            "name": "Sleeping Pills",
+            "how_it_works": "Sedate the brain with sleep-inducing chemicals",
+            "what_to_consider": "Tolerance builds, grogginess, not long-term safe",
+            "cost_over_time": "Ongoing",
+            "side_effects": "Dependency & side effects"
+          }
+        },
+        "competitor_yNa67V": {
+          "type": "competitor",
+          "settings": {
+            "name": "Pain Meds",
+            "how_it_works": "Block pain signals temporarily",
+            "what_to_consider": "Doesn't treat root cause, side effects common",
+            "cost_over_time": "High if chronic",
+            "side_effects": "Risk of addiction or long-term damage"
+          }
+        },
+        "competitor_Nt8qRV": {
+          "type": "competitor",
+          "settings": {
+            "name": "Chiropractor",
+            "how_it_works": "Manual realignment of joints/spine",
+            "what_to_consider": "Frequent visits needed, temporary relief",
+            "cost_over_time": "High recurring cost",
+            "side_effects": "Not suitable for every condition"
+          }
+        },
+        "competitor_Ue6BBM": {
+          "type": "competitor",
+          "settings": {
+            "name": "Supplements",
+            "how_it_works": "Target isolated symptoms like melatonin or blue light",
+            "what_to_consider": "Vary in effectiveness, often don't address the root",
+            "cost_over_time": "Ongoing",
+            "side_effects": "Often unproven or inconsistent"
+          }
+        }
+      },
+      "block_order": [
+        "competitor_WTYwpd",
+        "competitor_yNa67V",
+        "competitor_Nt8qRV",
+        "competitor_Ue6BBM"
+      ],
+      "name": "Comparison Table",
+      "settings": {
+        "title": "Why We Are Really Different",
+        "our_name": "Terra Therapy",
+        "our_how_it_works": "Reconnects body to Earth's natural charge to reduce inflammation and improve sleep",
+        "our_what_to_consider": "Requires grounded outlet and direct skin contact for best results",
+        "our_cost_over_time": "One-time purchase",
+        "our_side_effects": "None - 100% safe, drug-free",
+        "button_text": "ADD TO CART",
+        "button_product": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "main",
     "section_custom_product_information_zePWRR",
-    "section_trust_bar_hiWWJb"
+    "section_trust_bar_hiWWJb",
+    "section_interactive_benefit_showcase_F9WBtd",
+    "section_comparison_table_9JhWDJ"
   ]
 }
