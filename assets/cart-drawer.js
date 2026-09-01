@@ -80,23 +80,49 @@ class CartDrawer extends HTMLElement {
     this.querySelector('.drawer__inner').classList.contains('is-empty') &&
       this.querySelector('.drawer__inner').classList.remove('is-empty');
     this.productId = parsedState.id;
-    this.getSectionsToRender().forEach((section) => {
-      const sectionElement = section.selector
-        ? document.querySelector(section.selector)
-        : document.getElementById(section.id);
 
-      if (!sectionElement) return;
-      sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
-    });
-
-    setTimeout(() => {
-      this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
-      this.open();
+    // Cart AJAX responses (e.g. from /cart/add.js) don't always come back with
+    // every requested section's HTML under `sections` — fetch whatever's
+    // missing directly instead of letting that abort the render and leave the
+    // drawer stuck closed even though the item was actually added.
+    this.paintSections(parsedState.sections || {}).then(() => {
+      setTimeout(() => {
+        this.querySelector('#CartDrawer-Overlay')?.addEventListener('click', this.close.bind(this));
+        this.open();
+      });
     });
   }
 
+  paintSections(sections) {
+    const sectionsToRender = this.getSectionsToRender();
+
+    const apply = (allSections) => {
+      sectionsToRender.forEach((section) => {
+        const html = this.getSectionInnerHTML(allSections[section.id], section.selector);
+        if (!html) return;
+        const sectionElement = section.selector
+          ? document.querySelector(section.selector)
+          : document.getElementById(section.id);
+        if (sectionElement) sectionElement.innerHTML = html;
+      });
+    };
+
+    const missingIds = sectionsToRender.filter((section) => !sections[section.id]).map((section) => section.id);
+    if (missingIds.length === 0) {
+      apply(sections);
+      return Promise.resolve();
+    }
+
+    return fetch(`${window.location.pathname}?sections=${missingIds.join(',')}`)
+      .then((response) => response.json())
+      .then((fetchedSections) => apply({ ...sections, ...fetchedSections }))
+      .catch(() => apply(sections));
+  }
+
   getSectionInnerHTML(html, selector = '.shopify-section') {
-    return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
+    if (!html) return '';
+    const node = new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
+    return node ? node.innerHTML : '';
   }
 
   getSectionsToRender() {
