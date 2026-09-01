@@ -25,6 +25,12 @@
   assign default_icons   = 'cpi-icon-sleep.svg,cpi-icon-muscle.svg,cpi-icon-calm.svg,cpi-icon-energy.svg,cpi-icon-organic.svg,cpi-icon-washable.svg' | split: ','
   assign product_form_id = 'cpi-form-' | append: section.id
   assign current_variant = product.selected_or_first_available_variant
+
+  # Per-product overrides — falls back to the section-level default when a
+  # product hasn't set its own metafield yet, so unconfigured products keep
+  # showing the section's default copy instead of rendering blank.
+  assign short_description = product.metafields.custom.short_description.value | default: section.settings.description
+  assign product_tabs = product.metafields.custom.tabs.value
 -%}
 
 <div class="cpi section-{{ section.id }}-padding">
@@ -131,8 +137,8 @@
           {%- endif -%}
         </div>
 
-        {%- if section.settings.description != blank -%}
-          <p class="cpi__description">{{ section.settings.description }}</p>
+        {%- if short_description != blank -%}
+          <p class="cpi__description">{{ short_description }}</p>
         {%- endif -%}
 
         <div class="cpi__price-row" id="cpi-price-{{ section.id }}">
@@ -290,8 +296,34 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} Tabs / Accordions {%- endcomment -%}
-      {%- if tab_blocks.size > 0 -%}
+      {%- comment -%} Tabs / Accordions — product metafield (per-product tab entries)
+        takes priority; falls back to the section's tab blocks for any product
+        that hasn't had its "tabs" metafield assigned yet. {%- endcomment -%}
+      {%- if product_tabs.size > 0 -%}
+        <hr class="cpi__divider">
+        <product-info-tabs class="cpi__tabs">
+          {%- for item in product_tabs -%}
+            <details
+              class="cpi__tab-item"
+              id="cpi-tab-{{ section.id }}-{{ forloop.index0 }}"
+              {% if forloop.first %}open{% endif %}
+            >
+              <summary class="cpi__tab-summary" id="cpi-btn-{{ section.id }}-{{ forloop.index0 }}">
+                {{- item.label.value -}}
+                <span class="cpi__tab-icon" aria-hidden="true"></span>
+              </summary>
+              <div
+                class="cpi__tab-panel"
+                id="cpi-panel-{{ section.id }}-{{ forloop.index0 }}"
+                role="tabpanel"
+                aria-labelledby="cpi-btn-{{ section.id }}-{{ forloop.index0 }}"
+              >
+                {{ item.content.value }}
+              </div>
+            </details>
+          {%- endfor -%}
+        </product-info-tabs>
+      {%- elsif tab_blocks.size > 0 -%}
         <hr class="cpi__divider">
         <product-info-tabs class="cpi__tabs">
           {%- for block in tab_blocks -%}
