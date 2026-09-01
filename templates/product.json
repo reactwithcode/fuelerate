@@ -113,95 +113,13 @@
             "label": "Care Instructions",
             "content": "<p>To maintain conductivity and extend the life of your grounding sheet:<br/></p><ul><li>Wash on gentle cycle with mild detergent</li><li>Avoid bleach, fabric softeners, or dryer sheets</li><li>Air dry when possible, or tumble dry on low</li><li>Do not dry clean</li><li>Wash regularly to remove body oils that can affect performance</li></ul><p>We include full care instructions in the box, and our customer team is always available if you need help.</p>"
           }
-        },
-        "customer_photo_Xtai9M": {
-          "type": "customer_photo",
-          "settings": {
-            "image": "shopify://shop_images/Ellipse_Photo_1.png",
-            "alt": "Happy customer"
-          }
-        },
-        "customer_photo_JRpR8G": {
-          "type": "customer_photo",
-          "settings": {
-            "image": "shopify://shop_images/Ellipse_Photo_2.png",
-            "alt": "Happy customer"
-          }
-        },
-        "customer_photo_BDRrMF": {
-          "type": "customer_photo",
-          "settings": {
-            "image": "shopify://shop_images/Ellipse_Photo_1.png",
-            "alt": "Happy customer"
-          }
-        },
-        "customer_photo_UV9tzb": {
-          "type": "customer_photo",
-          "settings": {
-            "image": "shopify://shop_images/Ellipse_Photo_2.png",
-            "alt": "Happy customer"
-          }
-        },
-        "customer_photo_QVxhHE": {
-          "type": "customer_photo",
-          "settings": {
-            "image": "shopify://shop_images/Ellipse_Photo_1.png",
-            "alt": "Happy customer"
-          }
-        },
-        "benefit_dKPebb": {
-          "type": "benefit",
-          "settings": {
-            "text": "Describe one product benefit here"
-          }
-        },
-        "benefit_wJQFAF": {
-          "type": "benefit",
-          "settings": {
-            "text": "Describe one product benefit here"
-          }
-        },
-        "benefit_rwaCNP": {
-          "type": "benefit",
-          "settings": {
-            "text": "Describe one product benefit here"
-          }
-        },
-        "benefit_UDdgak": {
-          "type": "benefit",
-          "settings": {
-            "text": "Describe one product benefit here"
-          }
-        },
-        "benefit_F9mdRp": {
-          "type": "benefit",
-          "settings": {
-            "text": "Describe one product benefit here"
-          }
-        },
-        "benefit_FXg3mz": {
-          "type": "benefit",
-          "settings": {
-            "text": "Describe one product benefit here"
-          }
         }
       },
       "block_order": [
         "tab_MfwhaE",
         "tab_NPiVA6",
         "tab_8AE8qj",
-        "tab_xzqVK9",
-        "customer_photo_Xtai9M",
-        "customer_photo_JRpR8G",
-        "customer_photo_BDRrMF",
-        "customer_photo_UV9tzb",
-        "customer_photo_QVxhHE",
-        "benefit_dKPebb",
-        "benefit_wJQFAF",
-        "benefit_rwaCNP",
-        "benefit_UDdgak",
-        "benefit_F9mdRp",
-        "benefit_FXg3mz"
+        "tab_xzqVK9"
       ],
       "settings": {
         "description": "Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home.",
@@ -262,80 +180,6 @@
     },
     "section_interactive_benefit_showcase_y7H4i9": {
       "type": "section-interactive-benefit-showcase",
-      "blocks": {
-        "benefit_4qwczt": {
-          "type": "benefit",
-          "settings": {
-            "icon": "shopify://shop_images/showcase_benefit_icon_1_7057de19-2e14-46a6-afa9-53278c884ee0.png",
-            "title": "Neurological & Mental Health",
-            "description": "Grounding helps calm and stabilize the nervous system, supporting those dealing with:",
-            "bullets": "Migraines & headaches\nNeuropathy & brain fog\nAnxiety, depression & mood swings\nADHD & focus issues\nInsomnia & disrupted sleep",
-            "cta_text": "Explore the science behind these benefits",
-            "cta_url": "https://lonestarneurology.net/others/the-link-between-mental-health-and-neurology/",
-            "category_image": "shopify://shop_images/showcase_benefit_category_1.png"
-          }
-        },
-        "benefit_xkWiAJ": {
-          "type": "benefit",
-          "settings": {
-            "icon": "shopify://shop_images/showcase_benefit_icon_2_46acdb4c-53fd-4a82-9d00-5206d7ea8464.png",
-            "title": "Musculoskeletal Pain & Inflammation",
-            "description": "By reducing chronic inflammation, grounding can offer relief from:",
-            "bullets": "Arthritis (RA & OA)\nFibromyalgia\nJoint, back & neck pain\nChronic fatigue syndrome\nPost-exercise soreness",
-            "cta_text": "Explore the science behind these benefits",
-            "cta_url": "https://my.clevelandclinic.org/health/symptoms/musculoskeletal-pain",
-            "category_image": "shopify://shop_images/showcase_benefit_category_2.png"
-          }
-        },
-        "benefit_nwHWeD": {
-          "type": "benefit",
-          "settings": {
-            "title": "Cardiovascular & Circulatory Health",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
-            "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
-          }
-        },
-        "benefit_mWFTcg": {
-          "type": "benefit",
-          "settings": {
-            "title": "Immune & Inflammatory Conditions",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
-            "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
-          }
-        },
-        "benefit_zBHRNf": {
-          "type": "benefit",
-          "settings": {
-            "title": "Hormonal & Metabolic Balance",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
-            "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
-          }
-        },
-        "benefit_gGPnAm": {
-          "type": "benefit",
-          "settings": {
-            "title": "Specialized Support",
-            "description": "Describe the benefit category here.",
-            "bullets": "Key benefit one\nKey benefit two\nKey benefit three",
-            "cta_text": "Explore the science behind these benefits",
-            "cta_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "benefit_4qwczt",
-        "benefit_xkWiAJ",
-        "benefit_nwHWeD",
-        "benefit_mWFTcg",
-        "benefit_zBHRNf",
-        "benefit_gGPnAm"
-      ],
       "name": "Benefit Showcase",
       "settings": {
         "heading": "One Natural Solution. Whole-Body Benefits.",
