@@ -26,10 +26,12 @@
   assign product_form_id = 'cpi-form-' | append: section.id
   assign current_variant = product.selected_or_first_available_variant
 
-  # "description" is bound directly to section.settings.description so the
-  # theme editor field — typed manually, or connected to a product metafield
-  # via its dynamic-source icon — is the single source of truth.
+  # "description" falls back to the product's own description when the
+  # merchant hasn't set (or cleared) the section's "Short description" field.
   assign short_description = section.settings.description
+  if short_description == blank
+    assign short_description = product.description
+  endif
   assign product_tabs = product.metafields.custom.tabs.value
 -%}
 
@@ -382,7 +384,7 @@
       "type": "richtext",
       "id": "description",
       "label": "Short description",
-      "default": "<p>Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home.</p>"
+      "info": "Leave blank to use the product's own description."
     },
     {
       "type": "header",
