@@ -219,6 +219,70 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "section_comparison_table_eV9QzY": {
+      "type": "section-comparison-table",
+      "blocks": {
+        "competitor_raTqDG": {
+          "type": "competitor",
+          "settings": {
+            "name": "Sleeping Pills",
+            "how_it_works": "Sedate the brain with sleep-inducing chemicals",
+            "what_to_consider": "Tolerance builds, grogginess, not long-term safe",
+            "cost_over_time": "Ongoing",
+            "side_effects": "Dependency & side effects"
+          }
+        },
+        "competitor_W4krYY": {
+          "type": "competitor",
+          "settings": {
+            "name": "Pain Meds",
+            "how_it_works": "Block pain signals temporarily",
+            "what_to_consider": "Doesn't treat root cause, side effects common",
+            "cost_over_time": "High if chronic",
+            "side_effects": "Risk of addiction or long-term damage"
+          }
+        },
+        "competitor_MnRtwF": {
+          "type": "competitor",
+          "settings": {
+            "name": "Chiropractor",
+            "how_it_works": "Manual realignment of joints/spine",
+            "what_to_consider": "Frequent visits needed, temporary relief",
+            "cost_over_time": "High recurring cost",
+            "side_effects": "Not suitable for every condition"
+          }
+        },
+        "competitor_iwefeF": {
+          "type": "competitor",
+          "settings": {
+            "name": "Supplements",
+            "how_it_works": "Target isolated symptoms like melatonin or blue light",
+            "what_to_consider": "Vary in effectiveness, often don't address the root",
+            "cost_over_time": "Ongoing",
+            "side_effects": "Often unproven or inconsistent"
+          }
+        }
+      },
+      "block_order": [
+        "competitor_raTqDG",
+        "competitor_W4krYY",
+        "competitor_MnRtwF",
+        "competitor_iwefeF"
+      ],
+      "name": "Comparison Table",
+      "settings": {
+        "title": "Why We Are Really Different",
+        "our_name": "Terra Therapy",
+        "our_how_it_works": "Reconnects body to Earth's natural charge to reduce inflammation and improve sleep",
+        "our_what_to_consider": "Requires grounded outlet and direct skin contact for best results",
+        "our_cost_over_time": "One-time purchase",
+        "our_side_effects": "None - 100% safe, drug-free",
+        "button_text": "ADD TO CART",
+        "button_product": "terra-therapy-fitted-grounding-bedsheet",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
@@ -227,6 +291,7 @@
     "section_trust_bar_bwYC9J",
     "section_interactive_benefit_showcase_y7H4i9",
     "disclosures",
-    "related-products"
+    "related-products",
+    "section_comparison_table_eV9QzY"
   ]
 }

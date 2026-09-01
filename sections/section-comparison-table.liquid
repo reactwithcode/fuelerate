@@ -118,24 +118,30 @@
           <button class="ct__dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="{{ label }}"></button>
         {%- endfor -%}
       </div>
-    </comparison-table>
 
-    {%- assign ct_product = all_products[section.settings.button_product] -%}
-    {%- assign ct_variant = nil -%}
-    {%- if ct_product != blank -%}
-      {%- assign ct_variant = ct_product.first_available_variant -%}
-    {%- endif -%}
-    {%- if section.settings.button_text != blank and ct_variant != nil -%}
-      <div class="ct__cta">
-        <button
-          class="ct__btn"
-          type="button"
-          data-variant-id="{{ ct_variant.id }}"
-        >
-          {{ section.settings.button_text }}
-        </button>
-      </div>
-    {%- endif -%}
+      {%- comment -%} This section lives on the product page and should add the product currently being viewed. The button_product picker is kept only as a fallback for when the section is placed on a non-product template (it has an unconfigured preset, so it's available everywhere). {%- endcomment -%}
+      {%- assign ct_variant = nil -%}
+      {%- if product != blank -%}
+        {%- assign ct_variant = product.selected_or_first_available_variant -%}
+      {%- else -%}
+        {%- assign ct_fallback_product = all_products[section.settings.button_product] -%}
+        {%- if ct_fallback_product != blank -%}
+          {%- assign ct_variant = ct_fallback_product.first_available_variant -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if section.settings.button_text != blank and ct_variant != nil -%}
+        <div class="ct__cta">
+          <button
+            class="ct__btn"
+            type="button"
+            data-variant-id="{{ ct_variant.id }}"
+          >
+            <span class="ct__btn-text">{{ section.settings.button_text }}</span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </div>
+      {%- endif -%}
+    </comparison-table>
 
   </div>
 </div>
@@ -214,7 +220,8 @@
     {
       "type": "product",
       "id": "button_product",
-      "label": "Product to add to cart"
+      "label": "Fallback product (non-product pages only)",
+      "info": "On a product page, the button always adds the product being viewed. This only applies if the section is used on a page without a product, like the homepage."
     },
     {
       "type": "header",

@@ -387,16 +387,18 @@
   cursor: not-allowed;
 }
 
-.cpi__btn-cart .loading__spinner {
-  display: none;
-  position: absolute;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
+.cpi__btn-cart.loading {
+  color: transparent;
 }
 
-.cpi__btn-cart.loading .loading__spinner {
-  display: block;
+.cpi__btn-cart.loading > .loading__spinner {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 /* ——— Divider ——— */

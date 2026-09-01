@@ -69,6 +69,8 @@ if (!customElements.get('comparison-table')) {
       if (!variantId) return;
 
       this.ctaBtn.disabled = true;
+      this.ctaBtn.classList.add('loading');
+      this.ctaBtn.querySelector('.loading__spinner')?.classList.remove('hidden');
 
       try {
         const response = await fetch('/cart/add.js', {
@@ -85,12 +87,21 @@ if (!customElements.get('comparison-table')) {
 
         const cartData = await response.json();
         const cartDrawer = document.querySelector('cart-drawer');
-        if (cartDrawer) cartDrawer.renderContents(cartData);
+        if (cartDrawer) {
+          cartDrawer.renderContents(cartData);
+          // renderContents() only clears is-empty from .drawer__inner — the outer
+          // <cart-drawer> element keeps it too (see product-form.js's add-to-cart
+          // flow, which clears it the same way), and component-cart-drawer.css
+          // keys off that outer class to hide the populated cart view.
+          cartDrawer.classList.remove('is-empty');
+        }
 
       } catch {
         this.showCartError();
       } finally {
         this.ctaBtn.disabled = false;
+        this.ctaBtn.classList.remove('loading');
+        this.ctaBtn.querySelector('.loading__spinner')?.classList.add('hidden');
       }
     }
 
