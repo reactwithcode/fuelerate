@@ -201,7 +201,14 @@
         "heading": "One Natural Solution. Whole-Body Benefits.",
         "subtext": "Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. Backed by 20+ years of research and thousands of customer results.",
         "image_width": 23,
-        "body_systems": [],
+        "body_systems": [
+          "neurological-mental-health",
+          "musculoskeletal-pain-inflammation",
+          "cardiovascular-circulatory-health",
+          "immune-inflammatory-conditions",
+          "hormonal-metabolic-balance",
+          "specialized-support"
+        ],
         "padding_top": 0,
         "padding_bottom": 0
       }
