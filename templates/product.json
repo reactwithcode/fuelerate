@@ -127,8 +127,24 @@
         "limited_stock_text": "Limited Stock",
         "viewers_text": "23 people viewing this now",
         "benefits_heading": "Why you need this?",
+        "benefits": [
+          "fall-asleep-faster-and-wake-up-fully-rested",
+          "more-energy-throughout-the-day",
+          "less-joint-pain-and-morning-stiffness",
+          "400-tc-organic-cotton-the-softest-and-strongest-grounding-sheet",
+          "calmer-mood-and-lower-daily-stress",
+          "machine-washable-and-built-to-last"
+        ],
         "button_text": "ADD TO CART",
         "social_proof_heading": "Real People. Real Healing.",
+        "testimonials": [
+          "jane",
+          "olivia",
+          "katty",
+          "maria",
+          "amelia",
+          "sophia"
+        ],
         "padding_top": 48,
         "padding_bottom": 48
       }
@@ -185,6 +201,7 @@
         "heading": "One Natural Solution. Whole-Body Benefits.",
         "subtext": "Grounding supports every major system in your body, helping relieve chronic symptoms, restore balance, and promote long-term wellness. Backed by 20+ years of research and thousands of customer results.",
         "image_width": 23,
+        "body_systems": [],
         "padding_top": 0,
         "padding_bottom": 0
       }
