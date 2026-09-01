@@ -428,6 +428,15 @@
   display: flex;
   gap: 1.6rem;
   flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.cpi__avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 9.4rem;
 }
 
 .cpi__avatar {
@@ -452,6 +461,25 @@
   height: 100%;
   background-color: #e8e7e1;
   display: block;
+}
+
+.cpi__avatar-name {
+  font-family: 'Recoleta', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #31331e;
+  text-align: center;
+  margin: 0;
+}
+
+.cpi__avatar-quote {
+  font-family: Figtree, sans-serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #5a5c48;
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* ——— Tabs / Accordions ——— */

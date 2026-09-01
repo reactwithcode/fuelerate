@@ -21,8 +21,6 @@
 
 {%- liquid
   assign gallery_blocks  = section.blocks | where: 'type', 'gallery_image'
-  assign benefit_blocks  = section.blocks | where: 'type', 'benefit'
-  assign customer_blocks = section.blocks | where: 'type', 'customer_photo'
   assign tab_blocks      = section.blocks | where: 'type', 'tab'
   assign default_icons   = 'cpi-icon-sleep.svg,cpi-icon-muscle.svg,cpi-icon-calm.svg,cpi-icon-energy.svg,cpi-icon-organic.svg,cpi-icon-washable.svg' | split: ','
   assign product_form_id = 'cpi-form-' | append: section.id
@@ -182,18 +180,18 @@
       {%- endunless -%}
 
       {%- comment -%} Benefits {%- endcomment -%}
-      {%- if benefit_blocks.size > 0 -%}
+      {%- if section.settings.benefits.size > 0 -%}
         <div class="cpi__benefits">
           {%- if section.settings.benefits_heading != blank -%}
             <p class="cpi__benefits-heading">{{ section.settings.benefits_heading }}</p>
           {%- endif -%}
           <div class="cpi__benefits-grid">
-            {%- for block in benefit_blocks -%}
-              <div class="cpi__benefit" {{ block.shopify_attributes }}>
+            {%- for item in section.settings.benefits -%}
+              <div class="cpi__benefit">
                 <div class="cpi__benefit-icon">
-                  {%- if block.settings.icon != blank -%}
+                  {%- if item.icon.value != blank -%}
                     {{
-                      block.settings.icon
+                      item.icon.value
                       | image_url: width: 48
                       | image_tag: width: 24, height: 24, alt: ''
                     }}
@@ -208,7 +206,7 @@
                     >
                   {%- endif -%}
                 </div>
-                <p class="cpi__benefit-text">{{ block.settings.text }}</p>
+                <p class="cpi__benefit-text">{{ item.text.value }}</p>
               </div>
             {%- endfor -%}
           </div>
@@ -255,28 +253,36 @@
       </div>
 
       {%- comment -%} Social proof {%- endcomment -%}
-      {%- if customer_blocks.size > 0 -%}
+      {%- if section.settings.testimonials.size > 0 -%}
         <hr class="cpi__divider">
         <div class="cpi__social-proof">
           {%- if section.settings.social_proof_heading != blank -%}
             <p class="cpi__social-proof-heading">{{ section.settings.social_proof_heading }}</p>
           {%- endif -%}
           <div class="cpi__avatars">
-            {%- for block in customer_blocks -%}
-              <div class="cpi__avatar" {{ block.shopify_attributes }}>
-                {%- if block.settings.image != blank -%}
-                  {{
-                    block.settings.image
-                    | image_url: width: 200
-                    | image_tag:
-                      width: 94,
-                      height: 94,
-                      class: 'cpi__avatar-img',
-                      alt: block.settings.alt,
-                      loading: 'lazy'
-                  }}
-                {%- else -%}
-                  {{ 'customer' | placeholder_svg_tag: 'cpi__avatar-placeholder' }}
+            {%- for item in section.settings.testimonials -%}
+              <div class="cpi__avatar-wrapper">
+                <div class="cpi__avatar">
+                  {%- if item.image.value != blank -%}
+                    {{
+                      item.image.value
+                      | image_url: width: 200
+                      | image_tag:
+                        width: 94,
+                        height: 94,
+                        class: 'cpi__avatar-img',
+                        alt: item.name.value,
+                        loading: 'lazy'
+                    }}
+                  {%- else -%}
+                    {{ 'customer' | placeholder_svg_tag: 'cpi__avatar-placeholder' }}
+                  {%- endif -%}
+                </div>
+                {%- if item.name.value != blank -%}
+                  <p class="cpi__avatar-name">{{ item.name.value }}</p>
+                {%- endif -%}
+                {%- if item.quote.value != blank -%}
+                  <p class="cpi__avatar-quote">"{{ item.quote.value }}"</p>
                 {%- endif -%}
               </div>
             {%- endfor -%}
@@ -380,6 +386,12 @@
       "default": "Why you need this?"
     },
     {
+      "type": "metaobject_list",
+      "id": "benefits",
+      "label": "Benefit items",
+      "metaobject_type": "benefit_item"
+    },
+    {
       "type": "header",
       "content": "Call to action"
     },
@@ -398,6 +410,12 @@
       "id": "social_proof_heading",
       "label": "Social proof heading",
       "default": "Real People. Real Healing."
+    },
+    {
+      "type": "metaobject_list",
+      "id": "testimonials",
+      "label": "Testimonials",
+      "metaobject_type": "customer_testimonial"
     },
     {
       "type": "header",
@@ -437,41 +455,6 @@
       ]
     },
     {
-      "type": "benefit",
-      "name": "Benefit",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "icon",
-          "label": "Custom icon",
-          "info": "Optional. Defaults to a preset icon based on position (1–6)."
-        },
-        {
-          "type": "text",
-          "id": "text",
-          "label": "Benefit text",
-          "default": "Describe one product benefit here"
-        }
-      ]
-    },
-    {
-      "type": "customer_photo",
-      "name": "Customer photo",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Customer photo"
-        },
-        {
-          "type": "text",
-          "id": "alt",
-          "label": "Alt text",
-          "default": "Happy customer"
-        }
-      ]
-    },
-    {
       "type": "tab",
       "name": "Tab",
       "settings": [
@@ -498,35 +481,6 @@
         { "type": "gallery_image" },
         { "type": "gallery_image" },
         { "type": "gallery_image" },
-        {
-          "type": "benefit",
-          "settings": { "text": "Fall asleep faster and wake up fully rested" }
-        },
-        {
-          "type": "benefit",
-          "settings": { "text": "Less joint pain and morning stiffness" }
-        },
-        {
-          "type": "benefit",
-          "settings": { "text": "Calmer mood and lower daily stress" }
-        },
-        {
-          "type": "benefit",
-          "settings": { "text": "More energy throughout the day" }
-        },
-        {
-          "type": "benefit",
-          "settings": { "text": "400 TC organic cotton, the softest and strongest grounding sheet" }
-        },
-        {
-          "type": "benefit",
-          "settings": { "text": "Machine washable and built to last" }
-        },
-        { "type": "customer_photo" },
-        { "type": "customer_photo" },
-        { "type": "customer_photo" },
-        { "type": "customer_photo" },
-        { "type": "customer_photo" },
         {
           "type": "tab",
           "settings": {
