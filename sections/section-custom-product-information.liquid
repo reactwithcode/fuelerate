@@ -26,10 +26,10 @@
   assign product_form_id = 'cpi-form-' | append: section.id
   assign current_variant = product.selected_or_first_available_variant
 
-  # Per-product overrides — falls back to the section-level default when a
-  # product hasn't set its own metafield yet, so unconfigured products keep
-  # showing the section's default copy instead of rendering blank.
-  assign short_description = product.metafields.custom.short_description.value | default: section.settings.description
+  # "description" is bound directly to section.settings.description so the
+  # theme editor field — typed manually, or connected to a product metafield
+  # via its dynamic-source icon — is the single source of truth.
+  assign short_description = section.settings.description
   assign product_tabs = product.metafields.custom.tabs.value
 -%}
 
@@ -138,7 +138,7 @@
         </div>
 
         {%- if short_description != blank -%}
-          <p class="cpi__description">{{ short_description }}</p>
+          <div class="cpi__description">{{ short_description }}</div>
         {%- endif -%}
 
         <div class="cpi__price-row" id="cpi-price-{{ section.id }}">
@@ -379,10 +379,10 @@
       "content": "Product details"
     },
     {
-      "type": "textarea",
+      "type": "richtext",
       "id": "description",
       "label": "Short description",
-      "default": "Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home."
+      "default": "<p>Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home.</p>"
     },
     {
       "type": "header",
