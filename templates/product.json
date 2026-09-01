@@ -90,7 +90,7 @@
           "type": "tab",
           "settings": {
             "label": "{{ metaobjects.product_tab.description.label.value }}",
-            "content": "{{ product.description }}"
+            "content": "{{ metaobjects.product_tab.description.content | metafield_tag }}"
           }
         },
         "tab_NPiVA6": {
@@ -122,7 +122,7 @@
         "tab_xzqVK9"
       ],
       "settings": {
-        "description": "Reduce inflammation, improve sleep, and calm your nervous system all while you sleep or relax, safely grounded at home.",
+        "description": "{{ product.description }}",
         "show_limited_stock": true,
         "limited_stock_text": "Limited Stock",
         "viewers_text": "23 people viewing this now",
