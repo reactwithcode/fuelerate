@@ -160,6 +160,7 @@ benefit-showcase {
   align-items: center;
   gap: 10px;
   width: fit-content;
+  max-width: 100%;
   padding: 10px 20px;
   border-radius: 50px;
   border: 1px solid #31331e;
@@ -172,7 +173,12 @@ benefit-showcase {
   justify-content: flex-start;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
-  white-space: nowrap;
+  /* Long titles (e.g. "Musculoskeletal Pain & Inflammation") no longer fit on
+     one line once the left column gets squeezed toward its 340px minimum at
+     tablet widths (990–~1300px) — nowrap made those pills overflow the
+     column and visually overlap the image/panel next to them. Wrapping
+     (bounded by max-width above) keeps the pill inside its column instead. */
+  white-space: normal;
 }
 
 .ibs__pill:hover:not(.ibs__pill--active) {
@@ -249,8 +255,13 @@ benefit-showcase {
 .ibs__panel-content {
   position: absolute;
   /* Figma specced 109px sides / 76px top / 96px bottom; tightened top/bottom
-     to fit the panel's reduced height (see .ibs grid-template-rows). */
-  inset: 56px 109px 64px 109px;
+     to fit the panel's reduced height (see .ibs grid-template-rows). Sides
+     are a % (109px / 580px panel width ≈ 18%) rather than a fixed px value —
+     the panel column shrinks toward its 340px minimum at tablet widths, and
+     a fixed 109px on each side left only ~122px for content there, forcing
+     the 48px title to break mid-word. A % scales the inset down with the
+     column so there's always proportionate room for the text. */
+  inset: 56px 18% 64px 18%;
   opacity: 0;
   transition: opacity 0.25s ease;
   display: flex;
