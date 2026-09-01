@@ -122,17 +122,17 @@
         "tab_xzqVK9"
       ],
       "settings": {
-        "description": "{{ product.description }}",
+        "description": "<p>{{ product.description }}</p>",
         "show_limited_stock": true,
         "limited_stock_text": "Limited Stock",
         "viewers_text": "23 people viewing this now",
         "benefits_heading": "Why you need this?",
         "benefits": [
           "fall-asleep-faster-and-wake-up-fully-rested",
-          "more-energy-throughout-the-day",
           "less-joint-pain-and-morning-stiffness",
-          "400-tc-organic-cotton-the-softest-and-strongest-grounding-sheet",
           "calmer-mood-and-lower-daily-stress",
+          "more-energy-throughout-the-day",
+          "400-tc-organic-cotton-the-softest-and-strongest-grounding-sheet",
           "machine-washable-and-built-to-last"
         ],
         "button_text": "ADD TO CART",
